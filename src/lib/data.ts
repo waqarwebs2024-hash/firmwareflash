@@ -1,0 +1,177 @@
+import { db } from '@/lib/firebase';
+import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
+import { Brand, Series, Firmware, AdSettings } from './types';
+import { seedBrands, seedFirmwareForBrand } from './seed';
+import slugify from 'slugify';
+
+// A function to slugify strings for use in Firestore document IDs
+const createId = (name: string) => slugify(name, { lower: true, strict: true });
+
+export async function getBrands(): Promise<Brand[]> {
+  await seedBrands();
+  const brandsCol = collection(db, 'brands');
+  const brandSnapshot = await getDocs(brandsCol);
+  const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
+  return brandList;
+}
+
+export async function getBrandsWithFirmware(): Promise<Brand[]> {
+  const firmwareCol = collection(db, 'firmware');
+  const firmwareSnapshot = await getDocs(firmwareCol);
+  if (firmwareSnapshot.empty) {
+    return [];
+  }
+
+  const seriesIds = new Set<string>();
+  firmwareSnapshot.docs.forEach(doc => {
+    const firmware = doc.data() as Omit<Firmware, 'id'>;
+    if (firmware.seriesId) {
+      seriesIds.add(firmware.seriesId);
+    }
+  });
+
+  if (seriesIds.size === 0) {
+    return [];
+  }
+
+  const seriesCol = collection(db, 'series');
+  const seriesQuery = query(seriesCol, where(documentId(), 'in', Array.from(seriesIds)));
+  const seriesSnapshot = await getDocs(seriesQuery);
+  
+  const brandIds = new Set<string>();
+  seriesSnapshot.docs.forEach(doc => {
+    const aSeries = doc.data() as Omit<Series, 'id'>;
+    if (aSeries.brandId) {
+      brandIds.add(aSeries.brandId);
+    }
+  });
+
+  if (brandIds.size === 0) {
+    return [];
+  }
+  
+  const brandsCol = collection(db, 'brands');
+  const brandsQuery = query(brandsCol, where(documentId(), 'in', Array.from(brandIds)));
+  const brandSnapshot = await getDocs(brandsQuery);
+  const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
+  
+  return brandList;
+}
+
+
+export async function getBrandById(id: string): Promise<Brand | null> {
+  await seedBrands();
+  const brandDocRef = doc(db, 'brands', id);
+  const brandDoc = await getDoc(brandDocRef);
+  if (brandDoc.exists()) {
+    return { id: brandDoc.id, ...brandDoc.data() } as Brand;
+  }
+  return null;
+}
+
+export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
+  await seedFirmwareForBrand(brandId);
+  const seriesCol = collection(db, 'series');
+  const q = query(seriesCol, where('brandId', '==', brandId));
+  const seriesSnapshot = await getDocs(q);
+  const seriesList = seriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Series));
+  return seriesList;
+}
+
+export async function getSeriesById(id: string): Promise<Series | null> {
+  const seriesDocRef = doc(db, 'series', id);
+  const seriesDoc = await getDoc(seriesDocRef);
+  if (seriesDoc.exists()) {
+    const seriesData = seriesDoc.data();
+    if(seriesData){
+      return { id: seriesDoc.id, ...seriesData } as Series;
+    }
+  }
+  return null;
+}
+
+export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]> {
+  const firmwareCol = collection(db, 'firmware');
+  const q = query(firmwareCol, where('seriesId', '==', seriesId));
+  const firmwareSnapshot = await getDocs(q);
+  const firmwareList = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
+  return firmwareList;
+}
+
+export async function getFirmwareById(id: string): Promise<Firmware | null> {
+    const firmwareDocRef = doc(db, 'firmware', id);
+    const firmwareDoc = await getDoc(firmwareDocRef);
+    if (firmwareDoc.exists()) {
+        const firmwareData = firmwareDoc.data();
+        if(firmwareData){
+            return { id: firmwareDoc.id, ...firmwareData } as Firmware;
+        }
+    }
+    return null;
+}
+
+export async function getAllSeries(): Promise<Series[]> {
+  const seriesCol = collection(db, 'series');
+  const seriesSnapshot = await getDocs(seriesCol);
+  const seriesList = seriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Series));
+  return seriesList;
+}
+
+export async function addBrand(name: string, icon: string): Promise<void> {
+  const id = createId(name);
+  const brandDocRef = doc(db, 'brands', id);
+  await setDoc(brandDocRef, { name, icon });
+}
+
+export async function addSeries(name: string, brandId: string): Promise<void> {
+  const id = createId(`${brandId}-${name}`);
+  const seriesDocRef = doc(db, 'series', id);
+  await setDoc(seriesDocRef, { name, brandId });
+}
+
+export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>): Promise<void> {
+  const id = createId(firmware.fileName);
+  const firmwareDocRef = doc(db, 'firmware', id);
+
+  const newFirmware: Omit<Firmware, 'id'> = {
+    ...firmware,
+    uploadDate: new Date(),
+    downloadCount: Math.floor(Math.random() * 10000),
+  };
+
+  await setDoc(firmwareDocRef, newFirmware);
+}
+
+export async function getAnnouncement(): Promise<string> {
+  const settingsDocRef = doc(db, 'settings', 'announcement');
+  const docSnap = await getDoc(settingsDocRef);
+  if (docSnap.exists()) {
+    return docSnap.data().text || '';
+  }
+  return '';
+}
+
+export async function setAnnouncement(text: string): Promise<void> {
+  const settingsDocRef = doc(db, 'settings', 'announcement');
+  await setDoc(settingsDocRef, { text });
+}
+
+
+export async function getAdSettings(): Promise<AdSettings> {
+  const settingsDocRef = doc(db, 'settings', 'ads');
+  const docSnap = await getDoc(settingsDocRef);
+  if (docSnap.exists()) {
+    return docSnap.data() as AdSettings;
+  }
+  return {
+    enabled: false,
+    adsenseClient: '',
+    adsenseSlot: '',
+    timeout: 10
+  };
+}
+
+export async function updateAdSettings(settings: AdSettings): Promise<void> {
+  const settingsDocRef = doc(db, 'settings', 'ads');
+  await setDoc(settingsDocRef, settings);
+}
