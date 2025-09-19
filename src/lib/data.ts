@@ -38,7 +38,6 @@ export async function searchFirmware(searchTerm: string): Promise<Firmware[]> {
 }
 
 export async function getBrands(): Promise<Brand[]> {
-  await seedBrands();
   const brandsCol = collection(db, 'brands');
   const brandSnapshot = await getDocs(brandsCol);
   const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
@@ -46,7 +45,6 @@ export async function getBrands(): Promise<Brand[]> {
 }
 
 export async function getBrandsWithFirmware(): Promise<Brand[]> {
-  await seedBrands();
   const firmwareCol = collection(db, 'firmware');
   const firmwareSnapshot = await getDocs(firmwareCol);
   if (firmwareSnapshot.empty) {
@@ -91,7 +89,6 @@ export async function getBrandsWithFirmware(): Promise<Brand[]> {
 
 
 export async function getBrandById(id: string): Promise<Brand | null> {
-  await seedBrands();
   const brandDocRef = doc(db, 'brands', id);
   const brandDoc = await getDoc(brandDocRef);
   if (brandDoc.exists()) {
@@ -101,7 +98,7 @@ export async function getBrandById(id: string): Promise<Brand | null> {
 }
 
 export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
-  await seedFirmwareForBrand(brandId);
+  await seedFirmwareForBrand(brandId); // Keep seeding here for dynamic series loading
   const seriesCol = collection(db, 'series');
   const q = query(seriesCol, where('brandId', '==', brandId));
   const seriesSnapshot = await getDocs(q);
