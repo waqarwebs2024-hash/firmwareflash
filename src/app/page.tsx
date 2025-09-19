@@ -1,6 +1,6 @@
 
 'use client';
-import { getBrandsWithFirmware } from '@/lib/data';
+import { getBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,7 @@ export default function Home() {
 
     useEffect(() => {
         async function fetchBrands() {
-            const brandsData = await getBrandsWithFirmware();
+            const brandsData = await getBrands();
             setBrands(brandsData);
         }
         fetchBrands();
