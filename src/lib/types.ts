@@ -24,11 +24,17 @@ export interface Firmware {
 
 export interface Submission {
     id: string;
+    fileName: string;
     brand: string;
-    series: string;
+    model: string;
+    version: string;
+    size: string;
     fileUrl: string;
+    uploaderName: string;
+    submittedAt: Date;
     status: 'pending' | 'approved' | 'rejected';
 }
+
 
 export interface Announcement {
     id: 'announcement';

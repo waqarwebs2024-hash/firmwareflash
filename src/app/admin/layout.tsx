@@ -40,7 +40,6 @@ const menuItems = [
   { href: '/admin/submissions', label: 'Submissions', icon: FileUp },
   { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
-  { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function AdminLayout({
