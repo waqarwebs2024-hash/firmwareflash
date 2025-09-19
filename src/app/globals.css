@@ -8,13 +8,13 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 98%; /* Very Light Gray */
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221 83% 53%; /* Tech Blue */
+    --primary: 222.4 77.2% 47.1%; /* Tech Blue */
     --primary-foreground: 210 40% 98%;
     --secondary: 217 9% 61%; /* Neutral Grey */
     --secondary-foreground: 210 40% 98%;
@@ -26,7 +26,7 @@ body {
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%; /* Tech Blue */
+    --ring: 222.4 77.2% 47.1%; /* Tech Blue */
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -49,7 +49,7 @@ body {
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 221 83% 53%; /* Tech Blue */
+    --primary: 222.4 77.2% 47.1%; /* Tech Blue */
     --primary-foreground: 210 40% 98%;
     --secondary: 217 9% 61%; /* Neutral Grey */
     --secondary-foreground: 210 40% 98%;
@@ -61,7 +61,7 @@ body {
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 221 83% 53%; /* Tech Blue */
+    --ring: 222.4 77.2% 47.1%; /* Tech Blue */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -84,6 +84,20 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }
 
