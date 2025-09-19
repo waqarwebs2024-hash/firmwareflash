@@ -1,10 +1,11 @@
 
 
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
 import slugify from 'slugify';
-import { seedBrands } from './seed';
+import { seedBrands, brands as brandData } from './seed';
 
 // A function to slugify strings for use in Firestore document IDs
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
@@ -41,12 +42,14 @@ export async function searchFirmware(searchTerm: string): Promise<Firmware[]> {
 export async function getBrands(): Promise<Brand[]> {
   const brandsCol = collection(db, 'brands');
   const brandSnapshot = await getDocs(brandsCol);
-  if (brandSnapshot.empty) {
+  
+  if (brandSnapshot.docs.length < brandData.length) {
     await seedBrands();
     const newSnapshot = await getDocs(brandsCol);
     const brandList = newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
     return brandList;
   }
+  
   const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
   return brandList;
 }
@@ -175,7 +178,7 @@ export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' |
     };
   
     await setDoc(firmwareDocRef, newFirmware);
-  }
+}
 
 export async function getAnnouncement(): Promise<string> {
   const settingsDocRef = doc(db, 'settings', 'announcement');

@@ -5,7 +5,7 @@ import slugify from 'slugify';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
-const brands: Omit<Brand, 'id'>[] = [
+export const brands: Omit<Brand, 'id'>[] = [
     { name: 'Samsung' },
     { name: 'Apple' },
     { name: 'Xiaomi' },
@@ -70,8 +70,14 @@ export async function seedBrands() {
   });
 
   if (hasNewBrands) {
-    await batch.commit();
-    console.log('New brands seeded.');
+    try {
+      await batch.commit();
+      console.log('New brands successfully seeded to Firestore.');
+    } catch (error) {
+      console.error('Error seeding new brands:', error);
+    }
+  } else {
+    console.log('All brands already exist in Firestore.');
   }
 }
 
