@@ -38,9 +38,14 @@ export default function Home() {
 
     return (
         <div className="container mx-auto py-12 px-4">
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold mb-2">Firmware Finder</h1>
-                <p className="text-muted-foreground">The ultimate source for your device's firmware.</p>
+            <div 
+                className="text-center mb-12 py-16 rounded-lg bg-cover bg-center" 
+                style={{backgroundImage: "url('https://picsum.photos/seed/hero/1200/400')"}}
+            >
+                <div className="bg-black bg-opacity-50 p-8 rounded-lg inline-block">
+                    <h1 className="text-4xl font-bold mb-2 text-white">Firmware Finder</h1>
+                    <p className="text-muted-foreground text-lg text-gray-300">The ultimate source for your device's firmware.</p>
+                </div>
             </div>
 
             <div className="max-w-2xl mx-auto mb-12">
@@ -59,7 +64,7 @@ export default function Home() {
                 </form>
             </div>
 
-            <div>
+            <div className="mb-16">
                 <h2 className="text-2xl font-bold mb-6 text-center">Popular Brands</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     {brands.map((brand) => (
@@ -81,6 +86,13 @@ export default function Home() {
                         </Link>
                     ))}
                 </div>
+            </div>
+
+            <div className="bg-muted p-8 rounded-lg text-center">
+                <h3 className="text-xl font-bold mb-2">Your One-Stop Firmware Hub</h3>
+                <p className="text-muted-foreground max-w-3xl mx-auto">
+                    Download official firmware updates for Samsung, Huawei, Xiaomi, Oppo, and more. Find the latest stock ROMs, flash files, and updates for your mobile device to keep it running smoothly and securely.
+                </p>
             </div>
         </div>
     );
