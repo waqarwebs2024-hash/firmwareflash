@@ -6,14 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { AdSettings } from '@/lib/types';
-
-// This is a client component, but we will use a server action
-// to handle the form submission.
-async function updateAdSettingsAction(settings: AdSettings) {
-  'use server';
-  const { updateAdSettings } = await import('@/lib/data');
-  await updateAdSettings(settings);
-}
+import { updateAdSettingsAction } from '@/lib/data';
 
 export default function AdsAdminPage({
   searchParams,

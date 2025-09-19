@@ -4,12 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { getAnnouncement, setAnnouncement } from '@/lib/data';
-
-async function updateAnnouncementAction(text: string) {
-  'use server';
-  await setAnnouncement(text);
-}
+import { updateAnnouncementAction } from '@/lib/data';
 
 export default function AnnouncementAdminPage({
   searchParams,

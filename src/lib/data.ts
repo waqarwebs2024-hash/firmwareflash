@@ -1,3 +1,4 @@
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
@@ -204,4 +205,13 @@ export async function getAdSettings(): Promise<AdSettings> {
 export async function updateAdSettings(settings: AdSettings): Promise<void> {
   const settingsDocRef = doc(db, 'settings', 'ads');
   await setDoc(settingsDocRef, settings);
+}
+
+
+export async function updateAnnouncementAction(text: string) {
+  await setAnnouncement(text);
+}
+
+export async function updateAdSettingsAction(settings: AdSettings) {
+  await updateAdSettings(settings);
 }
