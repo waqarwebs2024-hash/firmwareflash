@@ -148,30 +148,31 @@ export async function getAllSeries(): Promise<Series[]> {
   return seriesList;
 }
 
-export async function addBrand(name: string, icon: string): Promise<void> {
-  const id = createId(name);
-  const brandDocRef = doc(db, 'brands', id);
-  await setDoc(brandDocRef, { name, icon });
+export async function addBrand(name: string, logoUrl: string): Promise<void> {
+    const id = createId(name);
+    const brandDocRef = doc(db, 'brands', id);
+    await setDoc(brandDocRef, { name, logoUrl });
 }
+  
 
 export async function addSeries(name: string, brandId: string): Promise<void> {
   const id = createId(`${brandId}-${name}`);
   const seriesDocRef = doc(db, 'series', id);
-await setDoc(seriesDocRef, { name, brandId });
+  await setDoc(seriesDocRef, { name, brandId });
 }
 
 export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>): Promise<void> {
-  const id = createId(firmware.fileName);
-  const firmwareDocRef = doc(db, 'firmware', id);
-
-  const newFirmware: Omit<Firmware, 'id'> = {
-    ...firmware,
-    uploadDate: new Date(),
-    downloadCount: Math.floor(Math.random() * 10000),
-  };
-
-  await setDoc(firmwareDocRef, newFirmware);
-}
+    const id = createId(firmware.fileName);
+    const firmwareDocRef = doc(db, 'firmware', id);
+  
+    const newFirmware: Omit<Firmware, 'id'> = {
+      ...firmware,
+      uploadDate: new Date(),
+      downloadCount: Math.floor(Math.random() * 10000),
+    };
+  
+    await setDoc(firmwareDocRef, newFirmware);
+  }
 
 export async function getAnnouncement(): Promise<string> {
   const settingsDocRef = doc(db, 'settings', 'announcement');
