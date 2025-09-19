@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { getBrands, getAllSeries } from '@/lib/data';
 import { FirmwareForm } from './firmware-form';
+import { BrandManagement } from './brand-management';
 
 export default async function FirmwareAdminPage() {
   const brands = await getBrands();
@@ -31,16 +32,7 @@ export default async function FirmwareAdminPage() {
           {/* We will add the table of existing firmware here later */}
         </TabsContent>
         <TabsContent value="brands">
-          <Card>
-            <CardHeader>
-              <CardTitle>Brand Management</CardTitle>
-              <CardDescription>Add, edit, or delete brands.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {/* Brand management form and list will go here */}
-              <p>Brand management coming soon.</p>
-            </CardContent>
-          </Card>
+            <BrandManagement initialBrands={brands} />
         </TabsContent>
         <TabsContent value="series">
           <Card>

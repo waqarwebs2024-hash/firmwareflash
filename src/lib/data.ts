@@ -1,6 +1,3 @@
-
-
-
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
@@ -51,7 +48,7 @@ export async function getBrands(): Promise<Brand[]> {
   }
   
   const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
-  return brandList;
+  return brandList.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getBrandsWithFirmware(): Promise<Brand[]> {
@@ -154,7 +151,7 @@ export async function getAllSeries(): Promise<Series[]> {
   return seriesList;
 }
 
-export async function addBrand(name: string): Promise<void> {
+async function addBrand(name: string): Promise<void> {
     const id = createId(name);
     const brandDocRef = doc(db, 'brands', id);
     await setDoc(brandDocRef, { name });
@@ -222,3 +219,11 @@ export async function updateAnnouncementAction(text: string) {
 export async function updateAdSettingsAction(settings: AdSettings) {
   await updateAdSettings(settings);
 }
+
+
+export async function addBrandAction(name: string) {
+    if (!name) {
+      throw new Error('Brand name is required.');
+    }
+    await addBrand(name);
+  }
