@@ -1,3 +1,4 @@
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
@@ -50,6 +51,57 @@ export async function getBrands(): Promise<Brand[]> {
   const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
   return brandList.sort((a, b) => a.name.localeCompare(b.name));
 }
+
+export async function getPopularBrands(limit: number = 10): Promise<Brand[]> {
+  const firmwareCol = collection(db, 'firmware');
+  const firmwareSnapshot = await getDocs(firmwareCol);
+  
+  const seriesDownloadCount = new Map<string, number>();
+
+  firmwareSnapshot.docs.forEach(doc => {
+    const firmware = doc.data() as Omit<Firmware, 'id'>;
+    if (firmware.seriesId) {
+      const currentCount = seriesDownloadCount.get(firmware.seriesId) || 0;
+      seriesDownloadCount.set(firmware.seriesId, currentCount + (firmware.downloadCount || 0));
+    }
+  });
+
+  if (seriesDownloadCount.size === 0) return [];
+  
+  const seriesCol = collection(db, 'series');
+  const seriesSnapshot = await getDocs(seriesCol);
+  
+  const brandDownloadCount = new Map<string, number>();
+  const brandIdToNameMap = new Map<string, string>();
+
+  seriesSnapshot.docs.forEach(doc => {
+    const aSeries = doc.data() as Omit<Series, 'id'>;
+    if (aSeries.brandId) {
+        const seriesDownloads = seriesDownloadCount.get(doc.id) || 0;
+        const currentBrandDownloads = brandDownloadCount.get(aSeries.brandId) || 0;
+        brandDownloadCount.set(aSeries.brandId, currentBrandDownloads + seriesDownloads);
+    }
+  });
+
+  if (brandDownloadCount.size === 0) return [];
+
+  const sortedBrandIds = Array.from(brandDownloadCount.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(entry => entry[0])
+    .slice(0, limit);
+
+  if(sortedBrandIds.length === 0) return [];
+
+  const brandsCol = collection(db, 'brands');
+  const brandsQuery = query(brandsCol, where(documentId(), 'in', sortedBrandIds));
+  const brandSnapshot = await getDocs(brandsQuery);
+
+  const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
+
+  // Sort the final list according to the sortedBrandIds array to maintain popularity order
+  return brandList.sort((a, b) => sortedBrandIds.indexOf(a.id) - sortedBrandIds.indexOf(b.id));
+}
+
 
 export async function getBrandsWithFirmware(): Promise<Brand[]> {
   const firmwareCol = collection(db, 'firmware');
@@ -148,7 +200,7 @@ export async function getAllSeries(): Promise<Series[]> {
   const seriesCol = collection(db, 'series');
   const seriesSnapshot = await getDocs(seriesCol);
   const seriesList = seriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Series));
-  return seriesList;
+  return seriesList.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 async function addBrand(name: string): Promise<void> {
@@ -161,6 +213,11 @@ async function addBrand(name: string): Promise<void> {
 export async function addSeries(name: string, brandId: string): Promise<void> {
   const id = createId(`${brandId}-${name}`);
   const seriesDocRef = doc(db, 'series', id);
+  const brandDocRef = doc(db, 'brands', brandId);
+  const brandDoc = await getDoc(brandDocRef);
+  if(!brandDoc.exists()) {
+    throw new Error(`Brand with id ${brandId} does not exist.`)
+  }
   await setDoc(seriesDocRef, { name, brandId });
 }
 
@@ -226,4 +283,14 @@ export async function addBrandAction(name: string) {
       throw new Error('Brand name is required.');
     }
     await addBrand(name);
-  }
+}
+
+export async function addSeriesAction(name: string, brandId: string) {
+    if (!name) {
+        throw new Error('Series name is required.');
+    }
+    if (!brandId) {
+        throw new Error('Brand ID is required.');
+    }
+    await addSeries(name, brandId);
+}

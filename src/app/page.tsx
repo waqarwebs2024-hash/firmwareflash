@@ -1,6 +1,6 @@
 
 'use client';
-import { getBrands } from '@/lib/data';
+import { getPopularBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,7 @@ export default function Home() {
 
     useEffect(() => {
         async function fetchBrands() {
-            const brandsData = await getBrands();
+            const brandsData = await getPopularBrands(10);
             setBrands(brandsData);
         }
         fetchBrands();
@@ -68,7 +68,7 @@ export default function Home() {
 
             <div className="mb-16">
                 <h2 className="text-2xl font-bold mb-6 text-center">Popular Brands</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {brands.map((brand) => (
                         <Link href={`/brand/${brand.id}`} key={brand.id} className="block">
                             <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
@@ -79,6 +79,11 @@ export default function Home() {
                         </Link>
                     ))}
                 </div>
+                {brands.length === 0 && (
+                    <div className="text-center text-muted-foreground">
+                        Loading popular brands...
+                    </div>
+                )}
             </div>
 
             <div className="bg-muted p-8 rounded-lg text-center">

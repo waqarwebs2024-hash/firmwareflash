@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { getBrands, getAllSeries } from '@/lib/data';
 import { FirmwareForm } from './firmware-form';
 import { BrandManagement } from './brand-management';
+import { SeriesManagement } from './series-management';
 
 export default async function FirmwareAdminPage() {
   const brands = await getBrands();
@@ -35,16 +36,7 @@ export default async function FirmwareAdminPage() {
             <BrandManagement initialBrands={brands} />
         </TabsContent>
         <TabsContent value="series">
-          <Card>
-            <CardHeader>
-              <CardTitle>Series/Model Management</CardTitle>
-              <CardDescription>Add, edit, or delete series for each brand.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {/* Series management form and list will go here */}
-              <p>Series/Model management coming soon.</p>
-            </CardContent>
-          </Card>
+            <SeriesManagement brands={brands} initialSeries={allSeries} />
         </TabsContent>
       </Tabs>
     </div>
