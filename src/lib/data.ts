@@ -2,7 +2,6 @@
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
-import { seedBrands, seedFirmwareForBrand } from './seed';
 import slugify from 'slugify';
 
 // A function to slugify strings for use in Firestore document IDs
@@ -98,7 +97,6 @@ export async function getBrandById(id: string): Promise<Brand | null> {
 }
 
 export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
-  await seedFirmwareForBrand(brandId); // Keep seeding here for dynamic series loading
   const seriesCol = collection(db, 'series');
   const q = query(seriesCol, where('brandId', '==', brandId));
   const seriesSnapshot = await getDocs(q);
@@ -145,10 +143,10 @@ export async function getAllSeries(): Promise<Series[]> {
   return seriesList;
 }
 
-export async function addBrand(name: string, logoUrl: string): Promise<void> {
+export async function addBrand(name: string): Promise<void> {
     const id = createId(name);
     const brandDocRef = doc(db, 'brands', id);
-    await setDoc(brandDocRef, { name, logoUrl });
+    await setDoc(brandDocRef, { name });
 }
   
 

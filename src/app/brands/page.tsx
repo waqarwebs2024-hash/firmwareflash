@@ -1,7 +1,6 @@
 import { getBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default async function BrandsPage() {
   const brands = await getBrands();
@@ -14,15 +13,6 @@ export default async function BrandsPage() {
           <Link href={`/brand/${brand.id}`} key={brand.id} className="block">
             <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
               <CardContent className="flex flex-col items-center justify-center p-6 h-full">
-                 <div className="relative w-16 h-16 mb-2">
-                    <Image
-                      src={brand.logoUrl}
-                      alt={`${brand.name} logo`}
-                      fill
-                      style={{ objectFit: 'contain' }}
-                      data-ai-hint={`${brand.name} logo`}
-                    />
-                  </div>
                 <span className="font-semibold text-center">{brand.name}</span>
               </CardContent>
             </Card>
