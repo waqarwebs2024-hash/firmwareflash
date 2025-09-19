@@ -39,29 +39,30 @@ export default function Home() {
     return (
         <div className="container mx-auto py-12 px-4">
             <div 
-                className="text-center mb-12 py-16 rounded-lg bg-cover bg-center" 
+                className="text-center mb-12 py-16 rounded-lg bg-cover bg-center relative" 
                 style={{backgroundImage: "url('https://picsum.photos/seed/hero/1200/400')"}}
             >
-                <div className="bg-black bg-opacity-50 p-8 rounded-lg inline-block">
-                    <h1 className="text-4xl font-bold mb-2 text-white">Firmware Finder</h1>
-                    <p className="text-muted-foreground text-lg text-gray-300">The ultimate source for your device's firmware.</p>
+                <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
+                <div className="relative z-10 p-8 flex flex-col items-center">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>Firmware Finder</h1>
+                    <p className="text-lg text-gray-300 mb-8">Find &amp; Download Firmware for All Smartphones</p>
+                    
+                    <div className="w-full max-w-2xl">
+                        <form onSubmit={handleSearch} className="relative shadow-lg">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                            <Input
+                                type="search"
+                                name="search"
+                                placeholder="Search for firmware by model number..."
+                                className="w-full h-14 pl-12 pr-24 text-base rounded-md"
+                                disabled={isPending}
+                            />
+                            <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6" variant="accent" disabled={isPending}>
+                                {isPending ? 'Searching...' : 'Search'}
+                            </Button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-
-            <div className="max-w-2xl mx-auto mb-12">
-                <form onSubmit={handleSearch} className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        type="search"
-                        name="search"
-                        placeholder="Search for firmware by model number..."
-                        className="w-full h-12 pl-12 pr-20 text-base"
-                        disabled={isPending}
-                    />
-                    <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2" variant="ghost" disabled={isPending}>
-                        {isPending ? 'Searching...' : 'Search'}
-                    </Button>
-                </form>
             </div>
 
             <div className="mb-16">
