@@ -34,7 +34,7 @@ const brands: Omit<Brand, 'id'>[] = [
     { name: 'Coolpad' },
     { name: 'Black Shark' },
     { name: 'Infinix' },
-    { name: 'Tecno' },
+    { 'name': 'Tecno' },
     { name: 'Itel' },
     { name: 'Lava' },
     { name: 'Micromax' },
