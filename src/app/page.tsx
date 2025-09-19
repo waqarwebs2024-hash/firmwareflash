@@ -41,11 +41,12 @@ export default function Home() {
             <div 
                 className="text-center mb-12 py-16 rounded-lg bg-cover bg-center relative" 
                 style={{backgroundImage: "url('https://picsum.photos/seed/hero/1200/400')"}}
+                data-ai-hint="smartphone illustration"
             >
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
                 <div className="relative z-10 p-8 flex flex-col items-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>Firmware Finder</h1>
-                    <p className="text-lg text-gray-300 mb-8">Find &amp; Download Firmware for All Smartphones</p>
+                    <p className="text-lg text-gray-300 mb-8">Find & Download Firmware for All Smartphones</p>
                     
                     <div className="w-full max-w-2xl">
                         <form onSubmit={handleSearch} className="relative shadow-lg">
