@@ -7,6 +7,35 @@ import slugify from 'slugify';
 // A function to slugify strings for use in Firestore document IDs
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
+export async function searchFirmware(searchTerm: string): Promise<Firmware[]> {
+    if (!searchTerm) return [];
+  
+    const firmwareCol = collection(db, 'firmware');
+    
+    // Firestore doesn't support full-text search natively.
+    // This is a simple "starts-with" search. For a real app,
+    // a third-party search service like Algolia or Typesense is recommended.
+    const searchTermLower = searchTerm.toLowerCase();
+    const searchTermUpper = searchTermLower + '\uf8ff';
+  
+    const q = query(
+      firmwareCol,
+      where('fileName', '>=', searchTermLower),
+      where('fileName', '<=', searchTermUpper)
+    );
+  
+    try {
+      const firmwareSnapshot = await getDocs(q);
+      const firmwareList = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
+      
+      // Secondary filter because Firestore's string operators can be tricky.
+      return firmwareList.filter(f => f.fileName.toLowerCase().includes(searchTermLower));
+    } catch (error) {
+      console.error("Error searching firmware: ", error);
+      return [];
+    }
+}
+
 export async function getBrands(): Promise<Brand[]> {
   await seedBrands();
   const brandsCol = collection(db, 'brands');
