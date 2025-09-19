@@ -16,6 +16,7 @@ export async function getBrands(): Promise<Brand[]> {
 }
 
 export async function getBrandsWithFirmware(): Promise<Brand[]> {
+  await seedBrands();
   const firmwareCol = collection(db, 'firmware');
   const firmwareSnapshot = await getDocs(firmwareCol);
   if (firmwareSnapshot.empty) {
@@ -126,7 +127,7 @@ export async function addBrand(name: string, icon: string): Promise<void> {
 export async function addSeries(name: string, brandId: string): Promise<void> {
   const id = createId(`${brandId}-${name}`);
   const seriesDocRef = doc(db, 'series', id);
-  await setDoc(seriesDocRef, { name, brandId });
+await setDoc(seriesDocRef, { name, brandId });
 }
 
 export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>): Promise<void> {
@@ -148,7 +149,7 @@ export async function getAnnouncement(): Promise<string> {
   if (docSnap.exists()) {
     return docSnap.data().text || '';
   }
-  return '';
+  return 'Welcome to Firmware Finder! We are constantly updating our database with new firmware. If you have a request, please let us know.';
 }
 
 export async function setAnnouncement(text: string): Promise<void> {
