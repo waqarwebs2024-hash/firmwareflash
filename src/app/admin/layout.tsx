@@ -21,6 +21,7 @@ import {
   CircleDollarSign,
   Settings,
   User,
+  Database,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -38,6 +39,7 @@ import {
 const menuItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/submissions', label: 'Submissions', icon: FileUp },
+  { href: '/admin/firmware', label: 'Firmware', icon: Database },
   { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
 ];
