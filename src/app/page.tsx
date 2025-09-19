@@ -45,14 +45,14 @@ export default function Home() {
 
             <div className="max-w-2xl mx-auto mb-12">
                 <form onSubmit={handleSearch} className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         type="search"
                         name="search"
                         placeholder="Search for firmware by model number..."
-                        className="w-full h-12 pl-12 pr-4 text-lg"
+                        className="w-full h-12 pl-12 pr-20 text-base"
                         disabled={isPending}
                     />
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                     <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2" variant="ghost" disabled={isPending}>
                         {isPending ? 'Searching...' : 'Search'}
                     </Button>
