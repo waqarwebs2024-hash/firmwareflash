@@ -55,15 +55,23 @@ const brands: Omit<Brand, 'id'>[] = [
 export async function seedBrands() {
   const brandsCol = collection(db, 'brands');
   const snapshot = await getDocs(brandsCol);
-  if (snapshot.empty) {
-    const batch = writeBatch(db);
-    brands.forEach((brand) => {
+  const existingBrandNames = new Set(snapshot.docs.map(doc => doc.data().name.toLowerCase()));
+  
+  const batch = writeBatch(db);
+  let hasNewBrands = false;
+
+  brands.forEach((brand) => {
+    if (!existingBrandNames.has(brand.name.toLowerCase())) {
       const id = createId(brand.name);
       const docRef = doc(brandsCol, id);
       batch.set(docRef, brand);
-    });
+      hasNewBrands = true;
+    }
+  });
+
+  if (hasNewBrands) {
     await batch.commit();
-    console.log('Brands seeded.');
+    console.log('New brands seeded.');
   }
 }
 
