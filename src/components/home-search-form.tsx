@@ -24,14 +24,17 @@ export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dar
     };
     
     const inputClass = variant === 'light' 
-        ? 'bg-background/80 text-foreground placeholder:text-muted-foreground/80'
-        : 'bg-muted/80 text-foreground placeholder:text-muted-foreground';
+        ? 'bg-background/20 text-white border-transparent placeholder:text-gray-300 focus:bg-background/30'
+        : 'bg-background border-input focus-visible:ring-primary focus-visible:ring-2 placeholder:text-muted-foreground';
 
 
     return (
         <div className="w-full">
             <form onSubmit={handleSearch} className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className={cn(
+                    "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4",
+                    variant === 'light' ? 'text-gray-300' : 'text-muted-foreground'
+                )} />
                 <Input
                     type="search"
                     name="search"
@@ -44,7 +47,7 @@ export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dar
                 />
                 <Button
                     type="submit"
-                    variant="default"
+                    variant={variant === 'light' ? 'default' : 'accent'}
                     size="sm"
                     className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4 rounded-full"
                     disabled={isPending}
