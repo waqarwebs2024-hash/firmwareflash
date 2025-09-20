@@ -1,7 +1,7 @@
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronRight, ChevronsRight } from 'lucide-react';
+import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronRight, ChevronsRight, Package, Info } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
@@ -123,7 +123,7 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
     }
   }
 
-  const { fileName, size, uploadDate, downloadCount } = firmware;
+  const { fileName, version, androidVersion, size, uploadDate, downloadCount } = firmware;
   // @ts-ignore
   const date = uploadDate.toDate ? uploadDate.toDate() : new Date(uploadDate);
 
@@ -163,20 +163,55 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
 
       <FlashingInstructions brandId={series.brandId} seriesName={series.name} instructionsData={instructionsData} />
 
-      <section id="download-info" className="bg-card border shadow-sm rounded-xl p-6 mt-12 scroll-mt-20">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Information</h2>
-        <ul className="space-y-2 text-muted-foreground mb-6">
-          <li><strong>File Name:</strong> <span className="break-all">{fileName}</span></li>
-          <li><strong>File Size:</strong> {size}</li>
-          <li><strong>Upload Date:</strong> {format(date, 'PPP')}</li>
-          <li><strong>Downloads:</strong> {downloadCount.toLocaleString()}</li>
-        </ul>
-        <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="mt-4 block">
-            <Button className="w-full" variant="accent" size="lg">
-            <Download className="mr-2 h-5 w-5" />
-            Start Download
-            </Button>
-        </Link>
+      <section id="download-info" className="bg-card border shadow-sm rounded-xl mt-12 scroll-mt-20">
+        <div className="p-6">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-muted-foreground">
+                <div className="flex items-start">
+                    <Package className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                    <div>
+                        <strong className="text-foreground">File Name</strong>
+                        <p className="break-all">{fileName}</p>
+                    </div>
+                </div>
+                 <div className="flex items-start">
+                    <Info className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                    <div>
+                        <strong className="text-foreground">Version</strong>
+                        <p>{version} / Android {androidVersion}</p>
+                    </div>
+                </div>
+                <div className="flex items-start">
+                    <HardDrive className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                    <div>
+                        <strong className="text-foreground">File Size</strong>
+                        <p>{size}</p>
+                    </div>
+                </div>
+                <div className="flex items-start">
+                    <Calendar className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                    <div>
+                        <strong className="text-foreground">Upload Date</strong>
+                        <p>{format(date, 'PPP')}</p>
+                    </div>
+                </div>
+                <div className="flex items-start">
+                    <Users className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                    <div>
+                        <strong className="text-foreground">Downloads</strong>
+                        <p>{downloadCount.toLocaleString()}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div className="bg-muted/50 p-6 rounded-b-xl">
+            <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="block">
+                <Button className="w-full" variant="accent" size="lg">
+                <Download className="mr-2 h-5 w-5" />
+                Start Download
+                </Button>
+            </Link>
+        </div>
       </section>
 
       {instructionsData?.warning && (
