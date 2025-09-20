@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Download } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
+import { RelatedFirmware } from '@/components/related-firmware';
 
 type Props = {
   params: { brandId: string, seriesId: string }
@@ -27,8 +28,8 @@ export async function generateMetadata(
   if (!brand) return { title: "Brand Not Found" };
 
   return {
-    title: `All Firmware for ${brand.name} ${series.name}`,
-    description: `Download all available official stock firmware (flash files) for the ${brand.name} ${series.name}. Find the latest updates and versions.`,
+    title: `All Firmware for ${brand.name} ${series.name} [Download]`,
+    description: `Download all available official stock firmware (flash files) for the ${brand.name} ${series.name}. Find the latest updates and versions to restore or update your device.`,
   }
 }
 
@@ -39,13 +40,18 @@ export default async function SeriesPage({ params }: { params: { brandId: string
     notFound();
   }
 
+  const brand = await getBrandById(params.brandId);
+  if (!brand) {
+    notFound();
+  }
+
   const firmwareList = await getFirmwareBySeries(params.seriesId);
 
   return (
     <div className="container mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-2">{series.name} Firmware</h1>
       <p className="text-muted-foreground mb-8">
-        Find and download firmware for your device.
+        Find and download the latest stock ROM for your {brand.name} {series.name}.
       </p>
 
       {firmwareList.length > 0 ? (
@@ -92,6 +98,8 @@ export default async function SeriesPage({ params }: { params: { brandId: string
           </a>
         </div>
       )}
+
+      <RelatedFirmware brandId={params.brandId} seriesId={params.seriesId} />
     </div>
   );
 }

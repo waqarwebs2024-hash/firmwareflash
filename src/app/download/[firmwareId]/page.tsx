@@ -1,7 +1,7 @@
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronRight, ChevronsRight, Package, Info } from 'lucide-react';
+import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronRight, ChevronsRight, Package, Info, ListChecks, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
@@ -88,7 +88,7 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   };
 
   return (
-    <section id="flashing-guide" className="mb-8">
+    <section id="flashing-guide" className="mb-8 scroll-mt-20">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
@@ -173,6 +173,13 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
         answer: "Downgrading firmware can be risky and may not always be possible due to security restrictions implemented by the manufacturer. It is generally not recommended unless you are an advanced user and understand the risks involved."
     }
   ]
+  
+  const tocItems = [
+    { href: '#flashing-guide', label: 'Flashing Guide', icon: FileText },
+    { href: '#download-info', label: 'Download Info', icon: Download },
+    { href: '#faqs', label: 'FAQs', icon: HelpCircle },
+    { href: '#related-firmware', label: 'Related Firmware', icon: ListChecks },
+  ];
 
   return (
     <main className="container mx-auto py-12 px-4 max-w-4xl">
@@ -187,6 +194,22 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
         <ChevronsRight className="h-4 w-4" />
         <span className="font-medium text-foreground">{series.name}</span>
       </div>
+
+       <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="text-lg">Quick Links</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          {tocItems.map((item) => (
+            <Link href={item.href} key={item.href}>
+              <div className="p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                <item.icon className="mx-auto h-6 w-6 mb-2 text-primary" />
+                <p className="text-sm font-medium">{item.label}</p>
+              </div>
+            </Link>
+          ))}
+        </CardContent>
+      </Card>
 
 
       <FlashingInstructions brandId={series.brandId} seriesName={series.name} instructionsData={instructionsData} />
@@ -252,9 +275,9 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
         </aside>
       )}
 
-      <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} />
+      <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} id="faqs" />
 
-      <RelatedFirmware brandId={brand.id} seriesId={series.id} />
+      <RelatedFirmware brandId={brand.id} seriesId={series.id} id="related-firmware" />
     </main>
   );
 }

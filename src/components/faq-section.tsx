@@ -7,18 +7,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { HTMLAttributes } from 'react';
 
 interface FaqItem {
   question: string;
   answer: string;
 }
 
-interface FaqSectionProps {
+interface FaqSectionProps extends HTMLAttributes<HTMLElement> {
   title: string;
   items: FaqItem[];
 }
 
-export function FaqSection({ title, items }: FaqSectionProps) {
+export function FaqSection({ title, items, ...props }: FaqSectionProps) {
     if (!items || items.length === 0) {
         return null;
     }
@@ -37,7 +38,7 @@ export function FaqSection({ title, items }: FaqSectionProps) {
     };
 
     return (
-        <section className="mt-12">
+        <section className="mt-12 scroll-mt-20" {...props}>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

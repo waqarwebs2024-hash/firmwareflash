@@ -23,23 +23,24 @@ export function HomeSearchForm() {
     };
 
     return (
-        <div className="w-full max-w-2xl">
-            <form onSubmit={handleSearch} className="relative shadow-xl">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+        <div className="w-full">
+            <form onSubmit={handleSearch} className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                     type="search"
                     name="search"
-                    placeholder="Search for firmware by model number..."
-                    className="w-full h-14 pl-12 pr-28 text-base rounded-xl backdrop-blur bg-white/80"
+                    placeholder="Search by model name or number..."
+                    className="w-full h-10 pl-9 pr-20 bg-background/80"
                     disabled={isPending}
                 />
                 <Button
                     type="submit"
                     variant="default"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-lg bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white"
+                    size="sm"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4"
                     disabled={isPending}
                 >
-                    {isPending ? 'Searching...' : 'Search'}
+                    {isPending ? '...' : 'Search'}
                 </Button>
             </form>
         </div>

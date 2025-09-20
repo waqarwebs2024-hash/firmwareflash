@@ -3,13 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Smartphone, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { HTMLAttributes } from 'react';
 
-interface RelatedFirmwareProps {
+interface RelatedFirmwareProps extends HTMLAttributes<HTMLElement> {
   brandId: string;
   seriesId: string;
 }
 
-export async function RelatedFirmware({ brandId, seriesId }: RelatedFirmwareProps) {
+export async function RelatedFirmware({ brandId, seriesId, ...props }: RelatedFirmwareProps) {
   const related = await getRelatedFirmware(brandId, seriesId);
   const brand = await getBrandById(brandId);
 
@@ -18,7 +19,7 @@ export async function RelatedFirmware({ brandId, seriesId }: RelatedFirmwareProp
   }
 
   return (
-    <section className="mt-12">
+    <section className="mt-12 scroll-mt-20" {...props}>
       <h2 className="text-2xl md:text-3xl font-bold mb-6">Other {brand.name} Firmwares</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {related.map((series) => (

@@ -11,17 +11,16 @@ export default async function Home() {
         <div className="container mx-auto py-12 px-4">
             {/* Hero / Search Section */}
             <div
-                className="text-center mb-12 py-20 rounded-lg relative"
-                style={{ backgroundColor: "#0069d3" }}
+                className="text-center mb-12 py-16 md:py-20 rounded-lg bg-primary text-primary-foreground"
             >
                 <div className="relative z-10 p-8 flex flex-col items-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
                         Firmware Finder
                     </h1>
-                    <p className="text-lg text-gray-200 mb-8">
-                        Find & Download Firmware for All Smartphones
+                    <p className="text-lg text-gray-200 mb-8 max-w-2xl">
+                        The ultimate resource for official stock firmware. Find and download the right ROM for your smartphone or tablet with ease.
                     </p>
-                    <HomeSearchForm />
+                    {/* Search form is now in the header */}
                 </div>
             </div>
 
