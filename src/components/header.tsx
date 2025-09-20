@@ -1,9 +1,16 @@
+
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { HardDrive, Search } from 'lucide-react';
+import { HardDrive } from 'lucide-react';
 import { HomeSearchForm } from './home-search-form';
 
 export function Header() {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
   return (
     <header className="border-b sticky top-0 bg-background/95 z-40">
       <div className="container mx-auto px-4">
@@ -12,11 +19,6 @@ export function Header() {
             <HardDrive className="h-6 w-6 text-primary" />
             <span className="font-bold text-lg">Firmware Finder</span>
           </Link>
-          <div className="hidden md:flex flex-1 justify-center px-8 lg:px-16">
-            <div className="w-full max-w-md">
-              <HomeSearchForm />
-            </div>
-          </div>
           <nav className="hidden md:flex items-center space-x-1">
             <Link href="/">
               <Button variant="ghost">Home</Button>
@@ -41,9 +43,11 @@ export function Header() {
             </Link>
           </div>
         </div>
-        <div className="md:hidden pb-4">
-            <HomeSearchForm />
-        </div>
+        {!isHomePage && (
+            <div className="pb-4">
+                <HomeSearchForm />
+            </div>
+        )}
       </div>
     </header>
   );

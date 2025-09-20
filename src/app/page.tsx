@@ -20,7 +20,9 @@ export default async function Home() {
                     <p className="text-lg text-gray-200 mb-8 max-w-2xl">
                         The ultimate resource for official stock firmware. Find and download the right ROM for your smartphone or tablet with ease.
                     </p>
-                    {/* Search form is now in the header */}
+                    <div className="w-full max-w-lg">
+                        <HomeSearchForm />
+                    </div>
                 </div>
             </div>
 
