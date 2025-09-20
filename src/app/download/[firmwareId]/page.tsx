@@ -1,7 +1,7 @@
 import { getFirmwareById, getBrandById, getSeriesById } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText } from 'lucide-react';
+import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
@@ -15,12 +15,14 @@ async function FlashingInstructions({ brandId }: { brandId: string }) {
   const instructionsData = await getFlashingInstructions({ brandName: brand.name });
 
   return (
-      <Card className="mt-8">
+    <div className="mt-12">
+      <h2 className="text-2xl font-bold mb-4 flex items-center">
+        <FileText className="mr-3 h-6 w-6" />
+        Full Instructions for {brand.name}
+      </h2>
+      <Card>
           <CardHeader>
-              <CardTitle className="flex items-center">
-                  <FileText className="mr-3" />
-                  Flashing Instructions for {brand.name}
-              </CardTitle>
+              <CardTitle>Detailed Steps</CardTitle>
               <CardDescription>{instructionsData.introduction}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -54,75 +56,84 @@ async function FlashingInstructions({ brandId }: { brandId: string }) {
 
           </CardContent>
       </Card>
+    </div>
   )
 }
 
+function QuickInstructionsBanner() {
+    // In a real scenario, this could be dynamic based on the brand
+    const steps = ['Insert SD Card', 'Start Flash', 'Setup Device'];
+    return (
+        <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-8">
+            <div className="flex items-center">
+                <Zap className="h-6 w-6 mr-3 text-primary"/>
+                <h3 className="font-semibold text-lg text-primary">Quick Flash Guide:</h3>
+                <p className="ml-2 text-muted-foreground hidden md:block">
+                    {steps.join(' → ')} (Full Guide Below)
+                </p>
+            </div>
+            <p className="mt-2 text-muted-foreground md:hidden">
+                {steps.join(' → ')} (Full Guide Below)
+            </p>
+        </div>
+    )
+}
 
 export default async function DownloadPage({ params }: { params: { firmwareId: string } }) {
   const firmware = await getFirmwareById(params.firmwareId);
+  if (!firmware) notFound();
 
-  if (!firmware) {
-    notFound();
-  }
-
-  // To get the brand, we need to get the series first
   const series = await getSeriesById(firmware.seriesId);
-  if(!series){
-    // This case should ideally not happen if data integrity is maintained
-    notFound();
-  }
+  if (!series) notFound();
+
+  const brand = await getBrandById(series.brandId);
+  if (!brand) notFound();
 
   const { fileName, size, uploadDate, downloadCount } = firmware;
   // @ts-ignore
   const date = uploadDate.toDate ? uploadDate.toDate() : new Date(uploadDate);
 
-
   return (
-    <div className="container mx-auto py-8 px-4">
-      <Card className="max-w-2xl mx-auto shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold break-words">
-            {fileName}
-          </CardTitle>
-          <CardDescription>Ready to download.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-              <div className="flex items-center">
-                <HardDrive className="mr-3 text-muted-foreground" />
-                <span className="font-medium">File Size</span>
-              </div>
+    <div className="container mx-auto py-12 px-4 max-w-4xl">
+      <h1 className="text-3xl md:text-4xl font-bold mb-4">
+        {brand.name} {series.name} Firmware
+      </h1>
+      <p className="text-muted-foreground mb-8 break-words">
+        File: {fileName}
+      </p>
+
+      <QuickInstructionsBanner />
+
+      <Card className="shadow-lg">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 text-center">
+            <div className="flex flex-col items-center">
+              <HardDrive className="h-6 w-6 mb-2 text-muted-foreground" />
+              <span className="font-semibold">File Size</span>
               <span className="text-muted-foreground">{size}</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-              <div className="flex items-center">
-                <Calendar className="mr-3 text-muted-foreground" />
-                <span className="font-medium">Upload Date</span>
-              </div>
+            <div className="flex flex-col items-center">
+              <Calendar className="h-6 w-6 mb-2 text-muted-foreground" />
+              <span className="font-semibold">Upload Date</span>
               <span className="text-muted-foreground">{format(date, 'PPP')}</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-              <div className="flex items-center">
-                <Users className="mr-3 text-muted-foreground" />
-                <span className="font-medium">Downloads</span>
-              </div>
+            <div className="flex flex-col items-center">
+              <Users className="h-6 w-6 mb-2 text-muted-foreground" />
+              <span className="font-semibold">Downloads</span>
               <span className="text-muted-foreground">{downloadCount.toLocaleString()}</span>
             </div>
           </div>
 
           <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="mt-6 block">
-            <Button className="w-full" variant="accent">
-              <Download className="mr-2 h-4 w-4" />
+            <Button className="w-full" variant="accent" size="lg">
+              <Download className="mr-2 h-5 w-5" />
               Start Download
             </Button>
           </Link>
         </CardContent>
       </Card>
       
-      <div className="max-w-2xl mx-auto">
-        <FlashingInstructions brandId={series.brandId} />
-      </div>
+      <FlashingInstructions brandId={series.brandId} />
     </div>
   );
 }
