@@ -126,19 +126,14 @@ const huaweiFirmwareData = [
     { name: 'Huawei P8 Lite', fileName: 'Huawei_P8_Lite_ALE-TL00_MAA001073_Board_Software_General_5.0_EMUI_3.1_05021SJQ_HMT.zip', size: '610 MB', link: 'https://drive.google.com/file/d/1AB8WhUp-xxYuNrKoDHj1MHMfM3lSLolJ/view?usp=sharing' },
 ];
 
-async function getOrCreateSeries(seriesName: string, brandId: string, existingSeries: Map<string, string>, batch: any): Promise<string> {
+async function getOrCreateSeries(seriesName: string, brandId: string): Promise<string> {
     const seriesId = createId(`${brandId}-${seriesName}`);
-    if (existingSeries.has(seriesId)) {
-        return seriesId;
-    }
-
     const seriesDocRef = doc(db, 'series', seriesId);
-    // Check if the document already exists in the batch to avoid overwriting
-    // This is a simplified check; a more robust solution might query the DB if not in cache.
-    if (!(batch as any)._mutations.some((m: any) => m.key.path.isEqual(seriesDocRef.path))) {
-        batch.set(seriesDocRef, { name: seriesName, brandId: brandId });
+
+    const seriesDoc = await getDoc(seriesDocRef);
+    if (!seriesDoc.exists()) {
+        await setDoc(seriesDocRef, { name: seriesName, brandId: brandId });
     }
-    existingSeries.set(seriesId, seriesName); // Cache it
     return seriesId;
 }
 
@@ -153,10 +148,7 @@ export async function seedHuaweiFirmware() {
         return;
     }
 
-    const seriesCol = collection(db, 'series');
-    const firmwareCol = collection(db, 'firmware');
     const brandDocRef = doc(db, 'brands', brandId);
-
     const brandDoc = await getDoc(brandDocRef);
     if (!brandDoc.exists()) {
         console.error('Brand "Huawei" not found. Seeding cannot proceed.');
@@ -164,15 +156,11 @@ export async function seedHuaweiFirmware() {
     }
 
     const batch = writeBatch(db);
-
-    // Cache existing series for this brand to avoid re-reading
-    const existingSeriesQuery = query(seriesCol, where('brandId', '==', brandId));
-    const seriesSnapshot = await getDocs(existingSeriesQuery);
-    const existingSeries = new Map(seriesSnapshot.docs.map(d => [d.id, d.data().name]));
+    const firmwareCol = collection(db, 'firmware');
 
     for (const fw of huaweiFirmwareData) {
         const modelName = fw.name.replace(/^Huawei\s+/i, '').trim();
-        const seriesId = await getOrCreateSeries(modelName, brandId, existingSeries, batch);
+        const seriesId = await getOrCreateSeries(modelName, brandId);
 
         // Extract version and androidVersion from filename
         let version = "N/A";
