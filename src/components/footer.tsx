@@ -19,17 +19,17 @@ export function Footer() {
             </div>
             <div className="flex justify-center space-x-4">
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="https://facebook.com" target="_blank">
+                    <Link href="https://facebook.com" target="_blank" aria-label="Facebook">
                         <Facebook className="h-5 w-5" />
                     </Link>
                 </Button>
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="https://twitter.com" target="_blank">
+                    <Link href="https://twitter.com" target="_blank" aria-label="Twitter">
                         <Twitter className="h-5 w-5" />
                     </Link>
                 </Button>
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="https://telegram.org" target="_blank">
+                    <Link href="https://telegram.org" target="_blank" aria-label="Telegram">
                         <Send className="h-5 w-5" />
                     </Link>
                 </Button>

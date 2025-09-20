@@ -22,7 +22,7 @@ export function Header() {
     <header className="border-b sticky top-0 bg-background/95 z-40">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2" aria-label="Firmware Finder Homepage">
             <HardDrive className="h-6 w-6 text-primary" />
             <span className="font-bold text-lg">Firmware Finder</span>
           </Link>

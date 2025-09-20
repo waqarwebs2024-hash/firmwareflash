@@ -3,15 +3,39 @@ import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { Brand } from '@/lib/types';
 import { HomeSearchForm } from '@/components/home-search-form';
+import { FaqSection } from '@/components/faq-section';
+import { CheckCircle } from 'lucide-react';
 
 export default async function Home() {
     const brands: Brand[] = await getBrands();
+
+    const faqItems = [
+      {
+        question: "What is stock firmware or a Stock ROM?",
+        answer: "Stock firmware, or a Stock ROM, is the official software developed by the device manufacturer for a specific model. It's the original operating system your device came with. Flashing stock firmware can fix software issues, remove root access, and return your phone to its factory state."
+      },
+      {
+        question: "Is flashing firmware safe for my device?",
+        answer: "Flashing can be safe if you follow instructions carefully and use the correct firmware for your exact device model. However, there are always risks, such as data loss or 'bricking' the device if done incorrectly. We always recommend backing up your data before you begin."
+      },
+      {
+        question: "Why would I need to download and flash firmware?",
+        answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version that wasn't released in your region, downgrading to a previous version, or removing custom modifications (like root) to restore your phone to its original state for warranty purposes."
+      }
+    ];
+
+    const features = [
+      "Official, Secure Downloads",
+      "Step-by-Step Flashing Guides",
+      "Vast Library of Brands & Models",
+      "Free for Everyone",
+    ];
 
     return (
         <div className="container mx-auto py-12 px-4">
             {/* Hero / Search Section */}
             <div
-                className="text-center mb-12 py-16 md:py-20 rounded-lg bg-primary text-primary-foreground"
+                className="text-center mb-16 py-16 md:py-20 rounded-lg bg-primary text-primary-foreground"
             >
                 <div className="relative z-10 p-8 flex flex-col items-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
@@ -26,10 +50,26 @@ export default async function Home() {
                 </div>
             </div>
 
-            {/* Popular Brands */}
+            {/* Info Section */}
+            <div className="mb-16 text-center">
+                <h2 className="text-3xl font-bold mb-4">Your One-Stop Firmware Hub</h2>
+                <p className="text-muted-foreground max-w-3xl mx-auto mb-8">
+                    Whether you're fixing a software issue, upgrading your system, or reverting to stock settings, you need reliable firmware. We provide direct access to official stock ROMs for a wide range of mobile devices, complete with easy-to-follow installation guides.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    {features.map((feature, index) => (
+                        <div key={index} className="flex items-center justify-center p-4 bg-muted rounded-lg">
+                            <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
+                            <span className="font-medium text-sm">{feature}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* All Brands */}
             <div className="mb-16">
-                <h2 className="text-2xl font-bold mb-6 text-center">Browse All Brands</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <h2 className="text-3xl font-bold mb-6 text-center">Browse All Brands</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     {brands.map((brand) => (
                         <Link href={`/brand/${brand.id}`} key={brand.id} className="block">
                             <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
@@ -47,15 +87,9 @@ export default async function Home() {
                 )}
             </div>
 
-            {/* Info Section */}
-            <div className="bg-muted p-8 rounded-lg text-center">
-                <h3 className="text-xl font-bold mb-2">Your One-Stop Firmware Hub</h3>
-                <p className="text-muted-foreground max-w-3xl mx-auto">
-                    Download official firmware updates for Samsung, Huawei, Xiaomi, Oppo, and more. 
-                    Find the latest stock ROMs, flash files, and updates for your mobile device to keep it 
-                    running smoothly and securely.
-                </p>
-            </div>
+            {/* FAQ Section */}
+            <FaqSection title="Frequently Asked Questions" items={faqItems} />
+
         </div>
     );
 }
