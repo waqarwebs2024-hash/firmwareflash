@@ -1,14 +1,42 @@
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText } from 'lucide-react';
+import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronRight, ChevronsRight } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
 import { getFlashingInstructions, FlashingInstructionsOutput } from '@/ai/flows/get-flashing-instructions-flow';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import type { Metadata, ResolvingMetadata } from 'next';
+import { FaqSection } from '@/components/faq-section';
 
-async function FlashingInstructions({ brandId, instructionsData }: { brandId: string, instructionsData: FlashingInstructionsOutput | null }) {
+type Props = {
+  params: { firmwareId: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const firmware = await getFirmwareById(params.firmwareId);
+  if (!firmware) return { title: "Firmware Not Found" };
+
+  const series = await getSeriesById(firmware.seriesId);
+  if (!series) return { title: "Firmware Not Found" };
+  
+  const brand = await getBrandById(series.brandId);
+  if (!brand) return { title: "Firmware Not Found" };
+
+  const pageTitle = `Download ${brand.name} ${series.name} Firmware (Flash File) [Latest Version] – Step by Step Guide`;
+  const pageDescription = `Download latest ${brand.name} ${series.name} firmware (flash file). Step-by-step flashing guide with USB drivers, fastboot & installation instructions.`;
+ 
+  return {
+    title: pageTitle,
+    description: pageDescription,
+  }
+}
+
+async function FlashingInstructions({ brandId, seriesName, instructionsData }: { brandId: string, seriesName: string, instructionsData: FlashingInstructionsOutput | null }) {
   const brand = await getBrandById(brandId);
   if (!brand) return null;
   
@@ -17,7 +45,7 @@ async function FlashingInstructions({ brandId, instructionsData }: { brandId: st
         <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4 flex items-center">
                 <FileText className="mr-3 h-6 w-6" />
-                How to Flash {brand.name} Firmware (Step-by-Step)
+                How to Flash {seriesName} Firmware (Step-by-Step)
             </h2>
             <p className="text-muted-foreground">Could not load flashing instructions at this time.</p>
         </section>
@@ -26,7 +54,6 @@ async function FlashingInstructions({ brandId, instructionsData }: { brandId: st
 
   const { introduction, prerequisites, instructions, warning, tool } = instructionsData;
 
-  // Replace tool name with a link
   const renderWithToolLink = (text: string) => {
     if (!tool || !text.includes(tool.name)) {
       return text;
@@ -42,8 +69,8 @@ async function FlashingInstructions({ brandId, instructionsData }: { brandId: st
   };
 
   return (
-    <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-2">How to Flash {brand.name} Firmware (Step-by-Step)</h2>
+    <section id="flashing-guide" className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">How to Flash {seriesName} [Step-by-Step]</h2>
         <p className="text-muted-foreground mb-6">{renderWithToolLink(introduction)}</p>
         
         <div className="space-y-6">
@@ -90,7 +117,6 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
     instructionsData = await getFlashingInstructions({ brandName: brand.name });
     if (instructionsData) {
         if (instructionsData.tool) {
-            // Ensure the tool exists in the DB, create it if not
             await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
         }
       await saveFlashingInstructionsToDB(brand.id, instructionsData);
@@ -101,16 +127,44 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
   // @ts-ignore
   const date = uploadDate.toDate ? uploadDate.toDate() : new Date(uploadDate);
 
+  const faqItems = [
+    {
+        question: `What is ${series.name} firmware?`,
+        answer: `The ${series.name} firmware, also known as Stock ROM or Flash File, is the official operating system software provided by ${brand.name}. It is used to install, update, or unbrick your mobile device.`
+    },
+    {
+        question: `How to flash ${series.name} step by step?`,
+        answer: "The flashing process depends on the brand. For Huawei, it often involves using an SD card and the 'dload' method. For Samsung, the Odin tool is used. Detailed, brand-specific instructions are provided on this page."
+    },
+    {
+        question: `Is the ${series.name} firmware free to download?`,
+        answer: "Yes, all firmware files and flash tools provided on Firmware Finder are free to download. We believe in providing open access to help users repair their devices."
+    },
+    {
+        question: `Can I downgrade my ${series.name} firmware?`,
+        answer: "Downgrading firmware can be risky and may not always be possible due to security restrictions implemented by the manufacturer. It is generally not recommended unless you are an advanced user and understand the risks involved."
+    }
+  ]
+
   return (
     <main className="container mx-auto py-12 px-4 max-w-4xl">
-      <h1 className="text-3xl md:text-4xl font-bold mb-8">
-        {brand.name} {series.name} Firmware Download & Flashing Guide
+      <h1 className="text-3xl md:text-4xl font-bold mb-4">
+        {brand.name} {series.name} Firmware Download (Flash File)
       </h1>
+      
+      <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
+        <Link href="/" className="hover:text-primary">Home</Link>
+        <ChevronsRight className="h-4 w-4" />
+        <Link href={`/brand/${brand.id}`} className="hover:text-primary">{brand.name} Firmware</Link>
+        <ChevronsRight className="h-4 w-4" />
+        <span className="font-medium text-foreground">{series.name}</span>
+      </div>
 
-      <FlashingInstructions brandId={series.brandId} instructionsData={instructionsData} />
 
-      <section className="bg-card border shadow-sm rounded-xl p-6 mt-6">
-        <h2 className="text-2xl font-bold mb-4">Download {series.name} Firmware</h2>
+      <FlashingInstructions brandId={series.brandId} seriesName={series.name} instructionsData={instructionsData} />
+
+      <section id="download-info" className="bg-card border shadow-sm rounded-xl p-6 mt-12 scroll-mt-20">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Information</h2>
         <ul className="space-y-2 text-muted-foreground mb-6">
           <li><strong>File Name:</strong> <span className="break-all">{fileName}</span></li>
           <li><strong>File Size:</strong> {size}</li>
@@ -134,6 +188,9 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
             </div>
         </aside>
       )}
+
+      <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} />
+
     </main>
   );
 }
