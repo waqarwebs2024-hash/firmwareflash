@@ -76,7 +76,7 @@ export default function AdminLayout({
                     isActive={pathname === item.href}
                     icon={<item.icon />}
                   >
-                    {item.label}
+                    <span>{item.label}</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

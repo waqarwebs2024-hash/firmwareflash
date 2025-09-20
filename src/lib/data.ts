@@ -1,4 +1,5 @@
 
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool } from './types';
@@ -201,6 +202,14 @@ export async function getFirmwareById(id: string): Promise<Firmware | null> {
         }
     }
     return null;
+}
+
+export async function getRecentFirmwareForSeo(count: number = 20): Promise<Firmware[]> {
+    const firmwareCol = collection(db, 'firmware');
+    const q = query(firmwareCol, orderBy('uploadDate', 'desc'), limit(count));
+    const firmwareSnapshot = await getDocs(q);
+    const firmwareList = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
+    return firmwareList;
 }
 
 export async function getAllSeries(): Promise<Series[]> {

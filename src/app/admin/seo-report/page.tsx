@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import {
@@ -10,22 +10,23 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectGroup
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { generateSeoReport } from '@/ai/flows/seo-report-flow';
-import type { SeoReport } from '@/lib/types';
+import type { SeoReport, Firmware } from '@/lib/types';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CheckCircle, AlertCircle, Lightbulb, TrendingUp, ThumbsDown, Star, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { getRecentFirmwareForSeo } from '@/lib/data';
 
-const PAGES = [
+const STATIC_PAGES = [
     { id: 'homepage', name: 'Homepage', path: '/' },
     { id: 'brands', name: 'All Brands', path: '/brands' },
     { id: 'tools', name: 'All Tools', path: '/tools' },
     { id: 'blog', name: 'Blog Index', path: '/blog' },
     { id: 'contact', name: 'Contact Us', path: '/contact' },
-    // We can add a dynamic select for firmware/series pages later
 ];
 
 export default function SeoReportPage() {
@@ -33,7 +34,15 @@ export default function SeoReportPage() {
   const [report, setReport] = useState<SeoReport | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-  const [htmlContent, setHtmlContent] = useState('');
+  const [recentFirmware, setRecentFirmware] = useState<Firmware[]>([]);
+
+  useEffect(() => {
+    async function fetchFirmware() {
+      const firmware = await getRecentFirmwareForSeo();
+      setRecentFirmware(firmware);
+    }
+    fetchFirmware();
+  }, []);
 
   const fetchPageContent = async (path: string) => {
     try {
@@ -58,7 +67,15 @@ export default function SeoReportPage() {
     setReport(null);
 
     startTransition(async () => {
-        const pagePath = PAGES.find(p => p.id === selectedPage)?.path;
+        let pagePath: string | undefined;
+
+        if (selectedPage.startsWith('firmware-')) {
+            const firmwareId = selectedPage.replace('firmware-', '');
+            pagePath = `/download/${firmwareId}`;
+        } else {
+            pagePath = STATIC_PAGES.find(p => p.id === selectedPage)?.path;
+        }
+
         if (!pagePath) {
             setError("Invalid page selected.");
             return;
@@ -102,11 +119,24 @@ export default function SeoReportPage() {
                   <SelectValue placeholder="Select a page to analyze" />
                 </SelectTrigger>
                 <SelectContent>
-                  {PAGES.map((page) => (
-                    <SelectItem key={page.id} value={page.id}>
-                      {page.name} ({page.path})
-                    </SelectItem>
-                  ))}
+                    <SelectGroup>
+                        <Label className="px-2 py-1.5 text-xs font-semibold">Static Pages</Label>
+                        {STATIC_PAGES.map((page) => (
+                            <SelectItem key={page.id} value={page.id}>
+                            {page.name} ({page.path})
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
+                    {recentFirmware.length > 0 && (
+                        <SelectGroup>
+                            <Label className="px-2 py-1.5 text-xs font-semibold">Recent Firmware</Label>
+                             {recentFirmware.map((fw) => (
+                                <SelectItem key={fw.id} value={`firmware-${fw.id}`}>
+                                    {fw.fileName.length > 40 ? `${fw.fileName.substring(0, 40)}...` : fw.fileName}
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    )}
                 </SelectContent>
               </Select>
             </div>
