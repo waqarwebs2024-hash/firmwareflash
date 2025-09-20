@@ -11,6 +11,7 @@ export interface Series {
 
 export interface Firmware {
     id: string;
+    brandId: string;
     seriesId: string;
     fileName: string;
     version: string;

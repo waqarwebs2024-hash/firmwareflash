@@ -3,6 +3,7 @@
 
 
 
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
@@ -157,6 +158,7 @@ export async function getBrandsWithFirmware(): Promise<Brand[]> {
 
 
 export async function getBrandById(id: string): Promise<Brand | null> {
+  if (!id) return null;
   const brandDocRef = doc(db, 'brands', id);
   const brandDoc = await getDoc(brandDocRef);
   if (brandDoc.exists()) {
@@ -174,6 +176,7 @@ export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
 }
 
 export async function getSeriesById(id: string): Promise<Series | null> {
+  if (!id) return null;
   const seriesDocRef = doc(db, 'series', id);
   const seriesDoc = await getDoc(seriesDocRef);
   if (seriesDoc.exists()) {

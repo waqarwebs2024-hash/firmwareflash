@@ -1,0 +1,71 @@
+'use server';
+/**
+ * @fileOverview An AI flow to generate flashing instructions for a given mobile device brand.
+ *
+ * - getFlashingInstructions - A function that returns flashing instructions.
+ * - FlashingInstructionsInput - The input type for the getFlashingInstructions function.
+ * - FlashingInstructionsOutput - The return type for the getFlashingInstructions function.
+ */
+
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
+
+const FlashingInstructionsInputSchema = z.object({
+  brandName: z.string().describe('The name of the mobile device brand, e.g., "Samsung" or "Google Pixel".'),
+});
+export type FlashingInstructionsInput = z.infer<typeof FlashingInstructionsInputSchema>;
+
+const InstructionStepSchema = z.object({
+  title: z.string().describe("A short, clear title for the instruction step."),
+  description: z.string().describe("A detailed description of the action to take in this step."),
+});
+
+const FlashingInstructionsOutputSchema = z.object({
+    introduction: z.string().describe("A brief introduction to the flashing process for this brand, including any common tools used (e.g., Odin for Samsung, fastboot for Pixel)."),
+    prerequisites: z.array(z.string()).describe("A list of prerequisites or things the user needs before starting, like specific drivers or software."),
+    instructions: z.array(InstructionStepSchema).describe("An array of step-by-step instructions to flash the firmware."),
+    warning: z.string().describe("An important warning or disclaimer about the risks of flashing firmware (e.g., data loss, voiding warranty)."),
+});
+export type FlashingInstructionsOutput = z.infer<typeof FlashingInstructionsOutputSchema>;
+
+
+export async function getFlashingInstructions(input: FlashingInstructionsInput): Promise<FlashingInstructionsOutput> {
+  return getFlashingInstructionsFlow(input);
+}
+
+const prompt = ai.definePrompt({
+  name: 'flashingInstructionsPrompt',
+  input: { schema: FlashingInstructionsInputSchema },
+  output: { schema: FlashingInstructionsOutputSchema },
+  prompt: `
+    You are an expert mobile device technician. Your task is to provide clear, step-by-step instructions for flashing stock firmware onto a device of a specific brand.
+
+    The user will provide a brand name. Based on that brand, generate a set of flashing instructions.
+
+    - For "Samsung", the instructions should be based on using the Odin tool.
+    - For "Google Pixel", "Xiaomi", "OnePlus", or "Motorola", the instructions should be based on using fastboot commands.
+    - For other brands like "Huawei", mention their specific tools if known (like HiSuite or dload method), or provide general fastboot instructions if a specific tool isn't common.
+    - The instructions should be generic enough for any device of that brand but specific to the flashing tool and process.
+
+    Brand: {{{brandName}}}
+
+    Generate the introduction, prerequisites, step-by-step instructions, and a final warning.
+    Assume the user has already downloaded the correct firmware file.
+    Focus on the process of flashing, not on finding or downloading the file.
+  `,
+});
+
+const getFlashingInstructionsFlow = ai.defineFlow(
+  {
+    name: 'getFlashingInstructionsFlow',
+    inputSchema: FlashingInstructionsInputSchema,
+    outputSchema: FlashingInstructionsOutputSchema,
+  },
+  async (input) => {
+    const { output } = await prompt(input);
+    if (!output) {
+      throw new Error('Failed to generate flashing instructions.');
+    }
+    return output;
+  }
+);
