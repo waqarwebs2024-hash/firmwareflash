@@ -6,9 +6,16 @@ import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
 import { HardDrive } from 'lucide-react';
 import { HomeSearchForm } from './home-search-form';
+import { useEffect, useState } from 'react';
 
 export function Header() {
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const isHomePage = pathname === '/';
 
   return (
@@ -43,7 +50,7 @@ export function Header() {
             </Link>
           </div>
         </div>
-        {!isHomePage && (
+        {isClient && !isHomePage && (
             <div className="pb-4">
                 <HomeSearchForm variant="dark" />
             </div>
