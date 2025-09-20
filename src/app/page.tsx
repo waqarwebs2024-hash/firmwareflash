@@ -61,8 +61,7 @@ export default function Home() {
                             />
                             <Button
                                 type="submit"
-                                className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-lg"
-                                variant="accent"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-lg bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white"
                                 disabled={isPending}
                             >
                                 {isPending ? 'Searching...' : 'Search'}
