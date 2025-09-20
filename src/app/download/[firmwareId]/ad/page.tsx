@@ -8,7 +8,6 @@ import { AdSettings } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AdPage({ params }: { params: { firmwareId: string } }) {
-  const { firmwareId } = params;
   const [adSettings, setAdSettings] = useState<AdSettings | null>(null);
   const [countdown, setCountdown] = useState(10);
   const [showButton, setShowButton] = useState(false);
@@ -49,7 +48,7 @@ export default function AdPage({ params }: { params: { firmwareId: string } }) {
                     <p className="text-muted-foreground">Ad placeholder</p>
                 </div>
                 
-                <Link href={`/download/${firmwareId}`}>
+                <Link href={`/download/${params.firmwareId}`}>
                     <Button disabled={!showButton} className="w-full" variant="accent">
                     {showButton ? 'Continue to Download' : `Please wait ${countdown} seconds...`}
                     </Button>
