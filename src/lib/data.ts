@@ -1,9 +1,10 @@
 
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
 import slugify from 'slugify';
-import { seedBrands, brands as brandData } from './seed';
+import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
 
 // A function to slugify strings for use in Firestore document IDs
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
@@ -45,6 +46,8 @@ export async function getBrands(): Promise<Brand[]> {
     await seedBrands();
     const newSnapshot = await getDocs(brandsCol);
     const brandList = newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
+    // Also seed the large huawei firmware list
+    await seedHuaweiFirmware();
     return brandList;
   }
   
@@ -66,13 +69,15 @@ export async function getPopularBrands(limit: number = 10): Promise<Brand[]> {
     }
   });
 
-  if (seriesDownloadCount.size === 0) return [];
+  if (seriesDownloadCount.size === 0) {
+    const allBrands = await getBrands();
+    return allBrands.slice(0, limit);
+  };
   
   const seriesCol = collection(db, 'series');
   const seriesSnapshot = await getDocs(seriesCol);
   
   const brandDownloadCount = new Map<string, number>();
-  const brandIdToNameMap = new Map<string, string>();
 
   seriesSnapshot.docs.forEach(doc => {
     const aSeries = doc.data() as Omit<Series, 'id'>;
@@ -83,7 +88,10 @@ export async function getPopularBrands(limit: number = 10): Promise<Brand[]> {
     }
   });
 
-  if (brandDownloadCount.size === 0) return [];
+  if (brandDownloadCount.size === 0) {
+    const allBrands = await getBrands();
+    return allBrands.slice(0, limit);
+  }
 
   const sortedBrandIds = Array.from(brandDownloadCount.entries())
     .sort((a, b) => b[1] - a[1])
