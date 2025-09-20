@@ -1,6 +1,6 @@
 
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
@@ -52,7 +52,7 @@ export async function getBrands(): Promise<Brand[]> {
   return brandList.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export async function getPopularBrands(limit: number = 10): Promise<Brand[]> {
+export async function getPopularBrands(count: number = 10): Promise<Brand[]> {
   const firmwareCol = collection(db, 'firmware');
   const firmwareSnapshot = await getDocs(firmwareCol);
   
@@ -68,7 +68,7 @@ export async function getPopularBrands(limit: number = 10): Promise<Brand[]> {
 
   if (seriesDownloadCount.size === 0) {
     const allBrands = await getBrands();
-    return allBrands.slice(0, limit);
+    return allBrands.slice(0, count);
   };
   
   const seriesCol = collection(db, 'series');
@@ -87,13 +87,13 @@ export async function getPopularBrands(limit: number = 10): Promise<Brand[]> {
 
   if (brandDownloadCount.size === 0) {
     const allBrands = await getBrands();
-    return allBrands.slice(0, limit);
+    return allBrands.slice(0, count);
   }
 
   const sortedBrandIds = Array.from(brandDownloadCount.entries())
     .sort((a, b) => b[1] - a[1])
     .map(entry => entry[0])
-    .slice(0, limit);
+    .slice(0, count);
 
   if(sortedBrandIds.length === 0) return [];
 
@@ -355,4 +355,34 @@ export async function getToolBySlug(slug: string): Promise<Tool | null> {
         return { id: toolDoc.id, ...toolDoc.data() } as Tool;
     }
     return null;
+}
+
+export async function getRelatedFirmware(brandId: string, currentSeriesId: string): Promise<Series[]> {
+    if (!brandId) return [];
+
+    const seriesCol = collection(db, 'series');
+    
+    // Firestore doesn't support "not equal" queries efficiently in a way that
+    // scales and can be combined with other filters easily.
+    // The most straightforward approach is to fetch all series for the brand
+    // and filter in the application. This is acceptable for a reasonable number of series per brand.
+    const q = query(
+        seriesCol,
+        where('brandId', '==', brandId)
+    );
+
+    try {
+        const seriesSnapshot = await getDocs(q);
+        const allSeriesForBrand = seriesSnapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as Series))
+            .filter(s => s.id !== currentSeriesId); // Filter out the current series
+
+        // Shuffle the array and take the first 4
+        const shuffled = allSeriesForBrand.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 4);
+
+    } catch (error) {
+        console.error("Error fetching related firmware:", error);
+        return [];
+    }
 }

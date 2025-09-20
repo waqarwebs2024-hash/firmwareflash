@@ -9,6 +9,7 @@ import { getFlashingInstructions, FlashingInstructionsOutput } from '@/ai/flows/
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { FaqSection } from '@/components/faq-section';
+import { RelatedFirmware } from '@/components/related-firmware';
 
 type Props = {
   params: { firmwareId: string }
@@ -226,6 +227,7 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
 
       <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} />
 
+      <RelatedFirmware brandId={brand.id} seriesId={series.id} />
     </main>
   );
 }
