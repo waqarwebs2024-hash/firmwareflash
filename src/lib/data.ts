@@ -1,6 +1,6 @@
 
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
@@ -363,4 +363,30 @@ export async function getApiKey(): Promise<string> {
 export async function updateApiKey(apiKey: string): Promise<void> {
   const settingsDocRef = doc(db, 'settings', 'api');
   await setDoc(settingsDocRef, { geminiApiKey: apiKey });
+}
+
+export async function getTotalFirmwares(): Promise<number> {
+  try {
+    const firmwareCol = collection(db, 'firmware');
+    const snapshot = await getCountFromServer(firmwareCol);
+    return snapshot.data().count;
+  } catch (error) {
+    console.error("Error getting total firmwares: ", error);
+    return 0;
+  }
+}
+
+export async function getTotalDownloads(): Promise<number> {
+  try {
+    const firmwareCol = collection(db, 'firmware');
+    const firmwareSnapshot = await getDocs(firmwareCol);
+    let total = 0;
+    firmwareSnapshot.forEach(doc => {
+      total += doc.data().downloadCount || 0;
+    });
+    return total;
+  } catch (error) {
+    console.error("Error getting total downloads: ", error);
+    return 0;
+  }
 }

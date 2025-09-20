@@ -1,11 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, HardDrive, FileClock } from 'lucide-react';
+import { Users, HardDrive, FileUp, Database } from 'lucide-react';
+import { getTotalDownloads, getTotalFirmwares } from '@/lib/data';
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+
+  const [totalDownloads, totalFirmwares] = await Promise.all([
+    getTotalDownloads(),
+    getTotalFirmwares(),
+  ]);
+
   return (
     <div className="space-y-6">
        <h1 className="text-2xl font-bold">Dashboard</h1>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -16,7 +23,7 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">1,234,567</div>
             <p className="text-xs text-muted-foreground">
-              +20.1% from last month
+              Analytics not yet implemented
             </p>
           </CardContent>
         </Card>
@@ -28,16 +35,28 @@ export default function AdminDashboard() {
             <HardDrive className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">543,210</div>
+            <div className="text-2xl font-bold">{totalDownloads.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">
-              +180.1% from last month
+              Across all firmware
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Firmwares</CardTitle>
+            <Database className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalFirmwares.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">
+              In the database
+            </p>
+          </CardContent>
+        </Card>
+         <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Submissions</CardTitle>
-            <FileClock className="h-4 w-4 text-muted-foreground" />
+            <FileUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">12</div>

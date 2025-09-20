@@ -70,3 +70,10 @@ export interface Tool {
     description: string;
     downloadUrl?: string;
 }
+
+export interface SeoReport {
+    score: number;
+    whatIsGood: string[];
+    whatToImprove: string[];
+    recommendations: string[];
+}

@@ -26,6 +26,7 @@ import {
   Sprout,
   Wrench,
   KeyRound,
+  SearchCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -49,6 +50,7 @@ const menuItems = [
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
   { href: '/admin/seed', label: 'Seed Data', icon: Sprout },
+  { href: '/admin/seo-report', label: 'AI SEO Report', icon: SearchCheck },
 ];
 
 export default function AdminLayout({
