@@ -1,12 +1,7 @@
 
-
-
-
-
-
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
-import { Brand, Series, Firmware, AdSettings } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
 
@@ -314,4 +309,18 @@ export async function seedHuaweiDataAction() {
   } catch (error: any) {
     return { success: false, message: error.message || 'An unknown error occurred.' };
   }
+}
+
+export async function getFlashingInstructionsFromDB(brandId: string): Promise<FlashingInstructions | null> {
+    const instructionsDocRef = doc(db, 'flashingInstructions', brandId);
+    const docSnap = await getDoc(instructionsDocRef);
+    if (docSnap.exists()) {
+        return docSnap.data() as FlashingInstructions;
+    }
+    return null;
+}
+
+export async function saveFlashingInstructionsToDB(brandId: string, instructions: FlashingInstructions): Promise<void> {
+    const instructionsDocRef = doc(db, 'flashingInstructions', brandId);
+    await setDoc(instructionsDocRef, instructions);
 }

@@ -47,3 +47,13 @@ export interface AdSettings {
     adsenseSlot: string;
     timeout: number;
 }
+
+export interface FlashingInstructions {
+    introduction: string;
+    prerequisites: string[];
+    instructions: {
+        title: string;
+        description: string;
+    }[];
+    warning: string;
+}

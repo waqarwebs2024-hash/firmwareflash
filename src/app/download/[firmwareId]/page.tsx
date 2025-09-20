@@ -1,18 +1,42 @@
-import { getFirmwareById, getBrandById, getSeriesById } from '@/lib/data';
+import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
-import { getFlashingInstructions } from '@/ai/flows/get-flashing-instructions-flow';
+import { getFlashingInstructions, FlashingInstructionsOutput } from '@/ai/flows/get-flashing-instructions-flow';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 async function FlashingInstructions({ brandId }: { brandId: string }) {
   const brand = await getBrandById(brandId);
   if (!brand) return null;
 
-  const instructionsData = await getFlashingInstructions({ brandName: brand.name });
+  let instructionsData: FlashingInstructionsOutput | null = await getFlashingInstructionsFromDB(brand.id);
+
+  if (!instructionsData) {
+    instructionsData = await getFlashingInstructions({ brandName: brand.name });
+    if(instructionsData) {
+      await saveFlashingInstructionsToDB(brand.id, instructionsData);
+    }
+  }
+  
+  if (!instructionsData) {
+    return (
+        <div className="mt-12">
+             <h2 className="text-2xl font-bold mb-4 flex items-center">
+                <FileText className="mr-3 h-6 w-6" />
+                Flashing Instructions
+            </h2>
+            <Card>
+                <CardContent className="p-6">
+                    <p className="text-muted-foreground">Could not load flashing instructions at this time.</p>
+                </CardContent>
+            </Card>
+        </div>
+    )
+  }
+
 
   return (
     <div className="mt-12">
