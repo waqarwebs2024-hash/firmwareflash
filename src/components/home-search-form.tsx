@@ -24,7 +24,7 @@ export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dar
     };
     
     const inputClass = variant === 'light' 
-        ? 'bg-background/20 text-white border-transparent placeholder:text-gray-300 focus:bg-background/30'
+        ? 'bg-white text-gray-900 border-transparent placeholder:text-gray-500 focus:bg-white'
         : 'bg-background border-input focus-visible:ring-primary focus-visible:ring-2 placeholder:text-muted-foreground';
 
 
@@ -33,7 +33,7 @@ export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dar
             <form onSubmit={handleSearch} className="relative">
                 <Search className={cn(
                     "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4",
-                    variant === 'light' ? 'text-gray-300' : 'text-muted-foreground'
+                    variant === 'light' ? 'text-gray-500' : 'text-muted-foreground'
                 )} />
                 <Input
                     type="search"
