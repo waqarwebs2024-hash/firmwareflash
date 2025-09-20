@@ -10,6 +10,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import type { Metadata, ResolvingMetadata } from 'next';
 import { FaqSection } from '@/components/faq-section';
 import { RelatedFirmware } from '@/components/related-firmware';
+import { HowTo, WithContext } from 'schema-dts';
+
 
 type Props = {
   params: { firmwareId: string }
@@ -28,8 +30,8 @@ export async function generateMetadata(
   const brand = await getBrandById(series.brandId);
   if (!brand) return { title: "Firmware Not Found" };
 
-  const pageTitle = `Download ${brand.name} ${series.name} Firmware (Flash File) [Latest Version] – Step by Step Guide`;
-  const pageDescription = `Download latest ${brand.name} ${series.name} firmware (flash file). Step-by-step flashing guide with USB drivers, fastboot & installation instructions.`;
+  const pageTitle = `Download ${brand.name} ${series.name} Stock Firmware (Flash File) [Official Guide]`;
+  const pageDescription = `Download official ${brand.name} ${series.name} firmware (flash file) with step-by-step installation guide. Fix software issues, update ROM, and restore your device.`;
  
   return {
     title: pageTitle,
@@ -54,6 +56,22 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   }
 
   const { introduction, prerequisites, instructions, warning, tool } = instructionsData;
+  
+  const howToSchema: WithContext<HowTo> = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": `How to Flash ${seriesName} Firmware`,
+    "description": introduction,
+    "step": instructions.map((step, index) => ({
+      "@type": "HowToStep",
+      "name": step.title,
+      "text": step.description,
+      "position": index + 1,
+    })),
+    "tool": prerequisites.map(item => ({ "@type": "HowToTool", "name": item })),
+    "totalTime": "PT30M", // Estimated time: 30 minutes
+  };
+
 
   const renderWithToolLink = (text: string) => {
     if (!tool || !text.includes(tool.name)) {
@@ -71,6 +89,10 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
 
   return (
     <section id="flashing-guide" className="mb-8">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+        />
         <h2 className="text-2xl md:text-3xl font-bold mb-4">How to Flash {seriesName} [Step-by-Step]</h2>
         <p className="text-muted-foreground mb-6">{renderWithToolLink(introduction)}</p>
         
@@ -90,8 +112,8 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
                     {instructions.map((step, index) => (
                         <AccordionItem value={`item-${index}`} key={index} className={index === instructions.length - 1 ? 'border-b-0' : ''}>
                             <AccordionTrigger>Step {index + 1}: {step.title}</AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground">
-                            {renderWithToolLink(step.description)}
+                            <AccordionContent className="text-muted-foreground space-y-2">
+                                {renderWithToolLink(step.description)}
                             </AccordionContent>
                         </AccordionItem>
                     ))}
@@ -115,12 +137,17 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
   let instructionsData: FlashingInstructionsOutput | null = await getFlashingInstructionsFromDB(brand.id);
 
   if (!instructionsData) {
-    instructionsData = await getFlashingInstructions({ brandName: brand.name });
-    if (instructionsData) {
-        if (instructionsData.tool) {
-            await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
+    try {
+        instructionsData = await getFlashingInstructions({ brandName: brand.name });
+        if (instructionsData) {
+            if (instructionsData.tool) {
+                await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
+            }
+          await saveFlashingInstructionsToDB(brand.id, instructionsData);
         }
-      await saveFlashingInstructionsToDB(brand.id, instructionsData);
+    } catch (error) {
+        console.error("Failed to generate or save flashing instructions:", error);
+        // instructionsData remains null, so the page can still render without them.
     }
   }
 
@@ -130,12 +157,12 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
 
   const faqItems = [
     {
-        question: `What is ${series.name} firmware?`,
-        answer: `The ${series.name} firmware, also known as Stock ROM or Flash File, is the official operating system software provided by ${brand.name}. It is used to install, update, or unbrick your mobile device.`
+        question: `Is this ${series.name} firmware official?`,
+        answer: `Yes, the firmware provided for the ${series.name} is the official Stock ROM released by ${brand.name}. It is not a custom ROM and is intended to restore your device to its original state.`
     },
     {
-        question: `How to flash ${series.name} step by step?`,
-        answer: "The flashing process depends on the brand. For Huawei, it often involves using an SD card and the 'dload' method. For Samsung, the Odin tool is used. Detailed, brand-specific instructions are provided on this page."
+        question: `Can I use this file to unbrick my ${series.name}?`,
+        answer: `Absolutely. A common reason for downloading stock firmware is to fix a soft-bricked device (e.g., stuck in a bootloop). Following the flashing instructions carefully can restore your phone to working condition.`
     },
     {
         question: `Is the ${series.name} firmware free to download?`,
@@ -171,35 +198,35 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
                 <div className="flex items-start">
                     <Package className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                     <div>
-                        <strong className="text-foreground">File Name</strong>
+                        <h3 className="font-semibold text-foreground">File Name</h3>
                         <p className="break-all">{fileName}</p>
                     </div>
                 </div>
                  <div className="flex items-start">
                     <Info className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                     <div>
-                        <strong className="text-foreground">Version</strong>
+                        <h3 className="font-semibold text-foreground">Version</h3>
                         <p>{version} / Android {androidVersion}</p>
                     </div>
                 </div>
                 <div className="flex items-start">
                     <HardDrive className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                     <div>
-                        <strong className="text-foreground">File Size</strong>
+                        <h3 className="font-semibold text-foreground">File Size</h3>
                         <p>{size}</p>
                     </div>
                 </div>
                 <div className="flex items-start">
                     <Calendar className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                     <div>
-                        <strong className="text-foreground">Upload Date</strong>
+                        <h3 className="font-semibold text-foreground">Upload Date</h3>
                         <p>{format(date, 'PPP')}</p>
                     </div>
                 </div>
                 <div className="flex items-start">
                     <Users className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                     <div>
-                        <strong className="text-foreground">Downloads</strong>
+                        <h3 className="font-semibold text-foreground">Downloads</h3>
                         <p>{downloadCount.toLocaleString()}</p>
                     </div>
                 </div>
