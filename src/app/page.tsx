@@ -1,11 +1,11 @@
-import { getPopularBrands } from '@/lib/data';
+import { getBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { Brand } from '@/lib/types';
 import { HomeSearchForm } from '@/components/home-search-form';
 
 export default async function Home() {
-    const brands: Brand[] = await getPopularBrands(10);
+    const brands: Brand[] = await getBrands();
 
     return (
         <div className="container mx-auto py-12 px-4">
@@ -28,7 +28,7 @@ export default async function Home() {
 
             {/* Popular Brands */}
             <div className="mb-16">
-                <h2 className="text-2xl font-bold mb-6 text-center">Popular Brands</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center">Browse All Brands</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {brands.map((brand) => (
                         <Link href={`/brand/${brand.id}`} key={brand.id} className="block">
@@ -42,7 +42,7 @@ export default async function Home() {
                 </div>
                 {brands.length === 0 && (
                     <div className="text-center text-muted-foreground">
-                        Loading popular brands...
+                        Loading brands...
                     </div>
                 )}
             </div>

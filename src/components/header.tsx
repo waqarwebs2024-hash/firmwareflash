@@ -45,7 +45,7 @@ export function Header() {
         </div>
         {!isHomePage && (
             <div className="pb-4">
-                <HomeSearchForm />
+                <HomeSearchForm variant="dark" />
             </div>
         )}
       </div>

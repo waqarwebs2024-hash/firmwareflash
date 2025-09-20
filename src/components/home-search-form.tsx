@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-export function HomeSearchForm() {
+export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dark' }) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
 
@@ -21,6 +22,11 @@ export function HomeSearchForm() {
             });
         }
     };
+    
+    const inputClass = variant === 'light' 
+        ? 'bg-background/80 text-foreground placeholder:text-muted-foreground/80'
+        : 'bg-muted/80 text-foreground placeholder:text-muted-foreground';
+
 
     return (
         <div className="w-full">
@@ -30,14 +36,17 @@ export function HomeSearchForm() {
                     type="search"
                     name="search"
                     placeholder="Search by model name or number..."
-                    className="w-full h-10 pl-9 pr-20 bg-background/80"
+                    className={cn(
+                        "w-full h-10 pl-9 pr-24 rounded-full",
+                        inputClass
+                    )}
                     disabled={isPending}
                 />
                 <Button
                     type="submit"
                     variant="default"
                     size="sm"
-                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-4 rounded-full"
                     disabled={isPending}
                 >
                     {isPending ? '...' : 'Search'}
