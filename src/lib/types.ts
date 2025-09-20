@@ -48,6 +48,11 @@ export interface AdSettings {
     timeout: number;
 }
 
+export interface FlashingInstructionTool {
+    name: string;
+    slug: string;
+}
+
 export interface FlashingInstructions {
     introduction: string;
     prerequisites: string[];
@@ -56,4 +61,12 @@ export interface FlashingInstructions {
         description: string;
     }[];
     warning: string;
+    tool?: FlashingInstructionTool;
+}
+
+export interface Tool {
+    id: string;
+    name: string;
+    description: string;
+    downloadUrl?: string;
 }

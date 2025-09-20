@@ -1,4 +1,4 @@
-import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB } from '@/lib/data';
+import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText } from 'lucide-react';
@@ -24,17 +24,34 @@ async function FlashingInstructions({ brandId, instructionsData }: { brandId: st
     )
   }
 
+  const { introduction, prerequisites, instructions, warning, tool } = instructionsData;
+
+  // Replace tool name with a link
+  const renderWithToolLink = (text: string) => {
+    if (!tool || !text.includes(tool.name)) {
+      return text;
+    }
+    const parts = text.split(new RegExp(`(${tool.name})`, 'gi'));
+    return parts.map((part, index) => 
+      part.toLowerCase() === tool.name.toLowerCase() ? (
+        <Link href={`/tools/${tool.slug}`} key={index} className="text-primary font-semibold hover:underline">{part}</Link>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <section className="mb-8">
         <h2 className="text-2xl font-bold mb-2">How to Flash {brand.name} Firmware (Step-by-Step)</h2>
-        <p className="text-muted-foreground mb-6">{instructionsData.introduction}</p>
+        <p className="text-muted-foreground mb-6">{renderWithToolLink(introduction)}</p>
         
         <div className="space-y-6">
             <div>
                 <h3 className="font-semibold mb-2 text-lg">Prerequisites</h3>
                 <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                    {instructionsData.prerequisites.map((item, index) => (
-                        <li key={index}>{item}</li>
+                    {prerequisites.map((item, index) => (
+                        <li key={index}>{renderWithToolLink(item)}</li>
                     ))}
                 </ul>
             </div>
@@ -42,11 +59,11 @@ async function FlashingInstructions({ brandId, instructionsData }: { brandId: st
             <div>
                 <h3 className="font-semibold mb-2 text-lg">Flashing Steps</h3>
                 <Accordion type="single" collapsible className="w-full rounded-lg border px-4">
-                    {instructionsData.instructions.map((step, index) => (
-                        <AccordionItem value={`item-${index}`} key={index} className={index === instructionsData.instructions.length - 1 ? 'border-b-0' : ''}>
+                    {instructions.map((step, index) => (
+                        <AccordionItem value={`item-${index}`} key={index} className={index === instructions.length - 1 ? 'border-b-0' : ''}>
                             <AccordionTrigger>Step {index + 1}: {step.title}</AccordionTrigger>
                             <AccordionContent className="text-muted-foreground">
-                            {step.description}
+                            {renderWithToolLink(step.description)}
                             </AccordionContent>
                         </AccordionItem>
                     ))}
@@ -71,7 +88,11 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
 
   if (!instructionsData) {
     instructionsData = await getFlashingInstructions({ brandName: brand.name });
-    if(instructionsData) {
+    if (instructionsData) {
+        if (instructionsData.tool) {
+            // Ensure the tool exists in the DB, create it if not
+            await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
+        }
       await saveFlashingInstructionsToDB(brand.id, instructionsData);
     }
   }

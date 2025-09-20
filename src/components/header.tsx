@@ -18,6 +18,9 @@ export function Header() {
             <Link href="/brands">
               <Button variant="ghost">Brands</Button>
             </Link>
+            <Link href="/tools">
+              <Button variant="ghost">Tools</Button>
+            </Link>
             <Link href="/blog">
               <Button variant="ghost">Blog</Button>
             </Link>

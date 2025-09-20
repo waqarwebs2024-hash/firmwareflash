@@ -9,6 +9,9 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import slugify from 'slugify';
+
+const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
 const FlashingInstructionsInputSchema = z.object({
   brandName: z.string().describe('The name of the mobile device brand, e.g., "Samsung" or "Google Pixel".'),
@@ -20,11 +23,17 @@ const InstructionStepSchema = z.object({
   description: z.string().describe("A detailed description of the action to take in this step."),
 });
 
+const FlashingInstructionToolSchema = z.object({
+    name: z.string().describe("The name of the primary flashing tool required, e.g., 'Odin' or 'fastboot'."),
+    slug: z.string().describe("A URL-friendly slug for the tool name, e.g., 'odin-tool' or 'fastboot'."),
+});
+
 const FlashingInstructionsOutputSchema = z.object({
     introduction: z.string().describe("A brief introduction to the flashing process for this brand, including any common tools used (e.g., Odin for Samsung, fastboot for Pixel)."),
     prerequisites: z.array(z.string()).describe("A list of prerequisites or things the user needs before starting, like specific drivers or software."),
     instructions: z.array(InstructionStepSchema).describe("An array of step-by-step instructions to flash the firmware."),
     warning: z.string().describe("An important warning or disclaimer about the risks of flashing firmware (e.g., data loss, voiding warranty)."),
+    tool: FlashingInstructionToolSchema.optional().describe("The primary tool required for the flashing process."),
 });
 export type FlashingInstructionsOutput = z.infer<typeof FlashingInstructionsOutputSchema>;
 
@@ -42,16 +51,17 @@ const prompt = ai.definePrompt({
 
     The user will provide a brand name. Based on that brand, generate a set of flashing instructions.
 
-    - For "Samsung", the instructions should be based on using the Odin tool.
-    - For "Google Pixel", "Xiaomi", "OnePlus", or "Motorola", the instructions should be based on using fastboot commands.
+    - For "Samsung", the instructions should be based on using the Odin tool. You MUST identify "Odin" as the tool.
+    - For "Google Pixel", "Xiaomi", "OnePlus", or "Motorola", the instructions should be based on using fastboot commands. You MUST identify "fastboot" as the tool.
     - For other brands like "Huawei", mention their specific tools if known (like HiSuite or dload method), or provide general fastboot instructions if a specific tool isn't common.
     - The instructions should be generic enough for any device of that brand but specific to the flashing tool and process.
-
-    Brand: {{{brandName}}}
-
-    Generate the introduction, prerequisites, step-by-step instructions, and a final warning.
+    - For the identified tool, provide its name and a URL-friendly slug. For example, if the tool is "Odin", the name is "Odin" and the slug is "odin". If the tool is "SP Flash Tool", the name is "SP Flash Tool" and the slug is "sp-flash-tool".
+    
+    Generate the introduction, prerequisites, step-by-step instructions, a final warning, and the tool object.
     Assume the user has already downloaded the correct firmware file.
     Focus on the process of flashing, not on finding or downloading the file.
+
+    Brand: {{{brandName}}}
   `,
 });
 
@@ -66,6 +76,12 @@ const getFlashingInstructionsFlow = ai.defineFlow(
     if (!output) {
       throw new Error('Failed to generate flashing instructions.');
     }
+    
+    // Ensure the slug is correctly formatted, as the AI might make a mistake.
+    if (output.tool) {
+        output.tool.slug = createId(output.tool.name);
+    }
+
     return output;
   }
 );

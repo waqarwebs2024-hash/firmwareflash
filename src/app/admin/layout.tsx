@@ -24,6 +24,7 @@ import {
   User,
   Database,
   Sprout,
+  Wrench,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -42,6 +43,7 @@ const menuItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/submissions', label: 'Submissions', icon: FileUp },
   { href: '/admin/firmware', label: 'Firmware', icon: Database },
+  { href: '/admin/tools', label: 'Tools', icon: Wrench },
   { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
   { href: '/admin/seed', label: 'Seed Data', icon: Sprout },

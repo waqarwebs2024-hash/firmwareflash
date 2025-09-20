@@ -1,7 +1,7 @@
 
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
 
@@ -323,4 +323,36 @@ export async function getFlashingInstructionsFromDB(brandId: string): Promise<Fl
 export async function saveFlashingInstructionsToDB(brandId: string, instructions: FlashingInstructions): Promise<void> {
     const instructionsDocRef = doc(db, 'flashingInstructions', brandId);
     await setDoc(instructionsDocRef, instructions);
+}
+
+export async function getOrCreateTool(toolSlug: string, toolName: string): Promise<Tool> {
+    const toolDocRef = doc(db, 'tools', toolSlug);
+    const docSnap = await getDoc(toolDocRef);
+    if (docSnap.exists()) {
+        return { id: docSnap.id, ...docSnap.data() } as Tool;
+    } else {
+        const newTool: Omit<Tool, 'id'> = {
+            name: toolName,
+            description: `Download the latest version of ${toolName} and find guides on how to use it for flashing firmware.`,
+        };
+        await setDoc(toolDocRef, newTool);
+        return { id: toolSlug, ...newTool } as Tool;
+    }
+}
+
+export async function getAllTools(): Promise<Tool[]> {
+    const toolsCol = collection(db, 'tools');
+    const toolSnapshot = await getDocs(toolsCol);
+    const toolList = toolSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Tool));
+    return toolList.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function getToolBySlug(slug: string): Promise<Tool | null> {
+    if (!slug) return null;
+    const toolDocRef = doc(db, 'tools', slug);
+    const toolDoc = await getDoc(toolDocRef);
+    if (toolDoc.exists()) {
+        return { id: toolDoc.id, ...toolDoc.data() } as Tool;
+    }
+    return null;
 }
