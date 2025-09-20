@@ -36,12 +36,12 @@ const prompt = ai.definePrompt({
     You are an expert SEO analyzer. Your task is to analyze the provided HTML content of a webpage and give a detailed report on its on-page SEO quality. The website is a "Firmware Finder" for mobile devices.
 
     Analyze the following HTML content based on these key on-page SEO factors:
-    1.  **Title Tag (`<title>`):** Is it present, descriptive, and within the optimal length (50-60 characters)? Does it contain relevant keywords?
+    1.  **Title Tag (\`<title>\`):** Is it present, descriptive, and within the optimal length (50-60 characters)? Does it contain relevant keywords?
     2.  **Meta Description:** Is it present, compelling, and within the optimal length (150-160 characters)? Does it naturally include keywords?
     3.  **Heading Structure (H1, H2, H3, etc.):** Is there a single, clear H1 tag? Is the heading hierarchy logical? Do headings use relevant keywords?
     4.  **Content Quality:** Is the content substantial and relevant to the likely user intent (downloading firmware, finding instructions)? Are keywords used naturally?
     5.  **Internal Linking:** Are there internal links to other relevant pages on the site?
-    6.  **Image SEO:** Do `<img>` tags have descriptive `alt` attributes?
+    6.  **Image SEO:** Do \`<img>\` tags have descriptive \`alt\` attributes?
     7.  **Schema Markup:** Is there any structured data (like JSON-LD for FAQ, HowTo, or Breadcrumbs) to help search engines understand the content?
 
     Based on your analysis, provide the following:
