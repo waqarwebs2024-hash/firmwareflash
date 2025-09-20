@@ -38,7 +38,7 @@ export default function Home() {
             {/* Hero / Search Section */}
             <div
                 className="text-center mb-12 py-20 rounded-lg relative"
-                style={{ backgroundColor: "#3776ab" }}
+                style={{ backgroundColor: "#0069d3" }}
             >
                 <div className="relative z-10 p-8 flex flex-col items-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
