@@ -1,37 +1,11 @@
-'use client';
 import { getPopularBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
 import Link from 'next/link';
-import { FormEvent, useState, useTransition, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { Brand } from '@/lib/types';
+import { HomeSearchForm } from '@/components/home-search-form';
 
-export default function Home() {
-    const [brands, setBrands] = useState<Brand[]>([]);
-    const router = useRouter();
-    const [isPending, startTransition] = useTransition();
-
-    useEffect(() => {
-        async function fetchBrands() {
-            const brandsData = await getPopularBrands(10);
-            setBrands(brandsData);
-        }
-        fetchBrands();
-    }, []);
-
-    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const searchQuery = formData.get('search') as string;
-        if (searchQuery.trim()) {
-            startTransition(() => {
-                router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-            });
-        }
-    };
+export default async function Home() {
+    const brands: Brand[] = await getPopularBrands(10);
 
     return (
         <div className="container mx-auto py-12 px-4">
@@ -47,27 +21,7 @@ export default function Home() {
                     <p className="text-lg text-gray-200 mb-8">
                         Find & Download Firmware for All Smartphones
                     </p>
-
-                    {/* Search Bar */}
-                    <div className="w-full max-w-2xl">
-                        <form onSubmit={handleSearch} className="relative shadow-xl">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
-                            <Input
-                                type="search"
-                                name="search"
-                                placeholder="Search for firmware by model number..."
-                                className="w-full h-14 pl-12 pr-28 text-base rounded-xl backdrop-blur bg-white/80"
-                                disabled={isPending}
-                            />
-                            <Button
-                                type="submit"
-                                className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-lg bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white"
-                                disabled={isPending}
-                            >
-                                {isPending ? 'Searching...' : 'Search'}
-                            </Button>
-                        </form>
-                    </div>
+                    <HomeSearchForm />
                 </div>
             </div>
 
