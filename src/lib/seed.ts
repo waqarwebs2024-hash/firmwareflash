@@ -1,4 +1,5 @@
 
+
 import { db } from './firebase';
 import { collection, doc, writeBatch, getDocs, query, where, getDoc, setDoc } from 'firebase/firestore';
 import { Brand } from './types';
@@ -125,14 +126,18 @@ const huaweiFirmwareData = [
     { name: 'Huawei P8 Lite', fileName: 'Huawei_P8_Lite_ALE-TL00_MAA001073_Board_Software_General_5.0_EMUI_3.1_05021SJQ_HMT.zip', size: '610 MB', link: 'https://drive.google.com/file/d/1AB8WhUp-xxYuNrKoDHj1MHMfM3lSLolJ/view?usp=sharing' },
 ];
 
-async function getOrCreateSeries(seriesName: string, brandId: string, existingSeries: Map<string, string>): Promise<string> {
+async function getOrCreateSeries(seriesName: string, brandId: string, existingSeries: Map<string, string>, batch: any): Promise<string> {
     const seriesId = createId(`${brandId}-${seriesName}`);
     if (existingSeries.has(seriesId)) {
         return seriesId;
     }
 
     const seriesDocRef = doc(db, 'series', seriesId);
-    await setDoc(seriesDocRef, { name: seriesName, brandId: brandId });
+    // Check if the document already exists in the batch to avoid overwriting
+    // This is a simplified check; a more robust solution might query the DB if not in cache.
+    if (!(batch as any)._mutations.some((m: any) => m.key.path.isEqual(seriesDocRef.path))) {
+        batch.set(seriesDocRef, { name: seriesName, brandId: brandId });
+    }
     existingSeries.set(seriesId, seriesName); // Cache it
     return seriesId;
 }
@@ -166,19 +171,23 @@ export async function seedHuaweiFirmware() {
     const existingSeries = new Map(seriesSnapshot.docs.map(d => [d.id, d.data().name]));
 
     for (const fw of huaweiFirmwareData) {
-        const seriesId = await getOrCreateSeries(fw.name, brandId, existingSeries);
+        const modelName = fw.name.replace(/^Huawei\s+/i, '').trim();
+        const seriesId = await getOrCreateSeries(modelName, brandId, existingSeries, batch);
 
         // Extract version and androidVersion from filename
         let version = "N/A";
         let androidVersion = "N/A";
 
-        const versionMatch = fw.fileName.match(/(\d+\.\d+\.\d+\.\d+)_C/);
+        const versionMatch = fw.fileName.match(/_(\d+\.\d+\.\d+\.\d+)_/);
         if (versionMatch) {
             version = versionMatch[1];
         } else {
              const versionMatch2 = fw.fileName.match(/_(\d+\.\d+\.\d+)_/);
              if (versionMatch2) {
                 version = versionMatch2[1];
+             } else {
+                const versionMatch3 = fw.fileName.match(/_(\d+\.\d+\.\d+)_/);
+                if (versionMatch3) version = versionMatch3[1]
              }
         }
 
@@ -186,13 +195,18 @@ export async function seedHuaweiFirmware() {
         if (androidMatch) {
             androidVersion = androidMatch[1];
         } else {
-            const emuiMatch = fw.fileName.match(/EMUI(\d+\.\d+)/);
+            const emuiMatch = fw.fileName.match(/EMUI(\d+\.\d+(\.\d+)?)/);
             if (emuiMatch) {
                 androidVersion = `EMUI ${emuiMatch[1]}`;
             } else {
                  const harmonyOsMatch = fw.fileName.match(/HarmonyOS_(\d+\.\d+\.\d+)/);
                  if (harmonyOsMatch) {
                      androidVersion = `HarmonyOS ${harmonyOsMatch[1]}`;
+                 } else {
+                    const magicOsMatch = fw.fileName.match(/Magic_OS_(\d+\.\d+)/);
+                    if (magicOsMatch) {
+                        androidVersion = `Magic OS ${magicOsMatch[1]}`;
+                    }
                  }
             }
         }
@@ -201,6 +215,7 @@ export async function seedHuaweiFirmware() {
         const firmwareDocRef = doc(firmwareCol, firmwareId);
         batch.set(firmwareDocRef, {
             seriesId: seriesId,
+            brandId: brandId,
             fileName: fw.fileName,
             version: version,
             androidVersion: androidVersion,
