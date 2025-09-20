@@ -25,6 +25,7 @@ import {
   Database,
   Sprout,
   Wrench,
+  KeyRound,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -46,6 +47,7 @@ const menuItems = [
   { href: '/admin/tools', label: 'Tools', icon: Wrench },
   { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
   { href: '/admin/seed', label: 'Seed Data', icon: Sprout },
 ];
 
@@ -88,9 +90,11 @@ export default function AdminLayout({
               </Avatar>
               <span className="text-sm font-medium">Admin</span>
             </div>
-            <Button variant="ghost" size="icon">
-              <Settings className="h-5 w-5" />
-            </Button>
+            <Link href="/admin/settings">
+              <Button variant="ghost" size="icon">
+                <Settings className="h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </SidebarFooter>
       </Sidebar>

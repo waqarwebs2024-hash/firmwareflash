@@ -1,6 +1,6 @@
 'use server';
 
-import { setAnnouncement, updateAdSettings, addBrand, addSeries } from './data';
+import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey } from './data';
 import { seedHuaweiFirmware } from './seed';
 import type { AdSettings } from './types';
 
@@ -37,4 +37,11 @@ export async function seedHuaweiDataAction() {
   } catch (error: any) {
     return { success: false, message: error.message || 'An unknown error occurred.' };
   }
+}
+
+export async function updateApiKeyAction(apiKey: string) {
+  if (!apiKey) {
+    throw new Error('API Key is required.');
+  }
+  await updateApiKey(apiKey);
 }

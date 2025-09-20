@@ -350,3 +350,17 @@ export async function getRelatedFirmware(brandId: string, currentSeriesId: strin
         return [];
     }
 }
+
+export async function getApiKey(): Promise<string> {
+  const settingsDocRef = doc(db, 'settings', 'api');
+  const docSnap = await getDoc(settingsDocRef);
+  if (docSnap.exists()) {
+    return docSnap.data().geminiApiKey || '';
+  }
+  return '';
+}
+
+export async function updateApiKey(apiKey: string): Promise<void> {
+  const settingsDocRef = doc(db, 'settings', 'api');
+  await setDoc(settingsDocRef, { geminiApiKey: apiKey });
+}
