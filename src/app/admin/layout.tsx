@@ -25,7 +25,6 @@ import {
   Database,
   Sprout,
   Wrench,
-  KeyRound,
   SearchCheck,
 } from 'lucide-react';
 import Link from 'next/link';
