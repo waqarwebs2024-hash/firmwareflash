@@ -1,5 +1,8 @@
 
 
+
+
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings } from './types';
@@ -46,8 +49,6 @@ export async function getBrands(): Promise<Brand[]> {
     await seedBrands();
     const newSnapshot = await getDocs(brandsCol);
     const brandList = newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
-    // Also seed the large huawei firmware list
-    await seedHuaweiFirmware();
     return brandList;
   }
   
@@ -301,4 +302,13 @@ export async function addSeriesAction(name: string, brandId: string) {
         throw new Error('Brand ID is required.');
     }
     await addSeries(name, brandId);
+}
+
+export async function seedHuaweiDataAction() {
+  try {
+    await seedHuaweiFirmware();
+    return { success: true, message: 'Huawei firmware has been successfully seeded!' };
+  } catch (error: any) {
+    return { success: false, message: error.message || 'An unknown error occurred.' };
+  }
 }

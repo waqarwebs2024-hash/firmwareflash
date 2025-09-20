@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -22,6 +23,7 @@ import {
   Settings,
   User,
   Database,
+  Sprout,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -42,6 +44,7 @@ const menuItems = [
   { href: '/admin/firmware', label: 'Firmware', icon: Database },
   { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
+  { href: '/admin/seed', label: 'Seed Data', icon: Sprout },
 ];
 
 export default function AdminLayout({
