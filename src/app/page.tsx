@@ -1,4 +1,5 @@
 
+
 'use client';
 import { getPopularBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
@@ -40,8 +41,8 @@ export default function Home() {
         <div className="container mx-auto py-12 px-4">
             <div 
                 className="text-center mb-12 py-16 rounded-lg bg-cover bg-center relative" 
-                style={{backgroundImage: "url('https://picsum.photos/seed/hero/1200/400')"}}
-                data-ai-hint="smartphone illustration"
+                style={{backgroundImage: "url('https://picsum.photos/seed/binary/1200/400')"}}
+                data-ai-hint="binary tunnel"
             >
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
                 <div className="relative z-10 p-8 flex flex-col items-center">
