@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Download } from 'lucide-react';
 import { Suspense } from 'react';
+import { MainLayout } from '@/components/main-layout';
 
 function SearchResults({ query }: { query: string }) {
     return <Suspense fallback={<SearchResultsSkeleton />}>
@@ -81,13 +82,14 @@ export default function SearchPage({ searchParams }: { searchParams?: { [key: st
     const query = typeof searchParams?.q === 'string' ? searchParams.q : '';
 
     return (
-        <div className="container mx-auto py-12 px-4">
-            <h1 className="text-3xl font-bold mb-2">Search Results</h1>
-            <p className="text-muted-foreground mb-8">
-                Showing results for: <span className="font-semibold">{query}</span>
-            </p>
-            <SearchResults query={query} />
-        </div>
+        <MainLayout>
+            <div className="container mx-auto py-12 px-4">
+                <h1 className="text-3xl font-bold mb-2">Search Results</h1>
+                <p className="text-muted-foreground mb-8">
+                    Showing results for: <span className="font-semibold">{query}</span>
+                </p>
+                <SearchResults query={query} />
+            </div>
+        </MainLayout>
     );
 }
-

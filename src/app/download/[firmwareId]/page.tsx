@@ -11,6 +11,7 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { FaqSection } from '@/components/faq-section';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { HowTo, WithContext } from 'schema-dts';
+import { MainLayout } from '@/components/main-layout';
 
 
 type Props = {
@@ -182,102 +183,104 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
   ];
 
   return (
-    <main className="container mx-auto py-12 px-4 max-w-4xl">
-      <h1 className="text-3xl md:text-4xl font-bold mb-4">
-        {brand.name} {series.name} Firmware Download (Flash File)
-      </h1>
-      
-      <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
-        <Link href="/" className="hover:text-primary">Home</Link>
-        <ChevronsRight className="h-4 w-4" />
-        <Link href={`/brand/${brand.id}`} className="hover:text-primary">{brand.name} Firmware</Link>
-        <ChevronsRight className="h-4 w-4" />
-        <span className="font-medium text-foreground">{series.name}</span>
-      </div>
+    <MainLayout>
+      <main className="container mx-auto py-12 px-4 max-w-4xl">
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+          {brand.name} {series.name} Firmware Download (Flash File)
+        </h1>
+        
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
+          <Link href="/" className="hover:text-primary">Home</Link>
+          <ChevronsRight className="h-4 w-4" />
+          <Link href={`/brand/${brand.id}`} className="hover:text-primary">{brand.name} Firmware</Link>
+          <ChevronsRight className="h-4 w-4" />
+          <span className="font-medium text-foreground">{series.name}</span>
+        </div>
 
-       <Card className="mb-8">
-        <CardHeader>
-          <CardTitle className="text-lg">Quick Links</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          {tocItems.map((item) => (
-            <Link href={item.href} key={item.href}>
-              <div className="p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
-                <item.icon className="mx-auto h-6 w-6 mb-2 text-primary" />
-                <p className="text-sm font-medium">{item.label}</p>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-lg">Quick Links</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            {tocItems.map((item) => (
+              <Link href={item.href} key={item.href}>
+                <div className="p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                  <item.icon className="mx-auto h-6 w-6 mb-2 text-primary" />
+                  <p className="text-sm font-medium">{item.label}</p>
+                </div>
+              </Link>
+            ))}
+          </CardContent>
+        </Card>
+
+
+        <FlashingInstructions brandId={series.brandId} seriesName={series.name} instructionsData={instructionsData} />
+
+        <section id="download-info" className="bg-card border shadow-sm rounded-xl mt-12 scroll-mt-20">
+          <div className="p-6">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-muted-foreground">
+                  <div className="flex items-start">
+                      <Package className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                      <div>
+                          <h3 className="font-semibold text-foreground">File Name</h3>
+                          <p className="break-all">{fileName}</p>
+                      </div>
+                  </div>
+                  <div className="flex items-start">
+                      <Info className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                      <div>
+                          <h3 className="font-semibold text-foreground">Version</h3>
+                          <p>{version} / Android {androidVersion}</p>
+                      </div>
+                  </div>
+                  <div className="flex items-start">
+                      <HardDrive className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                      <div>
+                          <h3 className="font-semibold text-foreground">File Size</h3>
+                          <p>{size}</p>
+                      </div>
+                  </div>
+                  <div className="flex items-start">
+                      <Calendar className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                      <div>
+                          <h3 className="font-semibold text-foreground">Upload Date</h3>
+                          <p>{format(date, 'PPP')}</p>
+                      </div>
+                  </div>
+                  <div className="flex items-start">
+                      <Users className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                      <div>
+                          <h3 className="font-semibold text-foreground">Downloads</h3>
+                          <p>{downloadCount.toLocaleString()}</p>
+                      </div>
+                  </div>
               </div>
-            </Link>
-          ))}
-        </CardContent>
-      </Card>
+          </div>
+          <div className="bg-muted/50 p-6 rounded-b-xl">
+              <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="block">
+                  <Button className="w-full" variant="accent" size="lg">
+                  <Download className="mr-2 h-5 w-5" />
+                  Start Download
+                  </Button>
+              </Link>
+          </div>
+        </section>
 
+        {instructionsData?.warning && (
+          <aside className="mt-8 bg-destructive/10 p-4 border border-destructive/20 rounded-lg flex items-start">
+              <AlertTriangle className="h-5 w-5 mr-3 text-destructive shrink-0 mt-0.5" />
+              <div>
+                  <strong className="text-destructive font-semibold">Warning</strong>
+                  <p className="text-sm text-destructive/90">{instructionsData.warning}</p>
+              </div>
+          </aside>
+        )}
 
-      <FlashingInstructions brandId={series.brandId} seriesName={series.name} instructionsData={instructionsData} />
+        <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} id="faqs" />
 
-      <section id="download-info" className="bg-card border shadow-sm rounded-xl mt-12 scroll-mt-20">
-        <div className="p-6">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-muted-foreground">
-                <div className="flex items-start">
-                    <Package className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
-                    <div>
-                        <h3 className="font-semibold text-foreground">File Name</h3>
-                        <p className="break-all">{fileName}</p>
-                    </div>
-                </div>
-                 <div className="flex items-start">
-                    <Info className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
-                    <div>
-                        <h3 className="font-semibold text-foreground">Version</h3>
-                        <p>{version} / Android {androidVersion}</p>
-                    </div>
-                </div>
-                <div className="flex items-start">
-                    <HardDrive className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
-                    <div>
-                        <h3 className="font-semibold text-foreground">File Size</h3>
-                        <p>{size}</p>
-                    </div>
-                </div>
-                <div className="flex items-start">
-                    <Calendar className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
-                    <div>
-                        <h3 className="font-semibold text-foreground">Upload Date</h3>
-                        <p>{format(date, 'PPP')}</p>
-                    </div>
-                </div>
-                <div className="flex items-start">
-                    <Users className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
-                    <div>
-                        <h3 className="font-semibold text-foreground">Downloads</h3>
-                        <p>{downloadCount.toLocaleString()}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className="bg-muted/50 p-6 rounded-b-xl">
-            <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="block">
-                <Button className="w-full" variant="accent" size="lg">
-                <Download className="mr-2 h-5 w-5" />
-                Start Download
-                </Button>
-            </Link>
-        </div>
-      </section>
-
-      {instructionsData?.warning && (
-        <aside className="mt-8 bg-destructive/10 p-4 border border-destructive/20 rounded-lg flex items-start">
-            <AlertTriangle className="h-5 w-5 mr-3 text-destructive shrink-0 mt-0.5" />
-            <div>
-                <strong className="text-destructive font-semibold">Warning</strong>
-                <p className="text-sm text-destructive/90">{instructionsData.warning}</p>
-            </div>
-        </aside>
-      )}
-
-      <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} id="faqs" />
-
-      <RelatedFirmware brandId={brand.id} seriesId={series.id} id="related-firmware" />
-    </main>
+        <RelatedFirmware brandId={brand.id} seriesId={series.id} id="related-firmware" />
+      </main>
+    </MainLayout>
   );
 }

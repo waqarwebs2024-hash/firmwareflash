@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { getAdSettings } from '@/lib/data';
 import { AdSettings } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { MainLayout } from '@/components/main-layout';
 
 export default function AdPage({ params }: { params: { firmwareId: string } }) {
   const [adSettings, setAdSettings] = useState<AdSettings | null>(null);
@@ -33,28 +34,30 @@ export default function AdPage({ params }: { params: { firmwareId: string } }) {
   }, [countdown]);
 
   if (!adSettings) {
-    return <div>Loading...</div>;
+    return <MainLayout><div>Loading...</div></MainLayout>;
   }
 
   return (
-    <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
-        <Card className="w-full max-w-lg text-center">
-            <CardHeader>
-                <CardTitle>Advertisement</CardTitle>
-                <CardDescription>Your download will be ready shortly.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="bg-muted h-60 w-full flex items-center justify-center rounded-md">
-                    <p className="text-muted-foreground">Ad placeholder</p>
-                </div>
-                
-                <Link href={`/download/${params.firmwareId}`}>
-                    <Button disabled={!showButton} className="w-full" variant="accent">
-                    {showButton ? 'Continue to Download' : `Please wait ${countdown} seconds...`}
-                    </Button>
-                </Link>
-            </CardContent>
-        </Card>
-    </div>
+    <MainLayout>
+      <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
+          <Card className="w-full max-w-lg text-center">
+              <CardHeader>
+                  <CardTitle>Advertisement</CardTitle>
+                  <CardDescription>Your download will be ready shortly.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                  <div className="bg-muted h-60 w-full flex items-center justify-center rounded-md">
+                      <p className="text-muted-foreground">Ad placeholder</p>
+                  </div>
+                  
+                  <Link href={`/download/${params.firmwareId}`}>
+                      <Button disabled={!showButton} className="w-full" variant="accent">
+                      {showButton ? 'Continue to Download' : `Please wait ${countdown} seconds...`}
+                      </Button>
+                  </Link>
+              </CardContent>
+          </Card>
+      </div>
+    </MainLayout>
   );
 }
