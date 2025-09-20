@@ -9,8 +9,12 @@ import { AnnouncementBar } from '@/components/announcement-bar';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'Firmware Finder',
-  description: 'Download firmware for your mobile devices.',
+  title: {
+    default: 'Firmware Finder - Download Official Stock ROM for All Devices',
+    template: '%s | Firmware Finder'
+  },
+  description: 'Find and download the latest official stock firmware (flash file) for your mobile device. We provide free downloads for Samsung, Huawei, Xiaomi, and more, with step-by-step flashing guides.',
+  keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware'],
 };
 
 export default async function RootLayout({

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { updateAnnouncementAction } from '@/lib/data';
+import { updateAnnouncementAction } from '@/lib/actions';
 
 export default function AnnouncementAdminPage({
   searchParams,

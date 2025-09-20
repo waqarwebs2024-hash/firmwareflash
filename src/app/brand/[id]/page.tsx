@@ -3,6 +3,24 @@ import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Smartphone } from 'lucide-react';
+import type { Metadata, ResolvingMetadata } from 'next';
+
+type Props = {
+  params: { id: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const brand = await getBrandById(params.id);
+  if (!brand) return { title: "Brand Not Found" };
+
+  return {
+    title: `Firmware for ${brand.name} Devices - All Models`,
+    description: `Find and download official stock firmware for all ${brand.name} models. Select your device series to get the latest flash file and installation guide.`,
+  }
+}
 
 export default async function BrandPage({ params }: { params: { id: string } }) {
   const brand = await getBrandById(params.id);
@@ -16,7 +34,7 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
   return (
     <div className="container mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8 text-center">
-        {brand.name} Series
+        Select a {brand.name} Model
       </h1>
 
       {series.length > 0 ? (

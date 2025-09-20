@@ -5,7 +5,8 @@ import { useState, useTransition } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { addBrandAction, getBrands } from '@/lib/data';
+import { addBrandAction } from '@/lib/actions';
+import { getBrands } from '@/lib/data';
 import { Brand } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 

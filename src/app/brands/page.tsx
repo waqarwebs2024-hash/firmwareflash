@@ -1,6 +1,13 @@
 import { getBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'All Mobile Brands',
+  description: 'Browse all available mobile phone brands like Samsung, Google, Xiaomi, and Huawei to find and download the correct firmware for your device.',
+};
+
 
 export default async function BrandsPage() {
   const brands = await getBrands();

@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { AdSettings } from '@/lib/types';
-import { updateAdSettingsAction } from '@/lib/data';
+import { updateAdSettingsAction } from '@/lib/actions';
 
 export default function AdsAdminPage({
   searchParams,

@@ -1,8 +1,13 @@
-
 import { getAllTools } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Wrench } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mobile Flashing Tools',
+  description: 'Download the latest mobile flashing tools like Odin, SP Flash Tool, and fastboot. Find guides and resources for flashing firmware on your device.',
+};
 
 export default async function ToolsPage() {
   const tools = await getAllTools();

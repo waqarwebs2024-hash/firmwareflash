@@ -1,4 +1,4 @@
-import { getFirmwareBySeries, getSeriesById } from '@/lib/data';
+import { getFirmwareBySeries, getSeriesById, getBrandById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import {
   Table,
@@ -11,6 +11,26 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Download } from 'lucide-react';
+import type { Metadata, ResolvingMetadata } from 'next';
+
+type Props = {
+  params: { brandId: string, seriesId: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const series = await getSeriesById(params.seriesId);
+  if (!series) return { title: "Series Not Found" };
+  const brand = await getBrandById(params.brandId);
+  if (!brand) return { title: "Brand Not Found" };
+
+  return {
+    title: `All Firmware for ${brand.name} ${series.name}`,
+    description: `Download all available official stock firmware (flash files) for the ${brand.name} ${series.name}. Find the latest updates and versions.`,
+  }
+}
 
 export default async function SeriesPage({ params }: { params: { brandId: string, seriesId: string } }) {
   const series = await getSeriesById(params.seriesId);

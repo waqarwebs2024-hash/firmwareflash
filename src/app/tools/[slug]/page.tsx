@@ -1,10 +1,27 @@
-
 import { getToolBySlug } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
+import type { Metadata, ResolvingMetadata } from 'next';
+
+type Props = {
+  params: { slug: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const tool = await getToolBySlug(params.slug);
+  if (!tool) return { title: "Tool Not Found" };
+
+  return {
+    title: `Download ${tool.name} - Latest Version`,
+    description: tool.description || `Download the latest version of ${tool.name} and find guides on how to use it for flashing firmware on your mobile device.`,
+  }
+}
 
 export default async function ToolPage({ params }: { params: { slug: string } }) {
   const tool = await getToolBySlug(params.slug);

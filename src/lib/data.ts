@@ -210,7 +210,7 @@ export async function getAllSeries(): Promise<Series[]> {
   return seriesList.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-async function addBrand(name: string): Promise<void> {
+export async function addBrand(name: string): Promise<void> {
     const id = createId(name);
     const brandDocRef = doc(db, 'brands', id);
     await setDoc(brandDocRef, { name });
@@ -275,42 +275,6 @@ export async function updateAdSettings(settings: AdSettings): Promise<void> {
   await setDoc(settingsDocRef, settings);
 }
 
-
-export async function updateAnnouncementAction(text: string) {
-  await setAnnouncement(text);
-}
-
-export async function updateAdSettingsAction(settings: AdSettings) {
-  await updateAdSettings(settings);
-}
-
-
-export async function addBrandAction(name: string) {
-    if (!name) {
-      throw new Error('Brand name is required.');
-    }
-    await addBrand(name);
-}
-
-export async function addSeriesAction(name: string, brandId: string) {
-    if (!name) {
-        throw new Error('Series name is required.');
-    }
-    if (!brandId) {
-        throw new Error('Brand ID is required.');
-    }
-    await addSeries(name, brandId);
-}
-
-export async function seedHuaweiDataAction() {
-  try {
-    await seedHuaweiFirmware();
-    return { success: true, message: 'Huawei firmware has been successfully seeded!' };
-  } catch (error: any) {
-    return { success: false, message: error.message || 'An unknown error occurred.' };
-  }
-}
-
 export async function getFlashingInstructionsFromDB(brandId: string): Promise<FlashingInstructions | null> {
     const instructionsDocRef = doc(db, 'flashingInstructions', brandId);
     const docSnap = await getDoc(instructionsDocRef);
@@ -333,7 +297,7 @@ export async function getOrCreateTool(toolSlug: string, toolName: string): Promi
     } else {
         const newTool: Omit<Tool, 'id'> = {
             name: toolName,
-            description: `Download the latest version of ${toolName} and find guides on how to use it for flashing firmware.`,
+            description: `Download the latest version of ${toolName} and find guides on how to use it for flashing firmware on your mobile device.`,
         };
         await setDoc(toolDocRef, newTool);
         return { id: toolSlug, ...newTool } as Tool;

@@ -12,7 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { addSeriesAction, getAllSeries } from '@/lib/data';
+import { addSeriesAction } from '@/lib/actions';
+import { getAllSeries } from '@/lib/data';
 import { Brand, Series } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
