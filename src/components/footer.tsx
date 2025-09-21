@@ -25,7 +25,9 @@ export async function Footer() {
           <div className="col-span-12 md:col-span-4 space-y-4">
             <Link href="/" className="flex items-center gap-2">
                 <HardDrive aria-label="Firmware Flash Logo" className="h-8 w-8 text-primary" />
-                <span className="text-xl font-bold">Firmware Flash</span>
+                <span className="text-xl font-bold">
+                    <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
+                </span>
             </Link>
             <p className="text-sm text-muted-foreground">
                 Your reliable source for official mobile firmware.
@@ -79,7 +81,7 @@ export async function Footer() {
           </div>
         </div>
         <Separator className="my-8" />
-        <p className="text-center text-sm text-muted-foreground">© {new Date().getFullYear()} Firmware Flash. All rights reserved.</p>
+        <p className="text-center text-sm text-muted-foreground">© {new Date().getFullYear()} firmwareflash.com. All rights reserved.</p>
       </div>
     </footer>
   );

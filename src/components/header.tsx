@@ -25,7 +25,9 @@ export function Header() {
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
             <HardDrive aria-label="Firmware Flash Logo" className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Firmware Flash</span>
+            <span className="text-xl font-bold">
+                <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
+            </span>
         </Link>
         
         {/* Desktop Navigation */}
@@ -62,7 +64,9 @@ export function Header() {
                 <div className="flex items-center justify-between border-b pb-4">
                   <Link href="/" className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
                     <HardDrive className="h-8 w-8 text-primary" />
-                    <span className="text-xl font-bold">Firmware Flash</span>
+                    <span className="text-xl font-bold">
+                        <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
+                    </span>
                   </Link>
                   <SheetClose asChild>
                      <Button variant="ghost" size="icon">

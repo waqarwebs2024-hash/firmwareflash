@@ -74,7 +74,9 @@ export default function AdminLayout({
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
           >
             <HardDrive className="h-6 w-6 text-primary" />
-            <span className="sr-only">Firmware Flash</span>
+            <span className="text-xl font-bold">
+                <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
+            </span>
           </Link>
           {menuItems.map(item => (
             <NavLink key={item.href} href={item.href}>{item.label}</NavLink>
@@ -98,7 +100,9 @@ export default function AdminLayout({
                 className="flex items-center gap-2 text-lg font-semibold"
               >
                 <HardDrive className="h-6 w-6 text-primary" />
-                <span className="sr-only">Firmware Flash</span>
+                <span className="text-xl font-bold">
+                    <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
+                </span>
               </Link>
               {menuItems.map(item => (
                  <Link
