@@ -97,7 +97,7 @@ export function HomeSearchForm() {
                         <button
                             type="button"
                             onClick={handleClearSearch}
-                            className="absolute right-[4.5rem] top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                            className="absolute right-16 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                             aria-label="Clear search"
                         >
                             <X className="h-5 w-5" />
