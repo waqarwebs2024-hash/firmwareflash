@@ -86,14 +86,26 @@ export function HomeSearchForm() {
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
                     />
-                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90" aria-label="Search">
-                        {isSearching || isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Search className="h-5 w-5" />}
+                     <button 
+                        type="submit" 
+                        className={`absolute right-1 top-1/2 -translate-y-1/2 h-10 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90 transition-all duration-300 ${isPending || isSearching ? 'w-32' : 'w-10'}`} 
+                        aria-label="Search"
+                        disabled={isPending || isSearching}
+                    >
+                        {isPending || isSearching ? (
+                            <>
+                                <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                                Searching...
+                            </>
+                        ) : (
+                            <Search className="h-5 w-5" />
+                        )}
                     </button>
                 </div>
             </form>
             
             {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute z-10 top-full mt-2 w-full bg-white shadow-lg rounded-lg border border-gray-200 overflow-hidden">
+                <div className="absolute z-10 top-full mt-2 w-full bg-gray-50 shadow-lg rounded-lg border border-gray-200 overflow-hidden">
                     <ul>
                         {suggestions.map(fw => (
                              <li key={fw.id}>
