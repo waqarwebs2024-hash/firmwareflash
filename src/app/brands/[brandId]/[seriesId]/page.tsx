@@ -1,3 +1,4 @@
+
 import { getFirmwareBySeries, getSeriesById, getBrandById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import {
@@ -13,6 +14,7 @@ import Link from 'next/link';
 import { Download } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { RelatedFirmware } from '@/components/related-firmware';
+import { Badge } from '@/components/ui/badge';
 
 type Props = {
   params: { brandId: string, seriesId: string }
@@ -79,6 +81,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
                         <Button variant="accent" size="sm">
                           <Download className="mr-2 h-4 w-4" />
                           Download
+                          <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
                         </Button>
                       </Link>
                     </TableCell>

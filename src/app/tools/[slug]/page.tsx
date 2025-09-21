@@ -1,3 +1,4 @@
+
 import { getToolBySlug } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
+import { Badge } from '@/components/ui/badge';
 
 type Props = {
   params: { slug: string }
@@ -47,6 +49,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
                     <Button variant="accent" size="lg" className="w-full">
                       <Download className="mr-2 h-5 w-5" />
                       Download {tool.name}
+                      <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
                     </Button>
                   </Link>
                 ) : (

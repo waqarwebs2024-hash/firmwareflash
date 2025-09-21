@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Download } from 'lucide-react';
 import { Suspense } from 'react';
+import { Badge } from '@/components/ui/badge';
 
 function SearchResults({ query }: { query: string }) {
     return <Suspense fallback={<SearchResultsSkeleton />}>
@@ -49,6 +50,7 @@ async function SearchResultsContent({ query }: { query: string }) {
                                             <Button variant="accent" size="sm">
                                                 <Download className="mr-2 h-4 w-4" />
                                                 Download
+                                                <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
                                             </Button>
                                         </Link>
                                     </TableCell>

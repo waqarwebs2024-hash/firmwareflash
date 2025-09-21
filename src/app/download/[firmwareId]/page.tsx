@@ -1,3 +1,4 @@
+
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { FaqSection } from '@/components/faq-section';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { HowTo, WithContext } from 'schema-dts';
+import { Badge } from '@/components/ui/badge';
 
 
 type Props = {
@@ -261,6 +263,7 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
                   <Button className="w-full" variant="accent" size="lg">
                   <Download className="mr-2 h-5 w-5" />
                   Start Download
+                  <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
                   </Button>
               </Link>
           </div>
