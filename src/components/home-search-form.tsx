@@ -86,7 +86,7 @@ export function HomeSearchForm() {
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
                     />
-                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90" aria-label="Search">
+                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90" aria-label="Search">
                         {isSearching || isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Search className="h-5 w-5" />}
                     </button>
                 </div>
