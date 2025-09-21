@@ -255,7 +255,7 @@ export async function addSeries(name: string, brandId: string): Promise<void> {
   await setDoc(seriesDocRef, { name, brandId });
 }
 
-export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount' | 'androidVersion'>): Promise<void> {
+export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>): Promise<void> {
     const id = createId(firmware.fileName);
     const firmwareDocRef = doc(db, 'firmware', id);
   
@@ -446,7 +446,7 @@ export async function getContactMessages(): Promise<ContactMessage[]> {
 
 export async function getTodaysAnalytics(): Promise<DailyAnalytics> {
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const docRef = doc(db, 'analytics/daily', today);
+    const docRef = doc(db, 'analytics/daily/data', today);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -463,4 +463,25 @@ export async function getTodaysAnalytics(): Promise<DailyAnalytics> {
     await setDoc(docRef, defaultData);
     
     return { id: today, ...defaultData };
+}
+
+export async function incrementDownloadCount(firmwareId: string): Promise<void> {
+  const firmwareDocRef = doc(db, 'firmware', firmwareId);
+  const firmwareDoc = await getDoc(firmwareDocRef);
+  if (firmwareDoc.exists()) {
+      const currentCount = firmwareDoc.data().downloadCount || 0;
+      await setDoc(firmwareDocRef, { downloadCount: currentCount + 1 }, { merge: true });
+  }
+
+  // Also increment daily download count
+  const today = new Date().toISOString().split('T')[0];
+  const analyticsDocRef = doc(db, 'analytics/daily/data', today);
+  const analyticsDoc = await getDoc(analyticsDocRef);
+  
+  if (analyticsDoc.exists()) {
+      const currentDownloads = analyticsDoc.data().downloads || 0;
+      await setDoc(analyticsDocRef, { downloads: currentDownloads + 1 }, { merge: true });
+  } else {
+      await setDoc(analyticsDocRef, { downloads: 1 }, { merge: true });
+  }
 }
