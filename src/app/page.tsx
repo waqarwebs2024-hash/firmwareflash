@@ -62,10 +62,10 @@ export default async function Home() {
               <section className="bg-secondary py-20 text-center">
                 <div className="container mx-auto px-4">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    firmwareflash.com
+                    Find & Download Official Stock ROMs
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                    Find and download the right firmware for your device quickly and securely.
+                    Welcome to firmwareflash.com, your trusted source for official stock firmware for a wide range of mobile devices.
                   </p>
                   <div className="w-full max-w-2xl mx-auto">
                     <HomeSearchForm />
@@ -73,7 +73,7 @@ export default async function Home() {
                 </div>
               </section>
 
-               {/* Mission Section */}
+              {/* Mission Section */}
               <section className="py-20 text-center">
                 <div className="container mx-auto px-4 max-w-4xl">
                   <h2 className="text-3xl font-bold mb-4">Your Trusted Firmware Source</h2>
@@ -102,6 +102,11 @@ export default async function Home() {
               <section className="py-20">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold mb-8 text-center">Browse All Brands</h2>
+                    <div className="text-center max-w-3xl mx-auto mb-12">
+                      <p className="text-muted-foreground">
+                        Our extensive library includes firmware for all major manufacturers. Whether you're looking for the latest firmware for Samsung devices, need specific Xiaomi flash files, or want to restore a Huawei phone, we have you covered. Select a brand below to get started.
+                      </p>
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {firstHalfBrands.map((brand) => (
                             <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">

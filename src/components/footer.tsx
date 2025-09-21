@@ -58,22 +58,22 @@ export async function Footer() {
             <h4 className="font-semibold mb-4">Follow Us</h4>
             <div className="flex space-x-2">
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="#" target="_blank" aria-label="Facebook">
+                    <Link href="https://www.facebook.com/firmwareflash" target="_blank" aria-label="Facebook">
                         <Facebook className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="#" target="_blank" aria-label="Twitter">
+                    <Link href="https://www.twitter.com/firmwareflash" target="_blank" aria-label="Twitter">
                         <Twitter className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
                  <Button variant="ghost" size="icon" asChild>
-                    <Link href="#" target="_blank" aria-label="Telegram">
+                    <Link href="https://t.me/firmwareflash" target="_blank" aria-label="Telegram">
                         <Send className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
                  <Button variant="ghost" size="icon" asChild>
-                    <Link href="#" target="_blank" aria-label="YouTube">
+                    <Link href="https://www.youtube.com/@firmwareflash" target="_blank" aria-label="YouTube">
                         <Youtube className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
