@@ -39,7 +39,7 @@ export default async function Home() {
                 <div
                     className="text-center mb-16 py-8 md:py-12 rounded-lg bg-primary text-primary-foreground"
                 >
-                    <div className="relative z-10 p-8 flex flex-col items-center">
+                    <div className="relative z-10 p-4 flex flex-col items-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
                             The Ultimate Firmware Resource
                         </h1>
