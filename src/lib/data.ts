@@ -9,37 +9,44 @@ import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
 // A function to slugify strings for use in Firestore document IDs
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
-export async function searchFirmware(searchTerm: string): Promise<Firmware[]> {
+export async function searchFirmware(searchTerm: string, queryLimit?: number): Promise<Firmware[]> {
   if (!searchTerm) return [];
 
   const searchTermLower = searchTerm.toLowerCase();
 
   try {
-    const brands = await getBrands();
-    const allSeries = await getAllSeries();
-
-    // Find matching brand and series IDs
-    const matchingBrandIds = brands
-      .filter(b => b.name.toLowerCase().includes(searchTermLower))
-      .map(b => b.id);
+    const brandsCol = collection(db, 'brands');
+    const seriesCol = collection(db, 'series');
     
-    const matchingSeriesIds = allSeries
-      .filter(s => s.name.toLowerCase().includes(searchTermLower))
-      .map(s => s.id);
+    // Find matching brand and series IDs first
+    const brandSnapshot = await getDocs(brandsCol);
+    const seriesSnapshot = await getDocs(seriesCol);
 
-    // Get all firmware
+    const matchingBrandIds = brandSnapshot.docs
+        .filter(doc => doc.data().name.toLowerCase().includes(searchTermLower))
+        .map(doc => doc.id);
+
+    const matchingSeriesIds = seriesSnapshot.docs
+        .filter(doc => doc.data().name.toLowerCase().includes(searchTermLower))
+        .map(doc => doc.id);
+
+    const uniqueIds = [...new Set([...matchingBrandIds, ...matchingSeriesIds])];
+
     const firmwareCol = collection(db, 'firmware');
     const firmwareSnapshot = await getDocs(firmwareCol);
     const allFirmware = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
-
-    // Filter firmware based on file name, brand, or series
+    
     const results = allFirmware.filter(fw => {
-      const fileNameMatch = fw.fileName.toLowerCase().includes(searchTermLower);
-      const brandMatch = matchingBrandIds.includes(fw.brandId);
-      const seriesMatch = matchingSeriesIds.includes(fw.seriesId);
-      return fileNameMatch || brandMatch || seriesMatch;
+        const fileNameMatch = fw.fileName.toLowerCase().includes(searchTermLower);
+        const brandMatch = matchingBrandIds.includes(fw.brandId);
+        const seriesMatch = matchingSeriesIds.includes(fw.seriesId);
+        return fileNameMatch || brandMatch || seriesMatch;
     });
 
+    if (queryLimit) {
+        return results.slice(0, queryLimit);
+    }
+    
     return results;
 
   } catch (error) {
@@ -205,7 +212,7 @@ export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]>
 
 export async function getFirmwareById(id: string): Promise<Firmware | null> {
     const firmwareDocRef = doc(db, 'firmware', id);
-    const firmwareDoc = await getDoc(firmwareDocRef);
+    const firmwareDoc = await getDoc(firmwareDoc);
     if (firmwareDoc.exists()) {
         const firmwareData = firmwareDoc.data();
         if(firmwareData){

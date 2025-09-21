@@ -1,9 +1,9 @@
 
 'use server';
 
-import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage } from './data';
+import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware } from './data';
 import { seedHuaweiFirmware } from './seed';
-import type { AdSettings } from './types';
+import type { AdSettings, Firmware } from './types';
 
 
 export async function updateAnnouncementAction(text: string) {
@@ -53,4 +53,9 @@ export async function saveDonationAction(data: { name: string; email?: string; a
 
 export async function saveContactMessageAction(data: { name: string; email: string; message: string; }) {
   await saveContactMessage(data);
+}
+
+export async function liveSearchAction(query: string): Promise<Firmware[]> {
+    if (!query || query.length < 3) return [];
+    return searchFirmware(query, 5); // Limit to 5 results for live search
 }
