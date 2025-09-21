@@ -47,7 +47,7 @@ async function getPageContent(url: string) {
     
     // Basic Cloudflare bypass attempt
     const title = await page.title();
-    if (title === 'Just a moment...') {
+    if (title.toLowerCase().includes('just a moment')) {
         await new Promise(r => setTimeout(r, 5000)); // Wait for challenge
     }
 
@@ -58,17 +58,17 @@ async function getPageContent(url: string) {
 
 const prompt = ai.definePrompt({
   name: 'firmwareScrapePrompt',
-  input: { schema: z.object({ htmlContent: z.string() }) },
+  input: { schema: z.object({ htmlContent: z.string(), url: z.string() }) },
   output: { schema: ScrapeFirmwareOutputSchema.omit({ sourceUrl: true }) },
   prompt: `
     You are an expert firmware data extractor. Your task is to analyze the provided HTML content of a webpage and extract firmware details.
 
-    Analyze the following HTML content and extract the required information:
+    Analyze the following HTML content from the URL '{{{url}}}' and extract the required information:
     1.  **File Name:** The full name of the firmware file (e.g., "SM-G998B_U1_G998BXXU1AUB6_... .zip").
     2.  **Version:** The firmware version string (e.g., "G998BXXU1AUB6"). If not explicitly found, extract it from the file name.
     3.  **Android Version:** The Android OS version (e.g., "11" or "12"). If not found, use "N/A".
     4.  **Size:** The file size (e.g., "4.5 GB").
-    5.  **Download URL:** Find the download link. It MUST be from one of the following domains: drive.google.com, mega.nz, mediafire.com. If the link is on a subsequent page, you must identify that link.
+    5.  **Download URL:** Find the download link. It MUST be from one of the following domains: drive.google.com, mega.nz, mediafire.com. If the link is on a subsequent page or requires clicking a button, you must identify that and find the final direct link.
 
     HTML Content to analyze:
     \`\`\`html
@@ -88,7 +88,7 @@ export const scrapeFirmwareFlow = ai.defineFlow(
     const $ = cheerio.load(htmlContent);
 
     // Let the AI do a first pass to get most of the data
-    const { output } = await prompt({ htmlContent });
+    const { output } = await prompt({ htmlContent, url });
 
     if (!output) {
         throw new Error('AI could not extract firmware data from the page.');
@@ -112,27 +112,36 @@ export const scrapeFirmwareFlow = ai.defineFlow(
         }
     });
 
-    if (!downloadUrl) {
-        throw new Error("Could not find a valid download link from the allowed domains.");
+    if (!downloadUrl && output.downloadUrl) {
+      downloadUrl = output.downloadUrl;
     }
     
     // If the found link is a redirect page on the same site, we need to follow it.
-    const urlHost = new URL(url).hostname;
-    if(new URL(downloadUrl).hostname.includes(urlHost)) {
-         const finalPageContent = await getPageContent(downloadUrl);
-         const $final = cheerio.load(finalPageContent);
-         $final('a').each((i, el) => {
-            const href = $final(el).attr('href');
-            if (href) {
-                try {
-                    const urlObject = new URL(href);
-                    if (allowedDomains.includes(urlObject.hostname)) {
-                        downloadUrl = href;
-                        return false;
-                    }
-                } catch(e) {/* ignore */}
-            }
-        });
+    try {
+      const urlHost = new URL(url).hostname;
+      if(downloadUrl && new URL(downloadUrl).hostname.includes(urlHost)) {
+           const finalPageContent = await getPageContent(downloadUrl);
+           const $final = cheerio.load(finalPageContent);
+           $final('a').each((i, el) => {
+              const href = $final(el).attr('href');
+              if (href) {
+                  try {
+                      const urlObject = new URL(href);
+                      if (allowedDomains.includes(urlObject.hostname)) {
+                          downloadUrl = href;
+                          return false;
+                      }
+                  } catch(e) {/* ignore */}
+              }
+          });
+      }
+    } catch(e) {
+        console.warn("Could not parse URL to check for redirect", e);
+    }
+
+
+    if (!downloadUrl || !allowedDomains.some(domain => downloadUrl.includes(domain))) {
+        throw new Error("Could not find a valid download link from drive.google.com, mega.nz, or mediafire.com.");
     }
 
     return {

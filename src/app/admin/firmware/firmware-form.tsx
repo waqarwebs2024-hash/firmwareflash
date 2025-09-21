@@ -1,10 +1,11 @@
+
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, forwardRef, useImperativeHandle } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Brand, Series } from '@/lib/types';
+import { Brand, Series, Firmware } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -23,6 +24,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { addFirmware } from '@/lib/data';
+import { ScrapeFirmwareOutput } from '@/ai/flows/scrape-firmware-flow';
 
 const firmwareSchema = z.object({
   brandId: z.string().min(1, 'Brand is required'),
@@ -39,16 +41,22 @@ type FirmwareFormValues = z.infer<typeof firmwareSchema>;
 interface FirmwareFormProps {
   brands: Brand[];
   allSeries: Series[];
+  initialData?: Partial<FirmwareFormValues>;
 }
 
-export function FirmwareForm({ brands, allSeries }: FirmwareFormProps) {
+export interface FirmwareFormHandle {
+  populateForm: (data: ScrapeFirmwareOutput) => void;
+}
+
+export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
+    ({ brands, allSeries, initialData }, ref) => {
   const [isPending, startTransition] = useTransition();
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(initialData?.brandId || null);
   const [filteredSeries, setFilteredSeries] = useState<Series[]>([]);
 
   const form = useForm<FirmwareFormValues>({
     resolver: zodResolver(firmwareSchema),
-    defaultValues: {
+    defaultValues: initialData || {
         brandId: '',
         seriesId: '',
         fileName: '',
@@ -58,6 +66,20 @@ export function FirmwareForm({ brands, allSeries }: FirmwareFormProps) {
         downloadUrl: ''
     }
   });
+  
+  useImperativeHandle(ref, () => ({
+    populateForm(data) {
+        form.reset({
+            fileName: data.fileName,
+            version: data.version,
+            androidVersion: data.androidVersion,
+            size: data.size,
+            downloadUrl: data.downloadUrl,
+            brandId: '',
+            seriesId: ''
+        });
+    }
+  }));
 
   const handleBrandChange = (brandId: string) => {
     setSelectedBrand(brandId);
@@ -71,9 +93,19 @@ export function FirmwareForm({ brands, allSeries }: FirmwareFormProps) {
     startTransition(async () => {
       try {
         await addFirmware(data);
-        form.reset();
         // Maybe show a success toast here
         alert('Firmware added successfully!');
+        form.reset({
+            brandId: '',
+            seriesId: '',
+            fileName: '',
+            version: '',
+            androidVersion: '',
+            size: '',
+            downloadUrl: ''
+        });
+        setSelectedBrand(null);
+        setFilteredSeries([]);
       } catch (error) {
         console.error('Failed to add firmware:', error);
         // Maybe show an error toast here
@@ -94,7 +126,7 @@ export function FirmwareForm({ brands, allSeries }: FirmwareFormProps) {
                 <FormLabel>Brand</FormLabel>
                 <Select
                   onValueChange={handleBrandChange}
-                  defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -122,9 +154,8 @@ export function FirmwareForm({ brands, allSeries }: FirmwareFormProps) {
                 <FormLabel>Series / Model</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  disabled={!selectedBrand}
                   value={field.value}
+                  disabled={!selectedBrand}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -221,4 +252,6 @@ export function FirmwareForm({ brands, allSeries }: FirmwareFormProps) {
       </form>
     </Form>
   );
-}
+});
+
+FirmwareForm.displayName = 'FirmwareForm';
