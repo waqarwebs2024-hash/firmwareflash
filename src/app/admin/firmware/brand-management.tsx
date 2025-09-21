@@ -9,6 +9,7 @@ import { addBrandAction } from '@/lib/actions';
 import { getBrands } from '@/lib/data';
 import { Brand } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Loader2 } from 'lucide-react';
 
 interface BrandManagementProps {
   initialBrands: Brand[];
@@ -60,6 +61,7 @@ export function BrandManagement({ initialBrands }: BrandManagementProps) {
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isPending ? 'Adding...' : 'Add Brand'}
           </Button>
         </form>

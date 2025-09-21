@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/form';
 import { addFirmware } from '@/lib/data';
 import { ScrapeFirmwareOutput } from '@/ai/flows/scrape-firmware-flow';
+import { Loader2 } from 'lucide-react';
 
 const firmwareSchema = z.object({
   brandId: z.string().min(1, 'Brand is required'),
@@ -247,6 +248,7 @@ export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
         />
 
         <Button type="submit" disabled={isPending}>
+          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isPending ? 'Adding...' : 'Add Firmware'}
         </Button>
       </form>

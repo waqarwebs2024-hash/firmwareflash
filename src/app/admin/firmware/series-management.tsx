@@ -16,6 +16,7 @@ import { addSeriesAction } from '@/lib/actions';
 import { getAllSeries } from '@/lib/data';
 import { Brand, Series } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Loader2 } from 'lucide-react';
 
 interface SeriesManagementProps {
   brands: Brand[];
@@ -91,6 +92,7 @@ export function SeriesManagement({ brands, initialSeries }: SeriesManagementProp
                     />
                 </div>
                 <Button type="submit" disabled={isPending}>
+                    {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {isPending ? 'Adding...' : 'Add Series'}
                 </Button>
             </div>

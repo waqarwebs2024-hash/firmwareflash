@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useTransition } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { AdSettings } from '@/lib/types';
 import { updateAdSettingsAction } from '@/lib/actions';
+import { Loader2 } from 'lucide-react';
 
 export default function AdsAdminPage({
   searchParams,
@@ -81,6 +83,7 @@ export default function AdsAdminPage({
           </div>
 
           <Button onClick={handleSave} disabled={isPending}>
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isPending ? 'Saving...' : 'Save Settings'}
           </Button>
         </CardContent>

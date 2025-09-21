@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { seedHuaweiDataAction } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal } from 'lucide-react';
+import { Terminal, Loader2 } from 'lucide-react';
 
 export default function SeedPage() {
   const [isPending, startTransition] = useTransition();
@@ -37,6 +37,7 @@ export default function SeedPage() {
           </p>
           
           <Button onClick={handleSeed} disabled={isPending}>
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isPending ? 'Seeding in Progress...' : 'Seed Huawei Firmware Data'}
           </Button>
 

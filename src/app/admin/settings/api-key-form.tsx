@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { updateApiKeyAction } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal } from 'lucide-react';
+import { Terminal, Loader2 } from 'lucide-react';
 
 interface ApiKeyFormProps {
   initialApiKey: string;
@@ -60,6 +60,7 @@ export function ApiKeyForm({ initialApiKey }: ApiKeyFormProps) {
         </div>
 
         <Button onClick={handleSave} disabled={isPending}>
+          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isPending ? 'Saving...' : 'Save API Key'}
         </Button>
 

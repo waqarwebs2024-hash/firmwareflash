@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useTransition } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { updateAnnouncementAction } from '@/lib/actions';
+import { Loader2 } from 'lucide-react';
 
 export default function AnnouncementAdminPage({
   searchParams,
@@ -40,6 +42,7 @@ export default function AnnouncementAdminPage({
             />
           </div>
           <Button onClick={handleSave} disabled={isPending}>
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isPending ? 'Saving...' : 'Save Announcement'}
           </Button>
         </CardContent>
