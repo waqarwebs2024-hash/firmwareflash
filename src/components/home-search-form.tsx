@@ -1,14 +1,14 @@
+
 'use client';
 
 import { FormEvent, useTransition, useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Loader2 } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { liveSearchAction } from '@/lib/actions';
 import { Firmware } from '@/lib/types';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 // Debounce function
 function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
@@ -20,8 +20,12 @@ function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
         });
 }
 
+interface HomeSearchFormProps {
+    variant?: 'light' | 'dark';
+    onBlur?: () => void;
+}
 
-export function HomeSearchForm() {
+export function HomeSearchForm({ variant = 'light', onBlur }: HomeSearchFormProps) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [query, setQuery] = useState('');
@@ -64,16 +68,19 @@ export function HomeSearchForm() {
         const handleClickOutside = (event: MouseEvent) => {
             if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
                 setShowResults(false);
+                if (onBlur) {
+                    onBlur();
+                }
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [onBlur]);
 
     return (
-        <div className="w-full max-w-2xl relative" ref={searchContainerRef}>
+        <div className="w-full max-w-2xl relative mx-auto" ref={searchContainerRef}>
             <form onSubmit={handleSearch}>
                 <div className="relative flex items-center w-full">
                     <Input
@@ -85,6 +92,7 @@ export function HomeSearchForm() {
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => query.length > 2 && setShowResults(true)}
+                        autoFocus={variant === 'dark'}
                     />
                     <Button 
                         type="submit" 
