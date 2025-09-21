@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { FormEvent, useTransition, useState, useEffect, useRef } from 'react';
@@ -81,7 +82,7 @@ export function HomeSearchForm() {
                         type="search"
                         name="search"
                         placeholder="Search millions of firmware files..."
-                        className={`h-12 pl-4 pr-12 text-sm rounded-full bg-white text-black border-2 border-transparent focus-visible:ring-ring focus-visible:border-foreground`}
+                        className={`h-12 pl-4 pr-12 text-sm rounded-full bg-white text-black border-2 border-transparent focus-visible:ring-ring focus-visible:border-foreground [&::-webkit-search-cancel-button]:hidden`}
                         disabled={isPending}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
