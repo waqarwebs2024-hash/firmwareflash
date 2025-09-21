@@ -98,15 +98,15 @@ export function HomeSearchForm() {
             </form>
             
             {showResults && (
-                <div className="absolute top-full mt-2 w-full bg-white rounded-lg border border-gray-200 shadow-xl z-50">
+                <div className="absolute top-full mt-2 w-full bg-muted rounded-lg border border-border shadow-xl z-50">
                     {isLoading && <div className="p-4 text-center text-muted-foreground">Loading...</div>}
                     {!isLoading && results.length > 0 && (
-                        <ul className="divide-y divide-gray-100">
+                        <ul className="divide-y divide-border">
                             {results.map((firmware) => (
                                 <li key={firmware.id}>
-                                    <Link href={`/download/${firmware.id}`} className="block p-3 hover:bg-gray-50">
-                                        <p className="font-medium text-gray-900 truncate">{firmware.fileName}</p>
-                                        <p className="text-sm text-gray-500">{firmware.version}</p>
+                                    <Link href={`/download/${firmware.id}`} className="block p-3 hover:bg-background/80">
+                                        <p className="font-medium text-foreground truncate">{firmware.fileName}</p>
+                                        <p className="text-sm text-muted-foreground">{firmware.version}</p>
                                     </Link>
                                 </li>
                             ))}
@@ -116,7 +116,7 @@ export function HomeSearchForm() {
                         <div className="p-4 text-center text-muted-foreground">No results found.</div>
                     )}
                      {!isLoading && query.length > 2 && (
-                        <div className="p-2 border-t border-gray-100">
+                        <div className="p-2 border-t border-border">
                             <Link href={`/search?q=${encodeURIComponent(query.trim())}`} className="block">
                                 <Button variant="ghost" className="w-full text-primary">
                                     See all results for "{query}"
