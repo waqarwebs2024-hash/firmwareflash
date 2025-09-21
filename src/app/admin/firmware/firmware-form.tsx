@@ -1,11 +1,11 @@
 
 'use client';
 
-import { useState, useTransition, forwardRef, useImperativeHandle } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Brand, Series, Firmware } from '@/lib/types';
+import { Brand, Series } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -24,7 +24,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { addFirmware } from '@/lib/data';
-import { ScrapeFirmwareOutput } from '@/ai/flows/scrape-firmware-flow';
 import { Loader2 } from 'lucide-react';
 
 const firmwareSchema = z.object({
@@ -32,7 +31,6 @@ const firmwareSchema = z.object({
   seriesId: z.string().min(1, 'Series/Model is required'),
   fileName: z.string().min(1, 'File Name is required'),
   version: z.string().min(1, 'Version is required'),
-  androidVersion: z.string().min(1, 'Android Version is required'),
   size: z.string().min(1, 'File Size is required'),
   downloadUrl: z.string().url('Must be a valid URL'),
 });
@@ -45,12 +43,7 @@ interface FirmwareFormProps {
   initialData?: Partial<FirmwareFormValues>;
 }
 
-export interface FirmwareFormHandle {
-  populateForm: (data: ScrapeFirmwareOutput) => void;
-}
-
-export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
-    ({ brands, allSeries, initialData }, ref) => {
+export function FirmwareForm({ brands, allSeries, initialData }: FirmwareFormProps) {
   const [isPending, startTransition] = useTransition();
   const [selectedBrand, setSelectedBrand] = useState<string | null>(initialData?.brandId || null);
   const [filteredSeries, setFilteredSeries] = useState<Series[]>([]);
@@ -62,25 +55,10 @@ export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
         seriesId: '',
         fileName: '',
         version: '',
-        androidVersion: '',
         size: '',
         downloadUrl: ''
     }
   });
-  
-  useImperativeHandle(ref, () => ({
-    populateForm(data) {
-        form.reset({
-            fileName: data.fileName,
-            version: data.version,
-            androidVersion: data.androidVersion,
-            size: data.size,
-            downloadUrl: data.downloadUrl,
-            brandId: '',
-            seriesId: ''
-        });
-    }
-  }));
 
   const handleBrandChange = (brandId: string) => {
     setSelectedBrand(brandId);
@@ -93,7 +71,7 @@ export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
   const onSubmit: SubmitHandler<FirmwareFormValues> = (data) => {
     startTransition(async () => {
       try {
-        await addFirmware(data);
+        await addFirmware({ ...data, androidVersion: 'N/A' });
         // Maybe show a success toast here
         alert('Firmware added successfully!');
         form.reset({
@@ -101,7 +79,6 @@ export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
             seriesId: '',
             fileName: '',
             version: '',
-            androidVersion: '',
             size: '',
             downloadUrl: ''
         });
@@ -191,7 +168,7 @@ export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
           )}
         />
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
             control={form.control}
             name="version"
@@ -200,19 +177,6 @@ export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
                 <FormLabel>Firmware Version</FormLabel>
                 <FormControl>
                     <Input placeholder="e.g., S908U1UEU2AVF7" {...field} />
-                </FormControl>
-                <FormMessage />
-                </FormItem>
-            )}
-            />
-            <FormField
-            control={form.control}
-            name="androidVersion"
-            render={({ field }) => (
-                <FormItem>
-                <FormLabel>Android Version</FormLabel>
-                <FormControl>
-                    <Input placeholder="e.g., 12" {...field} />
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -254,6 +218,6 @@ export const FirmwareForm = forwardRef<FirmwareFormHandle, FirmwareFormProps>(
       </form>
     </Form>
   );
-});
+}
 
 FirmwareForm.displayName = 'FirmwareForm';
