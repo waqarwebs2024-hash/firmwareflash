@@ -1,10 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MainLayout } from "@/components/main-layout";
 import Link from "next/link";
 
 export default function PrivacyPolicyPage() {
   return (
-    <MainLayout>
+    <>
         <div className="container mx-auto py-12 px-4">
         <Card className="max-w-4xl mx-auto">
             <CardHeader>
@@ -106,6 +105,6 @@ export default function PrivacyPolicyPage() {
             </CardContent>
         </Card>
         </div>
-    </MainLayout>
+    </>
   );
 }

@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { MainLayout } from '@/components/main-layout';
 
 type Props = {
   params: { slug: string }
@@ -32,7 +31,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
   }
 
   return (
-    <MainLayout>
+    <>
       <div className="container mx-auto py-12 px-4 max-w-4xl">
         <Card>
           <CardHeader>
@@ -78,6 +77,6 @@ export default async function ToolPage({ params }: { params: { slug: string } })
           </CardContent>
         </Card>
       </div>
-    </MainLayout>
+    </>
   );
 }

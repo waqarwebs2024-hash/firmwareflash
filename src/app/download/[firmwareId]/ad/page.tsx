@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { getAdSettings } from '@/lib/data';
 import { AdSettings } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MainLayout } from '@/components/main-layout';
 
 export default function AdPage({ params }: { params: { firmwareId: string } }) {
   const [adSettings, setAdSettings] = useState<AdSettings | null>(null);
@@ -34,11 +33,11 @@ export default function AdPage({ params }: { params: { firmwareId: string } }) {
   }, [countdown]);
 
   if (!adSettings) {
-    return <MainLayout><div>Loading...</div></MainLayout>;
+    return <div>Loading...</div>;
   }
 
   return (
-    <MainLayout>
+    <>
       <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
           <Card className="w-full max-w-lg text-center">
               <CardHeader>
@@ -58,6 +57,6 @@ export default function AdPage({ params }: { params: { firmwareId: string } }) {
               </CardContent>
           </Card>
       </div>
-    </MainLayout>
+    </>
   );
 }

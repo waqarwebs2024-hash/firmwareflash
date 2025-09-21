@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Wrench } from 'lucide-react';
 import type { Metadata } from 'next';
-import { MainLayout } from '@/components/main-layout';
 
 export const metadata: Metadata = {
   title: 'Mobile Flashing Tools',
@@ -14,7 +13,7 @@ export default async function ToolsPage() {
   const tools = await getAllTools();
 
   return (
-    <MainLayout>
+    <>
       <div className="container mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold mb-8 text-center">All Flashing Tools</h1>
         {tools.length > 0 ? (
@@ -42,6 +41,6 @@ export default async function ToolsPage() {
           </div>
         )}
       </div>
-    </MainLayout>
+    </>
   );
 }

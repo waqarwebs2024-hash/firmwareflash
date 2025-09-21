@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Smartphone } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { MainLayout } from '@/components/main-layout';
 
 type Props = {
   params: { id: string }
@@ -33,7 +32,7 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
   const series = await getSeriesByBrand(params.id);
 
   return (
-    <MainLayout>
+    <>
       <div className="container mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Select a {brand.name} Model
@@ -63,6 +62,6 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
           </div>
         )}
       </div>
-    </MainLayout>
+    </>
   );
 }

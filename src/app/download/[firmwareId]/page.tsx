@@ -11,7 +11,6 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { FaqSection } from '@/components/faq-section';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { HowTo, WithContext } from 'schema-dts';
-import { MainLayout } from '@/components/main-layout';
 
 
 type Props = {
@@ -183,7 +182,7 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
   ];
 
   return (
-    <MainLayout>
+    <>
       <main className="container mx-auto py-12 px-4 max-w-4xl">
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
           {brand.name} {series.name} Firmware Download (Flash File)
@@ -281,6 +280,6 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
 
         <RelatedFirmware brandId={brand.id} seriesId={series.id} id="related-firmware" />
       </main>
-    </MainLayout>
+    </>
   );
 }

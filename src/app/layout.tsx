@@ -3,6 +3,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { WithContext, WebSite, Organization } from 'schema-dts';
+import { MainLayout } from '@/components/main-layout';
+import { headers } from 'next/headers';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -33,7 +35,7 @@ const websiteSchema: WithContext<WebSite> = {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      'urlTemplate': 'https://firmware-finder-app.com/search?q={search_term_string}',
+      urlTemplate: 'https://firmware-finder-app.com/search?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },
@@ -45,6 +47,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = headers();
+  const pathname = headersList.get('x-pathname') || '';
+  const isAdminPage = pathname.startsWith('/admin');
+
   return (
     <html lang="en">
        <head>
@@ -61,9 +67,12 @@ export default async function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
+        {isAdminPage ? (
+          <>{children}</>
+        ) : (
+          <MainLayout>{children}</MainLayout>
+        )}
       </body>
     </html>
   );
 }
-

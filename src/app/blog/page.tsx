@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { MainLayout } from "@/components/main-layout";
 import Link from "next/link";
 
 const blogPosts = [
@@ -22,7 +21,7 @@ const blogPosts = [
 
 export default function BlogPage() {
   return (
-    <MainLayout>
+    <>
         <div className="container mx-auto py-12 px-4">
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-2">Our Blog</h1>
@@ -45,6 +44,6 @@ export default function BlogPage() {
             ))}
         </div>
         </div>
-    </MainLayout>
+    </>
   );
 }

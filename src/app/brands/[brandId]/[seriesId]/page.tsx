@@ -13,7 +13,6 @@ import Link from 'next/link';
 import { Download } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { RelatedFirmware } from '@/components/related-firmware';
-import { MainLayout } from '@/components/main-layout';
 
 type Props = {
   params: { brandId: string, seriesId: string }
@@ -49,7 +48,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
   const firmwareList = await getFirmwareBySeries(params.seriesId);
 
   return (
-    <MainLayout>
+    <>
       <div className="container mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold mb-2">{series.name} Firmware</h1>
         <p className="text-muted-foreground mb-8">
@@ -103,6 +102,6 @@ export default async function SeriesPage({ params }: { params: { brandId: string
 
         <RelatedFirmware brandId={params.brandId} seriesId={params.seriesId} />
       </div>
-    </MainLayout>
+    </>
   );
 }

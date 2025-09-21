@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <MainLayout>
+    <>
       <div className="container mx-auto py-12 px-4">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-2">About Firmware Finder</h1>
@@ -58,6 +58,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }

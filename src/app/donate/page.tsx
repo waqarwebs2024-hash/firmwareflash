@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MainLayout } from "@/components/main-layout";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useTransition } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -46,7 +45,7 @@ export default function DonatePage() {
     };
 
     return (
-        <MainLayout>
+        <>
             <div className="container mx-auto py-12 px-4">
                 <Card className="max-w-2xl mx-auto">
                     <CardHeader className="text-center">
@@ -132,6 +131,6 @@ export default function DonatePage() {
                     </CardContent>
                 </Card>
             </div>
-        </MainLayout>
+        </>
     );
 }

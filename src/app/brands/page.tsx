@@ -2,7 +2,6 @@ import { getBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { MainLayout } from '@/components/main-layout';
 
 export const metadata: Metadata = {
   title: 'All Mobile Brands',
@@ -14,7 +13,7 @@ export default async function BrandsPage() {
   const brands = await getBrands();
 
   return (
-    <MainLayout>
+    <>
       <div className="container mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold mb-8 text-center">All Brands</h1>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -29,6 +28,6 @@ export default async function BrandsPage() {
           ))}
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }

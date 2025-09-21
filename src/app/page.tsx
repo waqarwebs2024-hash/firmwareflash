@@ -5,7 +5,6 @@ import { Brand } from '@/lib/types';
 import { HomeSearchForm } from '@/components/home-search-form';
 import { FaqSection } from '@/components/faq-section';
 import { CheckCircle } from 'lucide-react';
-import { MainLayout } from '@/components/main-layout';
 
 export default async function Home() {
     const brands: Brand[] = await getBrands();
@@ -33,7 +32,7 @@ export default async function Home() {
     ];
 
     return (
-        <MainLayout>
+        <>
             <div className="container mx-auto py-12 px-4">
                 {/* Hero / Search Section */}
                 <div
@@ -93,6 +92,6 @@ export default async function Home() {
                 <FaqSection title="Frequently Asked Questions" items={faqItems} />
 
             </div>
-        </MainLayout>
+        </>
     );
 }
