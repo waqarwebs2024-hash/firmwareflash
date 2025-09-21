@@ -14,8 +14,8 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Firmware Finder - Official Stock ROM Downloads',
-    template: '%s | Firmware Finder'
+    default: 'Firmware Flash - Official Stock ROM Downloads',
+    template: '%s | Firmware Flash'
   },
   description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides for your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware'],
@@ -24,21 +24,21 @@ export const metadata: Metadata = {
 const organizationSchema: WithContext<Organization> = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Firmware Finder',
-  url: 'https://firmware-finder-app.com', // Replace with your actual domain
-  logo: 'https://firmware-finder-app.com/logo.png', // Replace with your actual logo URL
+  name: 'Firmware Flash',
+  url: 'https://firmwareflash.com', // Replace with your actual domain
+  logo: 'https://firmwareflash.com/logo.png', // Replace with your actual logo URL
 };
 
 const websiteSchema: WithContext<WebSite> = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Firmware Finder',
-  url: 'https://firmware-finder-app.com', // Replace with your actual domain
+  name: 'Firmware Flash',
+  url: 'https://firmwareflash.com', // Replace with your actual domain
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://firmware-finder-app.com/search?q={search_term_string}',
+      urlTemplate: 'https://firmwareflash.com/search?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },

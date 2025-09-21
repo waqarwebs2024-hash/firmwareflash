@@ -4,8 +4,8 @@ import Link from "next/link";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Privacy Policy - Firmware Finder',
-    description: 'Read the Privacy Policy for Firmware Finder to understand how we collect, use, and protect your personal information.'
+    title: 'Privacy Policy - Firmware Flash',
+    description: 'Read the Privacy Policy for Firmware Flash to understand how we collect, use, and protect your personal information.'
 };
 
 export default function PrivacyPolicyPage() {
@@ -22,9 +22,9 @@ export default function PrivacyPolicyPage() {
                 <p><strong>Last Updated:</strong> {lastUpdated}</p>
                 
                 <p>
-                    Your privacy is important to us. It is Firmware Finder's policy to
+                    Your privacy is important to us. It is Firmware Flash's policy to
                     respect your privacy regarding any information we may collect from
-                    you across our website, <Link href="/">https://firmware-finder-app.com</Link>, and other sites we own and operate.
+                    you across our website, <Link href="/">https://firmwareflash.com</Link>, and other sites we own and operate.
                 </p>
 
                 <h2 className="text-2xl font-semibold">1. Information We Collect</h2>
@@ -63,7 +63,7 @@ export default function PrivacyPolicyPage() {
 
                 <h2 className="text-2xl font-semibold">3. Cookies and Web Beacons</h2>
                 <p>
-                    Like any other website, Firmware Finder uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
+                    Like any other website, Firmware Flash uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
                 </p>
 
                 <h2 className="text-2xl font-semibold">4. Google AdSense and DoubleClick DART Cookie</h2>

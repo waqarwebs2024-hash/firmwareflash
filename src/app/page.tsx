@@ -1,3 +1,4 @@
+
 import { getBrands, getAdSettings } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
@@ -61,7 +62,7 @@ export default async function Home() {
               <section className="bg-secondary py-20 text-center">
                 <div className="container mx-auto px-4">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Firmware Finder
+                    Firmware Flash
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                     Find and download the right firmware for your device quickly and securely.
@@ -77,7 +78,7 @@ export default async function Home() {
                 <div className="container mx-auto px-4 max-w-4xl">
                   <h2 className="text-3xl font-bold mb-4">Your Trusted Firmware Source</h2>
                   <p className="text-muted-foreground leading-relaxed">
-                    Our mission is to provide a safe, reliable, and user-friendly platform for everyone needing to restore or update their mobile devices. We understand how frustrating it can be to deal with software issues, which is why we offer a comprehensive library of official stock firmware and clear, step-by-step guides. From fixing bootloops to updating your Android version, Firmware Finder is here to empower you with the tools and information you need to keep your device running smoothly.
+                    Our mission is to provide a safe, reliable, and user-friendly platform for everyone needing to restore or update their mobile devices. We understand how frustrating it can be to deal with software issues, which is why we offer a comprehensive library of official stock firmware and clear, step-by-step guides. From fixing bootloops to updating your Android version, Firmware Flash is here to empower you with the tools and information you need to keep your device running smoothly.
                   </p>
                 </div>
               </section>

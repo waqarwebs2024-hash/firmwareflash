@@ -1,6 +1,5 @@
 
 
-
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, incrementDownloadCount, getAdSettings } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -175,7 +174,7 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
     },
     {
         question: `Is the ${series.name} firmware free to download?`,
-        answer: "Yes, all firmware files and flash tools provided on Firmware Finder are free to download. We believe in providing open access to help users repair their devices."
+        answer: "Yes, all firmware files and flash tools provided on Firmware Flash are free to download. We believe in providing open access to help users repair their devices."
     },
     {
         question: `Can I downgrade my ${series.name} firmware?`,
@@ -296,5 +295,3 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
     </>
   );
 }
-
-    

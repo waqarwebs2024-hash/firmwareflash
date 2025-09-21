@@ -4,8 +4,8 @@ import Link from "next/link";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Disclaimer - Firmware Finder',
-  description: 'Important legal disclaimer for the use of Firmware Finder. Understand the risks associated with downloading and installing firmware.',
+  title: 'Disclaimer - Firmware Flash',
+  description: 'Important legal disclaimer for the use of Firmware Flash. Understand the risks associated with downloading and installing firmware.',
 };
 
 export default function DisclaimerPage() {
@@ -23,7 +23,7 @@ export default function DisclaimerPage() {
                 
                 <h2 className="text-2xl font-semibold">General Information</h2>
                 <p>
-                    The information provided by Firmware Finder ("we," "us," or "our") on this website is for general informational purposes only. All information on the site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the site.
+                    The information provided by Firmware Flash ("we," "us," or "our") on this website is for general informational purposes only. All information on the site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the site.
                 </p>
 
                 <h2 className="text-2xl font-semibold">Firmware and Software Disclaimer</h2>
@@ -42,7 +42,7 @@ export default function DisclaimerPage() {
 
                 <h2 className="text-2xl font-semibold">Trademarks and Logos Disclaimer</h2>
                 <p>
-                    All trademarks, service marks, trade names, trade dress, product names, and logos appearing on the site are the property of their respective owners. Samsung, Apple, Huawei, Xiaomi, and any other brand names are the trademarks of their respective holders. Firmware Finder is not affiliated with, endorsed by, or in any way officially connected with these companies. The use of any trade name or trademark is for identification and reference purposes only and does not imply any association with the trademark holder of their product brand.
+                    All trademarks, service marks, trade names, trade dress, product names, and logos appearing on the site are the property of their respective owners. Samsung, Apple, Huawei, Xiaomi, and any other brand names are the trademarks of their respective holders. Firmware Flash is not affiliated with, endorsed by, or in any way officially connected with these companies. The use of any trade name or trademark is for identification and reference purposes only and does not imply any association with the trademark holder of their product brand.
                 </p>
 
                 <h2 className="text-2xl font-semibold">External Links Disclaimer</h2>

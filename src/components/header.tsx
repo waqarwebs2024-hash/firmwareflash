@@ -24,8 +24,8 @@ export function Header() {
     <header className="bg-background/95 backdrop-blur-sm sticky top-0 z-50 border-b">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-            <HardDrive aria-label="Firmware Finder Logo" className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Firmware Finder</span>
+            <HardDrive aria-label="Firmware Flash Logo" className="h-8 w-8 text-primary" />
+            <span className="text-xl font-bold">Firmware Flash</span>
         </Link>
         
         {/* Desktop Navigation */}
@@ -62,7 +62,7 @@ export function Header() {
                 <div className="flex items-center justify-between border-b pb-4">
                   <Link href="/" className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
                     <HardDrive className="h-8 w-8 text-primary" />
-                    <span className="text-xl font-bold">Firmware Finder</span>
+                    <span className="text-xl font-bold">Firmware Flash</span>
                   </Link>
                   <SheetClose asChild>
                      <Button variant="ghost" size="icon">
