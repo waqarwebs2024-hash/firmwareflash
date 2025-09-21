@@ -48,10 +48,8 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className={`text-sm font-medium transition-colors pb-1 ${
-        isActive
-          ? 'text-primary border-b-2 border-primary'
-          : 'text-muted-foreground hover:text-primary border-b-2 border-transparent'
+      className={`text-sm font-medium transition-colors hover:text-primary ${
+        isActive ? 'text-primary' : 'text-muted-foreground'
       }`}
     >
       {children}
