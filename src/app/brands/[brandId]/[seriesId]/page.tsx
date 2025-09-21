@@ -79,10 +79,10 @@ export default async function SeriesPage({ params }: { params: { brandId: string
                     <TableCell>{firmware.size}</TableCell>
                     <TableCell className="text-right">
                       <Link href={`/download/${firmware.id}/ad`}>
-                        <Button variant="accent" size="sm">
+                        <Button variant="default" size="sm">
                           <Download className="mr-2 h-4 w-4" />
                           Download
-                          <Badge variant="secondary" className="ml-2 !text-accent-foreground !bg-accent-foreground/20">Free</Badge>
+                          <Badge variant="accent" className="ml-2">Free</Badge>
                         </Button>
                       </Link>
                     </TableCell>

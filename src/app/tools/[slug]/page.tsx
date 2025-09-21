@@ -1,4 +1,5 @@
 
+
 import { getToolBySlug } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -46,10 +47,10 @@ export default async function ToolPage({ params }: { params: { slug: string } })
                 <h2 className="text-2xl font-bold mb-4">Download</h2>
                 {tool.downloadUrl ? (
                   <Link href={tool.downloadUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="accent" size="lg" className="w-full">
+                    <Button variant="default" size="lg" className="w-full">
                       <Download className="mr-2 h-5 w-5" />
                       Download {tool.name}
-                      <Badge variant="secondary" className="ml-2 !text-accent-foreground !bg-accent-foreground/20">Free</Badge>
+                      <Badge variant="accent" className="ml-2">Free</Badge>
                     </Button>
                   </Link>
                 ) : (
