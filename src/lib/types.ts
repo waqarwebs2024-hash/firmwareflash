@@ -23,17 +23,21 @@ export interface Firmware {
     downloadCount: number;
 }
 
-export interface Submission {
-    id: string;
+export interface ScrapedFirmware {
     fileName: string;
-    brand: string;
-    model: string;
     version: string;
+    androidVersion: string;
     size: string;
-    fileUrl: string;
-    uploaderName: string;
-    submittedAt: Date;
+    downloadUrl: string;
+    sourceUrl: string;
+}
+
+export interface Submission extends ScrapedFirmware {
+    id: string;
     status: 'pending' | 'approved' | 'rejected';
+    createdAt: any;
+    brand?: string;
+    series?: string;
 }
 
 

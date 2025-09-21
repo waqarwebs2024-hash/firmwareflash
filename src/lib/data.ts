@@ -1,8 +1,8 @@
 
 
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation } from './types';
+import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, deleteDoc } from 'firebase/firestore';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, Submission, ScrapedFirmware } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
 
@@ -228,7 +228,7 @@ export async function addBrand(name: string): Promise<void> {
 
 export async function addSeries(name: string, brandId: string): Promise<void> {
   const id = createId(`${brandId}-${name}`);
-  const seriesDocRef = doc(db, 'series', seriesId);
+  const seriesDocRef = doc(db, 'series', id);
   const brandDocRef = doc(db, 'brands', brandId);
   const brandDoc = await getDoc(brandDocRef);
   if(!brandDoc.exists()) {
@@ -423,4 +423,66 @@ export async function getContactMessages(): Promise<ContactMessage[]> {
   const q = query(contactsCol, orderBy('createdAt', 'desc'));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ContactMessage));
+}
+
+export async function saveSubmission(data: ScrapedFirmware): Promise<void> {
+  const submissionId = createId(data.fileName);
+  const submissionDocRef = doc(db, 'submissions', submissionId);
+
+  const docSnap = await getDoc(submissionDocRef);
+  if (docSnap.exists()) {
+    console.log(`Submission for ${data.fileName} already exists. Skipping.`);
+    return;
+  }
+
+  const newSubmission = {
+    ...data,
+    status: 'pending',
+    createdAt: new Date(),
+  };
+
+  await setDoc(submissionDocRef, newSubmission);
+}
+
+export async function getPendingSubmissions(): Promise<Submission[]> {
+  const submissionsCol = collection(db, 'submissions');
+  const q = query(submissionsCol, where('status', '==', 'pending'), orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Submission));
+}
+
+export async function approveSubmission(submissionId: string, brandId: string, seriesId: string): Promise<void> {
+  const submissionDocRef = doc(db, 'submissions', submissionId);
+  const submissionDoc = await getDoc(submissionDocRef);
+
+  if (!submissionDoc.exists()) {
+    throw new Error('Submission not found.');
+  }
+
+  const submissionData = submissionDoc.data() as Submission;
+
+  const firmwareId = createId(submissionData.fileName);
+  const firmwareDocRef = doc(db, 'firmware', firmwareId);
+
+  const firmwareData: Omit<Firmware, 'id'> = {
+    brandId: brandId,
+    seriesId: seriesId,
+    fileName: submissionData.fileName,
+    version: submissionData.version,
+    androidVersion: submissionData.androidVersion,
+    size: submissionData.size,
+    downloadUrl: submissionData.downloadUrl,
+    uploadDate: new Date(),
+    downloadCount: 0,
+  };
+  
+  const batch = writeBatch(db);
+  batch.set(firmwareDocRef, firmwareData);
+  batch.update(submissionDocRef, { status: 'approved' });
+  await batch.commit();
+}
+
+export async function rejectSubmission(submissionId: string): Promise<void> {
+  const submissionDocRef = doc(db, 'submissions', submissionId);
+  await deleteDoc(submissionDocRef);
 }
