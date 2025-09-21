@@ -212,7 +212,7 @@ export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]>
 
 export async function getFirmwareById(id: string): Promise<Firmware | null> {
     const firmwareDocRef = doc(db, 'firmware', id);
-    const firmwareDoc = await getDoc(firmwareDoc);
+    const firmwareDoc = await getDoc(firmwareDocRef);
     if (firmwareDoc.exists()) {
         const firmwareData = firmwareDoc.data();
         if(firmwareData){
