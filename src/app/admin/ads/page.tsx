@@ -3,7 +3,6 @@
 import { useState, useTransition, use } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { AdSettings, AdSlot } from '@/lib/types';
@@ -37,7 +36,6 @@ export default function AdsAdminPage({
       downloadPage: { enabled: false, adCode: '' },
     }
   );
-  const [timeout, setTimeoutValue] = useState(searchParams.timeout || 10);
   
   const handleSlotChange = (slotId: string, field: keyof AdSlot, value: string | boolean) => {
     setAdSlots(prev => ({
@@ -53,7 +51,6 @@ export default function AdsAdminPage({
     startTransition(async () => {
       await updateAdSettingsAction({
         slots: adSlots,
-        timeout: Number(timeout),
       });
     });
   };
@@ -108,19 +105,6 @@ export default function AdsAdminPage({
               </AccordionItem>
             ))}
           </Accordion>
-
-          <div className="space-y-2 border-t pt-6">
-            <Label htmlFor="ad-timeout">Ad Page Timeout (seconds)</Label>
-            <Input
-              id="ad-timeout"
-              type="number"
-              placeholder="10"
-              value={timeout}
-              onChange={(e) => setTimeoutValue(Number(e.target.value))}
-              className="max-w-xs"
-            />
-            <p className="text-sm text-muted-foreground">Controls the wait time on the dedicated ad-wall page.</p>
-          </div>
 
           <Button onClick={handleSave} disabled={isPending}>
             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

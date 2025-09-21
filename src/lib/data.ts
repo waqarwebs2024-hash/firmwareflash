@@ -1,6 +1,7 @@
 
 
 
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, AdSlot } from './types';
@@ -307,18 +308,15 @@ export async function getAdSettings(): Promise<AdSettings> {
             adCode: data.adCode || '',
           }
         },
-        timeout: data.timeout || 10,
       };
     }
     return {
         slots: { ...defaultSlots, ...data.slots },
-        timeout: data.timeout || 10,
     }
   }
 
   return {
     slots: defaultSlots,
-    timeout: 10
   };
 }
 

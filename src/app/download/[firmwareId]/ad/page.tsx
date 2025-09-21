@@ -23,12 +23,10 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
       try {
         const settings = await getAdSettings();
         setAdSettings(settings);
-        setCountdown(settings.timeout || 10);
       } catch (error) {
         console.error("Failed to fetch ad settings:", error);
         // Fallback to defaults if fetch fails
-        setAdSettings({ slots: {}, timeout: 10 });
-        setCountdown(10);
+        setAdSettings({ slots: {} });
       } finally {
         setIsPending(false);
       }

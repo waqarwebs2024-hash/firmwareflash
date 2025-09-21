@@ -36,7 +36,6 @@ export interface AdSlot {
 
 export interface AdSettings {
     slots: Record<string, AdSlot>;
-    timeout: number;
 }
 
 export interface FlashingInstructionTool {
