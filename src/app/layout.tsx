@@ -14,8 +14,8 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Firmware Flash - Official Stock ROM Downloads',
-    template: '%s | Firmware Flash'
+    default: 'firmwareflash.com - Official Stock ROM Downloads',
+    template: '%s | firmwareflash.com'
   },
   description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides for your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware'],
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 const organizationSchema: WithContext<Organization> = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Firmware Flash',
+  name: 'firmwareflash.com',
   url: 'https://firmwareflash.com', // Replace with your actual domain
   logo: 'https://firmwareflash.com/logo.png', // Replace with your actual logo URL
 };
@@ -32,7 +32,7 @@ const organizationSchema: WithContext<Organization> = {
 const websiteSchema: WithContext<WebSite> = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Firmware Flash',
+  name: 'firmwareflash.com',
   url: 'https://firmwareflash.com', // Replace with your actual domain
   potentialAction: {
     '@type': 'SearchAction',

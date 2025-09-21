@@ -4,8 +4,8 @@ import { Users, Target, ShieldCheck } from "lucide-react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Firmware Flash',
-  description: 'Learn about Firmware Flash, our mission, our values, and the team dedicated to providing reliable and accessible firmware downloads for everyone.',
+  title: 'About firmwareflash.com',
+  description: 'Learn about firmwareflash.com, our mission, our values, and the team dedicated to providing reliable and accessible firmware downloads for everyone.',
 };
 
 export default function AboutPage() {
@@ -13,7 +13,7 @@ export default function AboutPage() {
     <>
       <div className="container mx-auto py-12 px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-2">About Firmware Flash</h1>
+          <h1 className="text-4xl font-bold mb-2">About firmwareflash.com</h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Your trusted source for official stock firmware. We're dedicated to helping you keep your devices running smoothly and securely.
           </p>
@@ -25,7 +25,7 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground">
             <p>
-              Firmware Flash was born from a simple idea: finding the correct, official firmware for a mobile device shouldn't be a scavenger hunt. Too often, users looking to repair or update their phones are faced with a confusing landscape of unreliable sources, broken links, and potentially malicious files. We wanted to change that.
+              firmwareflash.com was born from a simple idea: finding the correct, official firmware for a mobile device shouldn't be a scavenger hunt. Too often, users looking to repair or update their phones are faced with a confusing landscape of unreliable sources, broken links, and potentially malicious files. We wanted to change that.
             </p>
             <p>
               Founded by a group of mobile tech enthusiasts and developers, our mission is to create a centralized, safe, and easy-to-use platform for downloading stock ROMs. We believe everyone should have the power to restore their device to its original state, fix software issues, or simply get a fresh start without fear.

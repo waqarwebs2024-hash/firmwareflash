@@ -50,7 +50,7 @@ export default function DonatePage() {
                 <Card className="max-w-2xl mx-auto">
                     <CardHeader className="text-center">
                         <Heart className="mx-auto h-12 w-12 text-destructive mb-4" />
-                        <CardTitle className="text-3xl">Support Firmware Flash</CardTitle>
+                        <CardTitle className="text-3xl">Support firmwareflash.com</CardTitle>
                         <CardDescription>
                             Your contribution helps us maintain our servers and expand our firmware library. Thank you for your support!
                         </CardDescription>
