@@ -5,6 +5,7 @@ import { getAnnouncement } from '@/lib/data';
 import { AnnouncementBar } from './announcement-bar';
 import { Header } from './header';
 import { Footer } from './footer';
+import { WhatsappFab } from './whatsapp-fab';
 
 export async function MainLayout({ children }: { children: React.ReactNode }) {
   const announcement = await getAnnouncement();
@@ -15,6 +16,7 @@ export async function MainLayout({ children }: { children: React.ReactNode }) {
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />
+      <WhatsappFab />
     </div>
   );
 }
