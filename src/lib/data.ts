@@ -255,7 +255,7 @@ export async function addSeries(name: string, brandId: string): Promise<void> {
   await setDoc(seriesDocRef, { name, brandId });
 }
 
-export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>): Promise<void> {
+export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount' | 'androidVersion'>): Promise<void> {
     const id = createId(firmware.fileName);
     const firmwareDocRef = doc(db, 'firmware', id);
   
@@ -288,12 +288,20 @@ export async function getAdSettings(): Promise<AdSettings> {
   const settingsDocRef = doc(db, 'settings', 'ads');
   const docSnap = await getDoc(settingsDocRef);
   if (docSnap.exists()) {
-    return docSnap.data() as AdSettings;
+    // For backward compatibility, check for old fields
+    const data = docSnap.data();
+    if (data.adsenseClient || data.adsenseSlot) {
+        return {
+            enabled: data.enabled || false,
+            adCode: '',
+            timeout: data.timeout || 10,
+        };
+    }
+    return data as AdSettings;
   }
   return {
     enabled: false,
-    adsenseClient: '',
-    adsenseSlot: '',
+    adCode: '',
     timeout: 10
   };
 }

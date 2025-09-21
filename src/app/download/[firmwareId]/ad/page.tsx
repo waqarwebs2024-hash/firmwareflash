@@ -25,7 +25,7 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
       } catch (error) {
         console.error("Failed to fetch ad settings:", error);
         // Fallback to defaults if fetch fails
-        setAdSettings({ enabled: true, adsenseClient: '', adsenseSlot: '', timeout: 10 });
+        setAdSettings({ enabled: true, adCode: '', timeout: 10 });
         setCountdown(10);
       } finally {
         setIsPending(false);
@@ -100,8 +100,12 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
                   <CardDescription>Your download will be ready shortly.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                  <div className="bg-muted h-60 w-full flex items-center justify-center rounded-md">
-                      <p className="text-muted-foreground">Ad placeholder</p>
+                  <div className="bg-muted h-60 w-full flex items-center justify-center rounded-md overflow-hidden">
+                      {adSettings?.adCode ? (
+                        <div dangerouslySetInnerHTML={{ __html: adSettings.adCode }} />
+                      ) : (
+                        <p className="text-muted-foreground">Ad placeholder</p>
+                      )}
                   </div>
                   
                   <Link href={`/download/${params.firmwareId}`} className={!showButton ? 'pointer-events-none' : ''}>

@@ -31,8 +31,7 @@ export interface Announcement {
 
 export interface AdSettings {
     enabled: boolean;
-    adsenseClient: string;
-    adsenseSlot: string;
+    adCode: string;
     timeout: number;
 }
 

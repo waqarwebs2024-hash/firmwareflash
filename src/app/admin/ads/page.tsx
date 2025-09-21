@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { AdSettings } from '@/lib/types';
 import { updateAdSettingsAction } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function AdsAdminPage({
   searchParams: searchParamsPromise,
@@ -17,17 +18,15 @@ export default function AdsAdminPage({
 }) {
   const searchParams = use(searchParamsPromise);
   const [isPending, startTransition] = useTransition();
-  const [enabled, setEnabled] = useState(searchParams.enabled === 'true');
-  const [adsenseClient, setAdsenseClient] = useState(searchParams.adsenseClient || '');
-  const [adsenseSlot, setAdsenseSlot] = useState(searchParams.adsenseSlot || '');
+  const [enabled, setEnabled] = useState(searchParams.enabled === 'true' || searchParams.enabled === true);
+  const [adCode, setAdCode] = useState(searchParams.adCode || '');
   const [timeout, setTimeoutValue] = useState(searchParams.timeout || 10);
 
   const handleSave = () => {
     startTransition(async () => {
       await updateAdSettingsAction({
         enabled,
-        adsenseClient,
-        adsenseSlot,
+        adCode,
         timeout: Number(timeout),
       });
     });
@@ -53,23 +52,17 @@ export default function AdsAdminPage({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="adsense-client">AdSense Client ID</Label>
-            <Input
-              id="adsense-client"
-              placeholder="ca-pub-XXXXXXXXXXXXXXXX"
-              value={adsenseClient}
-              onChange={(e) => setAdsenseClient(e.target.value)}
+            <Label htmlFor="ad-code">Ad Network Code</Label>
+            <Textarea
+              id="ad-code"
+              placeholder="Paste your ad code snippet here (e.g., <script>...)"
+              value={adCode}
+              onChange={(e) => setAdCode(e.target.value)}
+              rows={8}
             />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="adsense-slot">AdSense Ad Slot ID</Label>
-            <Input
-              id="adsense-slot"
-              placeholder="XXXXXXXXXX"
-              value={adsenseSlot}
-              onChange={(e) => setAdsenseSlot(e.target.value)}
-            />
+            <p className="text-sm text-muted-foreground">
+              This code will be rendered on the ad page. Works with AdSense or any other ad network.
+            </p>
           </div>
           
           <div className="space-y-2">
