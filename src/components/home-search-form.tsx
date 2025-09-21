@@ -80,7 +80,7 @@ export function HomeSearchForm() {
                         type="search"
                         name="search"
                         placeholder="Search millions of firmware files..."
-                        className={`h-12 pl-4 pr-12 text-sm rounded-full bg-white text-black border-2 border-transparent focus-visible:ring-accent focus-visible:border-accent`}
+                        className={`h-12 pl-4 pr-12 text-sm rounded-full bg-white text-black border-2 border-transparent focus-visible:ring-ring focus-visible:border-foreground`}
                         disabled={isPending}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
@@ -88,7 +88,7 @@ export function HomeSearchForm() {
                     />
                      <button 
                         type="submit" 
-                        className={`absolute right-1 top-1/2 -translate-y-1/2 h-10 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90 transition-all duration-300 ${isPending || isSearching ? 'w-32' : 'w-10'}`} 
+                        className={`absolute right-1 top-1/2 -translate-y-1/2 h-10 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90 transition-all duration-300 ${isPending || isSearching ? 'w-32' : 'w-12'}`} 
                         aria-label="Search"
                         disabled={isPending || isSearching}
                     >
