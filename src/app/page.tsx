@@ -1,3 +1,4 @@
+
 import { getBrands } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
@@ -45,6 +46,9 @@ export default async function Home() {
                         <p className="text-lg text-gray-200 mb-8 max-w-2xl">
                             Find and download the right ROM for your smartphone or tablet with ease.
                         </p>
+                        <div className="w-full max-w-2xl">
+                            <HomeSearchForm />
+                        </div>
                     </div>
                 </div>
 
