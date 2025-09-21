@@ -5,6 +5,7 @@ import { FormEvent, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dark' }) {
@@ -23,27 +24,33 @@ export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dar
     };
     
     const inputClass = variant === 'light' 
-        ? 'bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 focus:bg-white'
+        ? 'bg-white text-gray-900 border-gray-900 placeholder:text-gray-500 focus:bg-white'
         : 'bg-background border-input focus-visible:ring-primary focus-visible:ring-2 placeholder:text-muted-foreground';
 
 
     return (
         <div className="w-full">
-            <form onSubmit={handleSearch} className="relative">
-                <Search className={cn(
-                    "absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5",
-                    variant === 'light' ? 'text-gray-400' : 'text-muted-foreground'
-                )} />
-                <Input
-                    type="search"
-                    name="search"
-                    placeholder="Search for firmware, brand, or model..."
-                    className={cn(
-                        "w-full h-12 pl-12 rounded-full text-base",
-                        inputClass
-                    )}
-                    disabled={isPending}
-                />
+            <form onSubmit={handleSearch} className="flex gap-2">
+                <div className="relative flex-grow">
+                    <Search className={cn(
+                        "absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5",
+                        variant === 'light' ? 'text-gray-400' : 'text-muted-foreground'
+                    )} />
+                    <Input
+                        type="search"
+                        name="search"
+                        placeholder="Search for firmware, brand, or model..."
+                        className={cn(
+                            "w-full h-12 pl-12 rounded-full text-base",
+                            inputClass
+                        )}
+                        disabled={isPending}
+                    />
+                </div>
+                <Button type="submit" size="lg" className="rounded-full bg-accent hover:bg-accent/80 text-accent-foreground" disabled={isPending}>
+                    <Search className="h-5 w-5 md:hidden" />
+                    <span className="hidden md:block">{isPending ? 'Searching...' : 'Search'}</span>
+                </Button>
             </form>
         </div>
     )
