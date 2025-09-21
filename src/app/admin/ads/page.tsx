@@ -11,6 +11,7 @@ import { updateAdSettingsAction } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
 
 const adSlotsConfig = [
   { id: 'headerBanner', name: 'Header Banner Ad', description: 'A banner ad that appears at the top of the site.' },
