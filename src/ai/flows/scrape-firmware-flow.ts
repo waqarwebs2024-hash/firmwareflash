@@ -31,10 +31,12 @@ export type ScrapeFirmwareOutput = z.infer<typeof ScrapeFirmwareOutputSchema>;
 
 
 async function getBrowser() {
+    const executablePath = await chrome.executablePath;
+
     return puppeteer.launch({
-      args: chrome.args,
-      executablePath: await chrome.executablePath || '',
-      headless: chrome.headless,
+        args: chrome.args,
+        executablePath,
+        headless: chrome.headless,
     });
 }
 
