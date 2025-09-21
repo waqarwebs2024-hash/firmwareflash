@@ -1,7 +1,17 @@
+
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function PrivacyPolicyPage() {
+  const [lastUpdated, setLastUpdated] = useState('');
+
+  useEffect(() => {
+    setLastUpdated(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+  }, []);
+
   return (
     <>
         <div className="container mx-auto py-12 px-4">
@@ -10,7 +20,7 @@ export default function PrivacyPolicyPage() {
             <CardTitle className="text-3xl font-bold">Privacy Policy</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6 prose prose-lg dark:prose-invert max-w-none">
-                <p><strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <p><strong>Last Updated:</strong> {lastUpdated}</p>
                 
                 <p>
                     Your privacy is important to us. It is Firmware Finder's policy to
