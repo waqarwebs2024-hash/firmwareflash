@@ -31,9 +31,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['chrome-aws-lambda'],
-  }
+  serverExternalPackages: ['chrome-aws-lambda'],
 };
 
 export default nextConfig;
