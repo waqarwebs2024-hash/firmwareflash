@@ -6,12 +6,14 @@ import { Button } from '@/components/ui/button';
 import { getAdSettings } from '@/lib/data';
 import { AdSettings } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader2 } from 'lucide-react';
 
 export default function AdPage({ params: promiseParams }: { params: Promise<{ firmwareId: string }> }) {
   const params = use(promiseParams);
   const [adSettings, setAdSettings] = useState<AdSettings | null>(null);
   const [countdown, setCountdown] = useState(10);
   const [showButton, setShowButton] = useState(false);
+  const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
     async function fetchSettings() {
@@ -24,13 +26,15 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
         // Fallback to defaults if fetch fails
         setAdSettings({ enabled: true, adsenseClient: '', adsenseSlot: '', timeout: 10 });
         setCountdown(10);
+      } finally {
+        setIsPending(false);
       }
     }
     fetchSettings();
   }, []);
 
   useEffect(() => {
-    if (adSettings === null) return;
+    if (isPending || adSettings === null) return;
 
     if (countdown > 0) {
       const timer = setTimeout(() => {
@@ -40,12 +44,12 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
     } else if (!showButton) {
       setShowButton(true);
     }
-  }, [countdown, adSettings, showButton]);
+  }, [countdown, adSettings, showButton, isPending]);
 
-  if (!adSettings) {
+  if (isPending) {
     return (
         <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
-            <div className="animate-pulse">Loading...</div>
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
     );
   }
