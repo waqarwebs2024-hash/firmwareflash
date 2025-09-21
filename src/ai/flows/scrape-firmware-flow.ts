@@ -12,7 +12,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import puppeteer from 'puppeteer-core';
 import chrome from 'chrome-aws-lambda';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 const ScrapeFirmwareInputSchema = z.object({
   url: z.string().url().describe('The URL of the webpage to scrape for firmware information.'),
