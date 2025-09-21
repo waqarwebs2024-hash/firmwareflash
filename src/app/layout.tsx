@@ -1,10 +1,11 @@
 
+
 import type {Metadata} from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { WithContext, WebSite, Organization } from 'schema-dts';
 import { headers } from 'next/headers';
-import { getAdSettings, getAnnouncement } from '@/lib/data';
+import { getAdSettings, getAnnouncement, getHeaderScripts } from '@/lib/data';
 import { AnnouncementBar } from '@/components/announcement-bar';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -52,8 +53,13 @@ export default async function RootLayout({
   const headersList = headers();
   const pathname = headersList.get('x-pathname') || '';
   const isAdminPage = pathname.startsWith('/admin');
-  const announcement = await getAnnouncement();
-  const adSettings = await getAdSettings();
+  
+  const [announcement, adSettings, headerScripts] = await Promise.all([
+    getAnnouncement(),
+    getAdSettings(),
+    getHeaderScripts(),
+  ]);
+
   const headerAd = adSettings.slots?.headerBanner;
 
   return (
@@ -70,8 +76,9 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2036541544480358"
-          crossOrigin="anonymous"></script>
+        {headerScripts && (
+            <div dangerouslySetInnerHTML={{ __html: headerScripts }} />
+        )}
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         {isAdminPage ? (

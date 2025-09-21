@@ -2,9 +2,10 @@
 
 
 
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, AdSlot } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, AdSlot, HeaderScripts } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData } from './seed';
 
@@ -413,6 +414,20 @@ export async function getApiKey(): Promise<string> {
 export async function updateApiKey(apiKey: string): Promise<void> {
   const settingsDocRef = doc(db, 'settings', 'api');
   await setDoc(settingsDocRef, { geminiApiKey: apiKey });
+}
+
+export async function getHeaderScripts(): Promise<string> {
+    const settingsDocRef = doc(db, 'settings', 'scripts');
+    const docSnap = await getDoc(settingsDocRef);
+    if (docSnap.exists()) {
+        return docSnap.data().content || '';
+    }
+    return '';
+}
+
+export async function setHeaderScripts(scripts: string): Promise<void> {
+    const settingsDocRef = doc(db, 'settings', 'scripts');
+    await setDoc(settingsDocRef, { content: scripts });
 }
 
 export async function getTotalFirmwares(): Promise<number> {

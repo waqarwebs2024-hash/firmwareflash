@@ -1,7 +1,7 @@
 
 'use server';
 
-import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware } from './data';
+import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts } from './data';
 import { seedHuaweiFirmware } from './seed';
 import type { AdSettings, Firmware } from './types';
 
@@ -45,6 +45,10 @@ export async function updateApiKeyAction(apiKey: string) {
     throw new Error('API Key is required.');
   }
   await updateApiKey(apiKey);
+}
+
+export async function updateHeaderScriptsAction(scripts: string) {
+    await setHeaderScripts(scripts);
 }
 
 export async function saveDonationAction(data: { name: string; email?: string; amount: number; message?: string; }) {

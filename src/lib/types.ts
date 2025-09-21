@@ -91,3 +91,8 @@ export interface DailyAnalytics {
     downloads: number;
     adsClicks: number;
 }
+
+export interface HeaderScripts {
+    id: 'scripts';
+    content: string;
+}
