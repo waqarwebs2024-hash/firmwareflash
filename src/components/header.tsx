@@ -53,8 +53,8 @@ export function Header() {
           
           <nav className="hidden md:flex items-center space-x-1">
             {navLinks}
-            {!isHomePage && !showSearch && (
-                <Button variant="ghost" size="icon" onClick={() => setShowSearch(true)}>
+            {!isHomePage && (
+                 <Button variant="ghost" size="icon" onClick={() => setShowSearch(!showSearch)}>
                     <Search className="h-5 w-5" />
                     <span className="sr-only">Search</span>
                 </Button>
@@ -62,8 +62,8 @@ export function Header() {
           </nav>
 
           <div className="md:hidden flex items-center gap-2">
-            {!isHomePage && !showSearch && (
-                <Button variant="ghost" size="icon" onClick={() => setShowSearch(true)}>
+            {!isHomePage && (
+                <Button variant="ghost" size="icon" onClick={() => setShowSearch(!showSearch)}>
                     <Search className="h-5 w-5" />
                      <span className="sr-only">Search</span>
                 </Button>
