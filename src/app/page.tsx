@@ -1,11 +1,10 @@
-
 import { getBrands } from '@/lib/data';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Brand } from '@/lib/types';
 import { HomeSearchForm } from '@/components/home-search-form';
 import { FaqSection } from '@/components/faq-section';
-import { CheckCircle, ShieldCheck, Database, Download } from 'lucide-react';
+import { ShieldCheck, Database, Download, BookCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default async function Home() {
@@ -31,6 +30,11 @@ export default async function Home() {
         icon: ShieldCheck,
         title: "Official Secure Downloads",
         description: "We provide official, untouched firmware files sourced directly from manufacturers."
+      },
+      {
+        icon: BookCheck,
+        title: "Step-by-Step Guides",
+        description: "Clear, AI-generated flashing instructions to help you every step of the way."
       },
       {
         icon: Database,
@@ -62,10 +66,20 @@ export default async function Home() {
                 </div>
               </section>
 
+               {/* Mission Section */}
+              <section className="py-20 text-center">
+                <div className="container mx-auto px-4 max-w-4xl">
+                  <h2 className="text-3xl font-bold mb-4">Your Trusted Firmware Source</h2>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Our mission is to provide a safe, reliable, and user-friendly platform for everyone needing to restore or update their mobile devices. We understand how frustrating it can be to deal with software issues, which is why we offer a comprehensive library of official stock firmware and clear, step-by-step guides. From fixing bootloops to updating your Android version, Firmware Finder is here to empower you with the tools and information you need to keep your device running smoothly.
+                  </p>
+                </div>
+              </section>
+
               {/* Features Section */}
-              <section className="py-20">
+              <section className="py-20 bg-secondary">
                 <div className="container mx-auto px-4">
-                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
                         {features.map((feature, index) => (
                             <div key={index} className="flex flex-col items-center">
                                 <feature.icon className="h-10 w-10 mb-4 text-primary" />
@@ -78,16 +92,17 @@ export default async function Home() {
               </section>
 
               {/* Browse All Brands */}
-              <section className="py-20 bg-secondary">
+              <section className="py-20">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold mb-8 text-center">Browse All Brands</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {brands.slice(0, 12).map((brand) => ( // Show first 12 brands
-                            <Link href={`/brand/${brand.id}`} key={brand.id} className="block">
-                                <Card className="h-full transition-all hover:shadow-xl hover:-translate-y-1 bg-card">
-                                    <CardContent className="flex flex-col items-center justify-center p-6 h-full">
-                                        <span className="font-semibold text-center">{brand.name}</span>
-                                    </CardContent>
+                            <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
+                                <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
+                                    <CardHeader>
+                                        <CardTitle className="text-xl font-semibold">{brand.name}</CardTitle>
+                                         <CardDescription className="pt-2 text-sm">Download official firmware for all {brand.name} devices.</CardDescription>
+                                    </CardHeader>
                                 </Card>
                             </Link>
                         ))}
@@ -106,7 +121,7 @@ export default async function Home() {
               </section>
 
               {/* FAQ Section */}
-              <section className="py-20">
+              <section className="py-20 bg-secondary">
                 <div className="container mx-auto px-4 max-w-4xl">
                   <FaqSection title="Frequently Asked Questions" items={faqItems} />
                 </div>

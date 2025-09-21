@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Facebook, Twitter, Send, Youtube, HardDrive } from 'lucide-react';
@@ -12,7 +11,7 @@ export function Footer() {
           
           <div className="col-span-12 md:col-span-4 space-y-4">
             <Link href="/" className="flex items-center gap-2">
-                <HardDrive className="h-8 w-8 text-primary" />
+                <HardDrive aria-label="Firmware Finder Logo" className="h-8 w-8 text-primary" />
                 <span className="text-xl font-bold">Firmware Finder</span>
             </Link>
             <p className="text-sm text-muted-foreground">
