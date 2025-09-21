@@ -64,12 +64,6 @@ export function HomeSearchForm() {
         }
     };
 
-    const handleClearSearch = () => {
-        setQuery('');
-        setSuggestions([]);
-        setShowSuggestions(false);
-    }
-
     const handleSeeAll = () => {
         if(query.trim()) {
             startTransition(() => {
@@ -93,16 +87,6 @@ export function HomeSearchForm() {
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
                     />
-                     {query.length > 0 && !(isPending || isSearching) && (
-                        <button
-                            type="button"
-                            onClick={handleClearSearch}
-                            className="absolute right-16 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                            aria-label="Clear search"
-                        >
-                            <X className="h-5 w-5" />
-                        </button>
-                     )}
                      <button 
                         type="submit" 
                         className={`absolute right-1 top-1/2 -translate-y-1/2 h-10 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90 transition-all duration-300 ${isPending || isSearching ? 'w-32' : 'w-12'}`} 
