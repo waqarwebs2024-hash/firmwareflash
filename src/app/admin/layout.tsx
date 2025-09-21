@@ -46,12 +46,15 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   const isActive = pathname === href;
 
   return (
-    <Link href={href}>
-        <span className={`text-sm font-medium transition-colors ${
-            isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
-        }`}>
-            {children}
-        </span>
+    <Link
+      href={href}
+      className={`text-sm font-medium transition-colors pb-1 ${
+        isActive
+          ? 'text-primary border-b-2 border-primary'
+          : 'text-muted-foreground hover:text-primary border-b-2 border-transparent'
+      }`}
+    >
+      {children}
     </Link>
   );
 }
