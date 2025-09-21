@@ -57,5 +57,11 @@ export async function saveContactMessageAction(data: { name: string; email: stri
 
 export async function liveSearchAction(query: string): Promise<Firmware[]> {
     if (!query || query.length < 3) return [];
-    return searchFirmware(query, 5); // Limit to 5 results for live search
+    const results = await searchFirmware(query, 5); // Limit to 5 results for live search
+    
+    // Convert Timestamps to plain objects
+    return results.map(fw => ({
+      ...fw,
+      uploadDate: JSON.parse(JSON.stringify(fw.uploadDate)),
+    }));
 }
