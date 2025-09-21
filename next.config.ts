@@ -34,6 +34,7 @@ const nextConfig: NextConfig = {
   experimental: {
     // This is to allow cross-origin requests in development.
     allowedDevOrigins: ["**"],
+    serverComponentsExternalPackages: ['chrome-aws-lambda'],
   }
 };
 
