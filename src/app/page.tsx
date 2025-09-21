@@ -37,7 +37,7 @@ export default async function Home() {
             <div className="container mx-auto py-12 px-4">
                 {/* Hero / Search Section */}
                 <div
-                    className="text-center mb-16 py-16 md:py-20 rounded-lg bg-primary text-primary-foreground"
+                    className="text-center mb-16 py-8 md:py-12 rounded-lg bg-primary text-primary-foreground"
                 >
                     <div className="relative z-10 p-8 flex flex-col items-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
