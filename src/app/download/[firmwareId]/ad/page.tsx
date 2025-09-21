@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, use } from 'react';
@@ -36,6 +37,12 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
   useEffect(() => {
     if (isPending || adSettings === null) return;
 
+    if (!adSettings.enabled) {
+      setShowButton(true);
+      setCountdown(0);
+      return;
+    }
+
     if (countdown > 0) {
       const timer = setTimeout(() => {
         setCountdown(countdown - 1);
@@ -50,6 +57,27 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
     return (
         <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+    );
+  }
+  
+  if (adSettings && !adSettings.enabled) {
+    // If ads are disabled, provide a direct link to the download page without the ad experience.
+    return (
+        <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
+            <Card className="w-full max-w-lg text-center">
+                <CardHeader>
+                    <CardTitle>Ads Disabled</CardTitle>
+                    <CardDescription>Proceed directly to your download.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Link href={`/download/${params.firmwareId}`} className='w-full'>
+                        <Button className="w-full" variant="primary">
+                            Continue to Download
+                        </Button>
+                    </Link>
+                </CardContent>
+            </Card>
         </div>
     );
   }

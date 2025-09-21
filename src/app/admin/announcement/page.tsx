@@ -1,6 +1,6 @@
 
 'use client';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, use } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -9,10 +9,11 @@ import { updateAnnouncementAction } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
 
 export default function AnnouncementAdminPage({
-  searchParams,
+  searchParams: searchParamsPromise,
 }: {
-  searchParams: { announcement: string };
+  searchParams: Promise<{ announcement: string }>;
 }) {
+  const searchParams = use(searchParamsPromise);
   const [isPending, startTransition] = useTransition();
   const [announcement, setAnnouncementState] = useState(searchParams.announcement || '');
 

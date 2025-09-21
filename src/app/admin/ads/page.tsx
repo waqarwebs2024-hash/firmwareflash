@@ -1,6 +1,6 @@
 
 'use client';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, use } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -11,10 +11,11 @@ import { updateAdSettingsAction } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
 
 export default function AdsAdminPage({
-  searchParams,
+  searchParams: searchParamsPromise,
 }: {
-  searchParams: AdSettings;
+  searchParams: Promise<AdSettings>;
 }) {
+  const searchParams = use(searchParamsPromise);
   const [isPending, startTransition] = useTransition();
   const [enabled, setEnabled] = useState(searchParams.enabled === 'true');
   const [adsenseClient, setAdsenseClient] = useState(searchParams.adsenseClient || '');
