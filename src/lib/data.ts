@@ -10,33 +10,46 @@ import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
 export async function searchFirmware(searchTerm: string): Promise<Firmware[]> {
-    if (!searchTerm) return [];
-  
-    const firmwareCol = collection(db, 'firmware');
+  if (!searchTerm) return [];
+
+  const searchTermLower = searchTerm.toLowerCase();
+
+  try {
+    // 1. Get all brands and series to build a lookup map
+    const brands = await getBrands();
+    const allSeries = await getAllSeries();
     
-    // Firestore doesn't support full-text search natively.
-    // This is a simple "starts-with" search. For a real app,
-    // a third-party search service like Algolia or Typesense is recommended.
-    const searchTermLower = searchTerm.toLowerCase();
-    const searchTermUpper = searchTermLower + '\uf8ff';
-  
-    const q = query(
-      firmwareCol,
-      where('fileName', '>=', searchTermLower),
-      where('fileName', '<=', searchTermUpper)
-    );
-  
-    try {
-      const firmwareSnapshot = await getDocs(q);
-      const firmwareList = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
+    const brandMap = new Map(brands.map(b => [b.id, b.name]));
+    const seriesMap = new Map(allSeries.map(s => [s.id, { name: s.name, brandName: brandMap.get(s.brandId) || '' }]));
+
+    // 2. Fetch all firmware documents
+    const firmwareCol = collection(db, 'firmware');
+    const firmwareSnapshot = await getDocs(firmwareCol);
+    
+    // 3. Filter the results in memory
+    const results = firmwareSnapshot.docs.map(doc => {
+      const firmware = { id: doc.id, ...doc.data() } as Firmware;
+      const seriesInfo = seriesMap.get(firmware.seriesId);
       
-      // Secondary filter because Firestore's string operators can be tricky.
-      return firmwareList.filter(f => f.fileName.toLowerCase().includes(searchTermLower));
-    } catch (error) {
-      console.error("Error searching firmware: ", error);
-      return [];
-    }
+      // Combine all searchable text into a single string
+      const searchableText = [
+        firmware.fileName,
+        seriesInfo?.name,
+        seriesInfo?.brandName
+      ].join(' ').toLowerCase();
+
+      return { firmware, searchableText };
+    })
+    .filter(({ searchableText }) => searchableText.includes(searchTermLower))
+    .map(({ firmware }) => firmware);
+
+    return results;
+  } catch (error) {
+    console.error("Error searching firmware: ", error);
+    return [];
+  }
 }
+
 
 export async function getBrands(): Promise<Brand[]> {
   const brandsCol = collection(db, 'brands');
