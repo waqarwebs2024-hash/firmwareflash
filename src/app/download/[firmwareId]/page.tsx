@@ -1,6 +1,6 @@
 
 
-import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool } from '@/lib/data';
+import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, incrementDownloadCount } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronsRight, Package, Info, ListChecks, HelpCircle } from 'lucide-react';
@@ -22,8 +22,9 @@ type Props = {
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  { params: promiseParams }: Props,
 ): Promise<Metadata> {
+  const params = await promiseParams;
   const firmware = await getFirmwareById(params.firmwareId);
   if (!firmware) return { title: "Firmware Not Found" };
 
@@ -219,7 +220,7 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
         <section id="download-info" className="bg-card border shadow-sm rounded-xl mt-12 scroll-mt-20">
           <div className="p-6">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-muted-foreground">
+              <div className="space-y-4 text-muted-foreground">
                   <div className="flex items-start">
                       <Package className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                       <div>
@@ -285,3 +286,5 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
     </>
   );
 }
+
+    
