@@ -1,26 +1,23 @@
 
-
 'use client';
 
 import { FormEvent, useTransition, useState, useEffect, useRef } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { Search, Loader2, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Search, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { liveSearchAction } from '@/lib/actions';
 import { Firmware } from '@/lib/types';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 export function HomeSearchForm() {
     const router = useRouter();
-    const pathname = usePathname();
     const [isPending, startTransition] = useTransition();
     const [isSearching, setIsSearching] = useState(false);
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState<Firmware[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const searchContainerRef = useRef<HTMLDivElement>(null);
-
-    const isHomePage = pathname === '/';
 
     // Debounce effect
     useEffect(() => {
@@ -76,56 +73,51 @@ export function HomeSearchForm() {
 
     return (
         <div className="relative" ref={searchContainerRef}>
-            <form onSubmit={handleSearch}>
-                <div className="relative">
-                     <Input
-                        type="search"
-                        name="search"
-                        placeholder="Search millions of firmware files..."
-                        className={`h-12 pl-4 pr-12 text-sm rounded-full bg-white text-black border-2 border-transparent focus-visible:ring-ring focus-visible:border-foreground [&::-webkit-search-cancel-button]:hidden`}
-                        disabled={isPending}
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
-                    />
-                     <button 
-                        type="submit" 
-                        className={`absolute right-1 top-1/2 -translate-y-1/2 h-10 bg-accent-2 rounded-full text-white flex items-center justify-center hover:bg-accent-2/90 transition-all duration-300 ${isPending || isSearching ? 'w-32' : 'w-12'}`} 
-                        aria-label="Search"
-                        disabled={isPending || isSearching}
-                    >
-                        {isPending || isSearching ? (
-                            <>
-                                <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                                Searching...
-                            </>
-                        ) : (
-                            <Search className="h-5 w-5" />
-                        )}
-                    </button>
-                </div>
+            <form onSubmit={handleSearch} className="relative">
+                 <Input
+                    type="search"
+                    name="search"
+                    placeholder="Search millions of firmware files (e.g., 'Galaxy S22')"
+                    className="h-14 pl-6 pr-12 text-base rounded-full bg-card border-2"
+                    disabled={isPending}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
+                />
+                 <Button
+                    type="submit" 
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 p-0 rounded-full" 
+                    aria-label="Search"
+                    disabled={isPending || isSearching}
+                >
+                    {isPending || isSearching ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                        <Search className="h-5 w-5" />
+                    )}
+                </Button>
             </form>
             
             {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute z-10 top-full mt-2 w-full bg-gray-50 shadow-lg rounded-lg border border-gray-200 overflow-hidden">
+                <div className="absolute z-10 top-full mt-2 w-full bg-card shadow-lg rounded-lg border overflow-hidden">
                     <ul>
                         {suggestions.map(fw => (
                              <li key={fw.id}>
                                 <Link 
                                     href={`/download/${fw.id}`} 
-                                    className="block p-3 hover:bg-gray-100 transition-colors"
+                                    className="block p-4 hover:bg-secondary transition-colors"
                                     onClick={() => setShowSuggestions(false)}
                                 >
-                                    <p className="font-medium text-sm text-gray-800 truncate">{fw.fileName}</p>
-                                    <p className="text-xs text-gray-500">Android {fw.androidVersion} - {fw.size}</p>
+                                    <p className="font-medium text-sm text-foreground truncate">{fw.fileName}</p>
+                                    <p className="text-xs text-muted-foreground">{fw.version} - {fw.size}</p>
                                 </Link>
                             </li>
                         ))}
                     </ul>
-                     <div className="p-2 border-t border-gray-200 bg-gray-50">
+                     <div className="p-2 border-t bg-secondary">
                         <button 
                             onClick={handleSeeAll} 
-                            className="w-full text-center text-sm font-semibold text-primary hover:underline"
+                            className="w-full text-center text-sm font-semibold text-primary hover:underline py-2"
                         >
                             See all results
                         </button>

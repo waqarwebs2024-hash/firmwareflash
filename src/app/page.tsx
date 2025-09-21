@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { Brand } from '@/lib/types';
 import { HomeSearchForm } from '@/components/home-search-form';
 import { FaqSection } from '@/components/faq-section';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ShieldCheck, Database, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default async function Home() {
     const brands: Brand[] = await getBrands();
@@ -26,55 +27,64 @@ export default async function Home() {
     ];
 
     const features = [
-      "Official, Secure Downloads",
-      "Step-by-Step Flashing Guides",
-      "Vast Library of Brands & Models",
-      "Free for Everyone",
+      {
+        icon: ShieldCheck,
+        title: "Official Secure Downloads",
+        description: "We provide official, untouched firmware files sourced directly from manufacturers."
+      },
+      {
+        icon: Database,
+        title: "Vast Library of Brands",
+        description: "Our extensive database covers a wide range of popular and niche device brands."
+      },
+      {
+        icon: Download,
+        title: "Free for Everyone",
+        description: "All our firmware files are available for free, with no hidden charges or subscriptions."
+      },
     ];
 
     return (
         <>
-            <div className="container mx-auto py-12 px-4">
-                {/* Hero / Search Section */}
-                <div
-                    className="text-center mb-16 py-8 md:py-12 rounded-lg bg-primary text-primary-foreground"
-                >
-                    <div className="relative z-10 p-4 flex flex-col items-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
-                            The Ultimate Firmware Resource
-                        </h1>
-                        <p className="text-lg text-gray-200 mb-8 max-w-2xl">
-                            Find and download the right ROM for your smartphone or tablet with ease.
-                        </p>
-                        <div className="w-full max-w-2xl">
-                            <HomeSearchForm />
-                        </div>
-                    </div>
+            <main>
+              {/* Hero Section */}
+              <section className="bg-secondary py-20 text-center">
+                <div className="container mx-auto px-4">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                    Firmware Finder
+                  </h1>
+                  <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                    Find and download the right firmware for your device quickly and securely.
+                  </p>
+                  <div className="w-full max-w-2xl mx-auto">
+                    <HomeSearchForm />
+                  </div>
                 </div>
+              </section>
 
-                {/* Info Section */}
-                <div className="mb-16 text-center">
-                    <h2 className="text-3xl font-bold mb-4">Your One-Stop Firmware Hub</h2>
-                    <p className="text-muted-foreground max-w-3xl mx-auto mb-8">
-                        Whether you're fixing a software issue, upgrading your system, or reverting to stock settings, you need reliable firmware. We provide direct access to official stock ROMs for a wide range of mobile devices, complete with easy-to-follow installation guides.
-                    </p>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              {/* Features Section */}
+              <section className="py-20">
+                <div className="container mx-auto px-4">
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                         {features.map((feature, index) => (
-                            <div key={index} className="flex items-center justify-center p-4 bg-muted rounded-lg">
-                                <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
-                                <span className="font-medium text-sm">{feature}</span>
+                            <div key={index} className="flex flex-col items-center">
+                                <feature.icon className="h-10 w-10 mb-4 text-primary" />
+                                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                                <p className="text-muted-foreground">{feature.description}</p>
                             </div>
                         ))}
                     </div>
                 </div>
+              </section>
 
-                {/* All Brands */}
-                <div className="mb-16">
-                    <h2 className="text-3xl font-bold mb-6 text-center">Browse All Brands</h2>
+              {/* Browse All Brands */}
+              <section className="py-20 bg-secondary">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl font-bold mb-8 text-center">Browse All Brands</h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        {brands.map((brand) => (
+                        {brands.slice(0, 12).map((brand) => ( // Show first 12 brands
                             <Link href={`/brand/${brand.id}`} key={brand.id} className="block">
-                                <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
+                                <Card className="h-full transition-all hover:shadow-xl hover:-translate-y-1 bg-card">
                                     <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                                         <span className="font-semibold text-center">{brand.name}</span>
                                     </CardContent>
@@ -82,17 +92,26 @@ export default async function Home() {
                             </Link>
                         ))}
                     </div>
+                     <div className="text-center mt-12">
+                        <Link href="/brands">
+                            <Button>View All Brands</Button>
+                        </Link>
+                    </div>
                     {brands.length === 0 && (
                         <div className="text-center text-muted-foreground">
                             Loading brands...
                         </div>
                     )}
                 </div>
+              </section>
 
-                {/* FAQ Section */}
-                <FaqSection title="Frequently Asked Questions" items={faqItems} />
-
-            </div>
+              {/* FAQ Section */}
+              <section className="py-20">
+                <div className="container mx-auto px-4 max-w-4xl">
+                  <FaqSection title="Frequently Asked Questions" items={faqItems} />
+                </div>
+              </section>
+            </main>
         </>
     );
 }

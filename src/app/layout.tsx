@@ -8,8 +8,6 @@ import { getAnnouncement } from '@/lib/data';
 import { AnnouncementBar } from '@/components/announcement-bar';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { WhatsappFab } from '@/components/whatsapp-fab';
-
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -25,21 +23,21 @@ export const metadata: Metadata = {
 const organizationSchema: WithContext<Organization> = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'My Awesome App',
-  url: 'https://my-awesome-app.com', // Replace with your actual domain
-  logo: 'https://my-awesome-app.com/logo.png', // Replace with your actual logo URL
+  name: 'Firmware Finder',
+  url: 'https://firmware-finder-app.com', // Replace with your actual domain
+  logo: 'https://firmware-finder-app.com/logo.png', // Replace with your actual logo URL
 };
 
 const websiteSchema: WithContext<WebSite> = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'My Awesome App',
-  url: 'https://my-awesome-app.com', // Replace with your actual domain
+  name: 'Firmware Finder',
+  url: 'https://firmware-finder-app.com', // Replace with your actual domain
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://my-awesome-app.com/search?q={search_term_string}',
+      urlTemplate: 'https://firmware-finder-app.com/search?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },
@@ -75,12 +73,11 @@ export default async function RootLayout({
         {isAdminPage ? (
           <>{children}</>
         ) : (
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen bg-background">
             <AnnouncementBar announcement={announcement} />
             <Header />
             <main className="flex-grow">{children}</main>
             <Footer />
-            <WhatsappFab />
           </div>
         )}
       </body>
