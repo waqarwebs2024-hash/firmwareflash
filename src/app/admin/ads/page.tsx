@@ -6,10 +6,19 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { AdSettings } from '@/lib/types';
+import { AdSettings, AdSlot } from '@/lib/types';
 import { updateAdSettingsAction } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+
+const adSlotsConfig = [
+  { id: 'headerBanner', name: 'Header Banner Ad', description: 'A banner ad that appears at the top of the site.' },
+  { id: 'inContent', name: 'In-Content Ad', description: 'An ad displayed within the main content, e.g., on the download page.' },
+  { id: 'footerBanner', name: 'Footer Banner Ad', description: 'A banner ad that appears in the site footer.' },
+  { id: 'downloadPage', name: 'Download Page Ad (Legacy)', description: 'The ad shown on the dedicated ad-wall page before download.' },
+];
+
 
 export default function AdsAdminPage({
   searchParams: searchParamsPromise,
@@ -18,15 +27,31 @@ export default function AdsAdminPage({
 }) {
   const searchParams = use(searchParamsPromise);
   const [isPending, startTransition] = useTransition();
-  const [enabled, setEnabled] = useState(searchParams.enabled === 'true' || searchParams.enabled === true);
-  const [adCode, setAdCode] = useState(searchParams.adCode || '');
+
+  const [adSlots, setAdSlots] = useState<Record<string, AdSlot>>(
+    searchParams.slots || {
+      headerBanner: { enabled: false, adCode: '' },
+      inContent: { enabled: false, adCode: '' },
+      footerBanner: { enabled: false, adCode: '' },
+      downloadPage: { enabled: false, adCode: '' },
+    }
+  );
   const [timeout, setTimeoutValue] = useState(searchParams.timeout || 10);
+  
+  const handleSlotChange = (slotId: string, field: keyof AdSlot, value: string | boolean) => {
+    setAdSlots(prev => ({
+      ...prev,
+      [slotId]: {
+        ...prev[slotId],
+        [field]: value,
+      },
+    }));
+  };
 
   const handleSave = () => {
     startTransition(async () => {
       await updateAdSettingsAction({
-        enabled,
-        adCode,
+        slots: adSlots,
         timeout: Number(timeout),
       });
     });
@@ -36,36 +61,54 @@ export default function AdsAdminPage({
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Ad Management</CardTitle>
+          <CardTitle>Advertisement Management</CardTitle>
           <CardDescription>
-            Control advertisement settings across the site.
+            Control multiple ad placements across the site. Use the text areas to paste ad code snippets (e.g., Google AdSense code).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="ads-enabled"
-              checked={enabled}
-              onCheckedChange={setEnabled}
-            />
-            <Label htmlFor="ads-enabled">Enable Ads</Label>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="ad-code">Ad Network Code</Label>
-            <Textarea
-              id="ad-code"
-              placeholder="Paste your ad code snippet here (e.g., <script>...)"
-              value={adCode}
-              onChange={(e) => setAdCode(e.target.value)}
-              rows={8}
-            />
-            <p className="text-sm text-muted-foreground">
-              This code will be rendered on the ad page. Works with AdSense or any other ad network.
-            </p>
-          </div>
           
-          <div className="space-y-2">
+          <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
+            {adSlotsConfig.map((slot, index) => (
+              <AccordionItem value={`item-${index}`} key={slot.id}>
+                <AccordionTrigger>
+                  <div className="flex items-center justify-between w-full pr-4">
+                    <span className="font-semibold">{slot.name}</span>
+                    <Badge variant={adSlots[slot.id]?.enabled ? 'accent' : 'secondary'}>
+                      {adSlots[slot.id]?.enabled ? 'Enabled' : 'Disabled'}
+                    </Badge>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="p-4 space-y-4">
+                    <div className="flex items-center space-x-2">
+                        <Switch
+                          id={`${slot.id}-enabled`}
+                          checked={adSlots[slot.id]?.enabled || false}
+                          onCheckedChange={(checked) => handleSlotChange(slot.id, 'enabled', checked)}
+                        />
+                        <Label htmlFor={`${slot.id}-enabled`}>Enable this ad slot</Label>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor={`${slot.id}-code`}>Ad Network Code</Label>
+                        <Textarea
+                          id={`${slot.id}-code`}
+                          placeholder={`Paste ad code for ${slot.name} here...`}
+                          value={adSlots[slot.id]?.adCode || ''}
+                          onChange={(e) => handleSlotChange(slot.id, 'adCode', e.target.value)}
+                          rows={6}
+                          disabled={!adSlots[slot.id]?.enabled}
+                        />
+                        <p className="text-sm text-muted-foreground">
+                            {slot.description}
+                        </p>
+                    </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          <div className="space-y-2 border-t pt-6">
             <Label htmlFor="ad-timeout">Ad Page Timeout (seconds)</Label>
             <Input
               id="ad-timeout"
@@ -73,12 +116,14 @@ export default function AdsAdminPage({
               placeholder="10"
               value={timeout}
               onChange={(e) => setTimeoutValue(Number(e.target.value))}
+              className="max-w-xs"
             />
+            <p className="text-sm text-muted-foreground">Controls the wait time on the dedicated ad-wall page.</p>
           </div>
 
           <Button onClick={handleSave} disabled={isPending}>
             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isPending ? 'Saving...' : 'Save Settings'}
+            {isPending ? 'Saving...' : 'Save All Settings'}
           </Button>
         </CardContent>
       </Card>

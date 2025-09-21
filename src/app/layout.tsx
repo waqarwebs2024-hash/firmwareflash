@@ -4,7 +4,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { WithContext, WebSite, Organization } from 'schema-dts';
 import { headers } from 'next/headers';
-import { getAnnouncement } from '@/lib/data';
+import { getAdSettings, getAnnouncement } from '@/lib/data';
 import { AnnouncementBar } from '@/components/announcement-bar';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -53,6 +53,8 @@ export default async function RootLayout({
   const pathname = headersList.get('x-pathname') || '';
   const isAdminPage = pathname.startsWith('/admin');
   const announcement = await getAnnouncement();
+  const adSettings = await getAdSettings();
+  const headerAd = adSettings.slots?.headerBanner;
 
   return (
     <html lang="en">
@@ -76,6 +78,11 @@ export default async function RootLayout({
           <div className="flex flex-col min-h-screen bg-background">
             <AnnouncementBar announcement={announcement} />
             <Header />
+            {headerAd?.enabled && headerAd.adCode && (
+                <div className="py-2 bg-secondary flex justify-center">
+                    <div dangerouslySetInnerHTML={{ __html: headerAd.adCode }} />
+                </div>
+            )}
             <main className="flex-grow">{children}</main>
             <Footer />
           </div>

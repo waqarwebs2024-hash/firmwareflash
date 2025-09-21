@@ -1,6 +1,6 @@
 
 
-import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, incrementDownloadCount } from '@/lib/data';
+import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, incrementDownloadCount, getAdSettings } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronsRight, Package, Info, ListChecks, HelpCircle } from 'lucide-react';
@@ -160,6 +160,9 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
   // @ts-ignore
   const date = uploadDate.toDate ? uploadDate.toDate() : new Date(uploadDate);
 
+  const adSettings = use(getAdSettings());
+  const inContentAd = adSettings.slots?.inContent;
+
   const faqItems = [
     {
         question: `Is this ${series.name} firmware official?`,
@@ -216,6 +219,12 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
 
 
         <FlashingInstructions brandId={series.brandId} seriesName={series.name} instructionsData={instructionsData} />
+
+        {inContentAd?.enabled && inContentAd.adCode && (
+          <div className="my-8 flex justify-center">
+            <div dangerouslySetInnerHTML={{ __html: inContentAd.adCode }} />
+          </div>
+        )}
 
         <section id="download-info" className="bg-card border shadow-sm rounded-xl mt-12 scroll-mt-20">
           <div className="p-6">

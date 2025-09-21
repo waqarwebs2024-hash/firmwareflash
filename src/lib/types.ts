@@ -29,9 +29,13 @@ export interface Announcement {
     text: string;
 }
 
-export interface AdSettings {
+export interface AdSlot {
     enabled: boolean;
     adCode: string;
+}
+
+export interface AdSettings {
+    slots: Record<string, AdSlot>;
     timeout: number;
 }
 

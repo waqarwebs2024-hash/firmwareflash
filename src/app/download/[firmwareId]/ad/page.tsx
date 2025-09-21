@@ -16,6 +16,8 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
   const [showButton, setShowButton] = useState(false);
   const [isPending, setIsPending] = useState(true);
 
+  const downloadPageAd = adSettings?.slots?.downloadPage;
+
   useEffect(() => {
     async function fetchSettings() {
       try {
@@ -25,7 +27,7 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
       } catch (error) {
         console.error("Failed to fetch ad settings:", error);
         // Fallback to defaults if fetch fails
-        setAdSettings({ enabled: true, adCode: '', timeout: 10 });
+        setAdSettings({ slots: {}, timeout: 10 });
         setCountdown(10);
       } finally {
         setIsPending(false);
@@ -37,7 +39,7 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
   useEffect(() => {
     if (isPending || adSettings === null) return;
 
-    if (!adSettings.enabled) {
+    if (!downloadPageAd?.enabled) {
       setShowButton(true);
       setCountdown(0);
       return;
@@ -51,7 +53,7 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
     } else if (!showButton) {
       setShowButton(true);
     }
-  }, [countdown, adSettings, showButton, isPending]);
+  }, [countdown, adSettings, showButton, isPending, downloadPageAd]);
 
   if (isPending) {
     return (
@@ -61,14 +63,14 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
     );
   }
   
-  if (adSettings && !adSettings.enabled) {
+  if (!downloadPageAd?.enabled) {
     // If ads are disabled, provide a direct link to the download page without the ad experience.
     return (
         <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
             <Card className="w-full max-w-lg text-center">
                 <CardHeader>
-                    <CardTitle>Ads Disabled</CardTitle>
-                    <CardDescription>Proceed directly to your download.</CardDescription>
+                    <CardTitle>Proceed to Download</CardTitle>
+                    <CardDescription>Your download is ready.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Link href={`/download/${params.firmwareId}`} className='w-full'>
@@ -101,8 +103,8 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
               </CardHeader>
               <CardContent className="space-y-6">
                   <div className="bg-muted h-60 w-full flex items-center justify-center rounded-md overflow-hidden">
-                      {adSettings?.adCode ? (
-                        <div dangerouslySetInnerHTML={{ __html: adSettings.adCode }} />
+                      {downloadPageAd?.adCode ? (
+                        <div dangerouslySetInnerHTML={{ __html: downloadPageAd.adCode }} />
                       ) : (
                         <p className="text-muted-foreground">Ad placeholder</p>
                       )}

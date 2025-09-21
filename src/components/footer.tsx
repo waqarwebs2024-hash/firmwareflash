@@ -1,13 +1,25 @@
 
+
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Facebook, Twitter, Send, Youtube, HardDrive } from 'lucide-react';
 import { Separator } from './ui/separator';
+import { getAdSettings } from '@/lib/data';
 
-export function Footer() {
+export async function Footer() {
+  const adSettings = await getAdSettings();
+  const footerAd = adSettings.slots?.footerBanner;
+
   return (
     <footer className="bg-secondary border-t">
       <div className="container mx-auto px-4 py-12">
+        
+        {footerAd?.enabled && footerAd.adCode && (
+          <div className="mb-8 flex justify-center">
+            <div dangerouslySetInnerHTML={{ __html: footerAd.adCode }} />
+          </div>
+        )}
+
         <div className="grid gap-12 md:grid-cols-12">
           
           <div className="col-span-12 md:col-span-4 space-y-4">

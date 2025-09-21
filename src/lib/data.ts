@@ -2,7 +2,7 @@
 
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, AdSlot } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData } from './seed';
 
@@ -255,13 +255,12 @@ export async function addSeries(name: string, brandId: string): Promise<void> {
   await setDoc(seriesDocRef, { name, brandId });
 }
 
-export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount' | 'androidVersion'>): Promise<void> {
+export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>): Promise<void> {
     const id = createId(firmware.fileName);
     const firmwareDocRef = doc(db, 'firmware', id);
   
     const newFirmware: Omit<Firmware, 'id'> = {
       ...firmware,
-      androidVersion: 'N/A', // Set default value
       uploadDate: new Date(),
       downloadCount: Math.floor(Math.random() * 10000),
     };
@@ -287,28 +286,44 @@ export async function setAnnouncement(text: string): Promise<void> {
 export async function getAdSettings(): Promise<AdSettings> {
   const settingsDocRef = doc(db, 'settings', 'ads');
   const docSnap = await getDoc(settingsDocRef);
+  
+  const defaultSlots: Record<string, AdSlot> = {
+    headerBanner: { enabled: false, adCode: '' },
+    inContent: { enabled: false, adCode: '' },
+    footerBanner: { enabled: false, adCode: '' },
+    downloadPage: { enabled: false, adCode: '' },
+  };
+
   if (docSnap.exists()) {
-    // For backward compatibility, check for old fields
     const data = docSnap.data();
-    if (data.adsenseClient || data.adsenseSlot) {
-        return {
+    // Migration for old structure
+    if (data.adCode || typeof data.enabled === 'boolean') {
+      return {
+        slots: {
+          ...defaultSlots,
+          downloadPage: {
             enabled: data.enabled || false,
-            adCode: '',
-            timeout: data.timeout || 10,
-        };
+            adCode: data.adCode || '',
+          }
+        },
+        timeout: data.timeout || 10,
+      };
     }
-    return data as AdSettings;
+    return {
+        slots: { ...defaultSlots, ...data.slots },
+        timeout: data.timeout || 10,
+    }
   }
+
   return {
-    enabled: false,
-    adCode: '',
+    slots: defaultSlots,
     timeout: 10
   };
 }
 
 export async function updateAdSettings(settings: AdSettings): Promise<void> {
   const settingsDocRef = doc(db, 'settings', 'ads');
-  await setDoc(settingsDocRef, settings);
+  await setDoc(settingsDocRef, settings, { merge: true });
 }
 
 export async function getFlashingInstructionsFromDB(brandId: string): Promise<FlashingInstructions | null> {
