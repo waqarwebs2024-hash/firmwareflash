@@ -1,24 +1,15 @@
 
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import type { Metadata } from 'next';
 
-// Note: Metadata can't be dynamically generated in a 'use client' component directly.
-// This is a static placeholder. For dynamic titles, this would need a different approach.
-// export const metadata: Metadata = {
-//   title: 'Disclaimer - Firmware Finder',
-//   description: 'Important legal disclaimer for the use of Firmware Finder. Understand the risks associated with downloading and installing firmware.',
-// };
+export const metadata: Metadata = {
+  title: 'Disclaimer - Firmware Finder',
+  description: 'Important legal disclaimer for the use of Firmware Finder. Understand the risks associated with downloading and installing firmware.',
+};
 
 export default function DisclaimerPage() {
-  const [lastUpdated, setLastUpdated] = useState('');
-
-  useEffect(() => {
-    setLastUpdated(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
-  }, []);
+  const lastUpdated = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
     <>
