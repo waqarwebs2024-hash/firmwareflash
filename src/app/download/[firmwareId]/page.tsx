@@ -263,7 +263,7 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
                   <Button className="w-full" variant="accent" size="lg">
                   <Download className="mr-2 h-5 w-5" />
                   Start Download
-                  <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
+                  <Badge variant="secondary" className="ml-2 !text-accent-foreground !bg-accent-foreground/20">Free</Badge>
                   </Button>
               </Link>
           </div>

@@ -1,4 +1,5 @@
 
+
 import { getFirmwareBySeries, getSeriesById, getBrandById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import {
@@ -81,7 +82,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
                         <Button variant="accent" size="sm">
                           <Download className="mr-2 h-4 w-4" />
                           Download
-                          <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
+                          <Badge variant="secondary" className="ml-2 !text-accent-foreground !bg-accent-foreground/20">Free</Badge>
                         </Button>
                       </Link>
                     </TableCell>

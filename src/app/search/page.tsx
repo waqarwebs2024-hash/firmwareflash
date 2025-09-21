@@ -50,7 +50,7 @@ async function SearchResultsContent({ query }: { query: string }) {
                                             <Button variant="accent" size="sm">
                                                 <Download className="mr-2 h-4 w-4" />
                                                 Download
-                                                <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
+                                                <Badge variant="secondary" className="ml-2 !text-accent-foreground !bg-accent-foreground/20">Free</Badge>
                                             </Button>
                                         </Link>
                                     </TableCell>

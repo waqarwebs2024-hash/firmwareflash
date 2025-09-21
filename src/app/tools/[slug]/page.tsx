@@ -49,7 +49,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
                     <Button variant="accent" size="lg" className="w-full">
                       <Download className="mr-2 h-5 w-5" />
                       Download {tool.name}
-                      <Badge variant="secondary" className="ml-2 !text-xs">Free</Badge>
+                      <Badge variant="secondary" className="ml-2 !text-accent-foreground !bg-accent-foreground/20">Free</Badge>
                     </Button>
                   </Link>
                 ) : (
