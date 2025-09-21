@@ -23,34 +23,41 @@ export function HomeSearchForm({ variant = 'light' }: { variant?: 'light' | 'dar
         }
     };
     
+    const containerClass = variant === 'light' 
+        ? 'bg-white border-gray-900'
+        : 'bg-white border-transparent';
+
     const inputClass = variant === 'light' 
-        ? 'bg-white text-gray-900 border-gray-900 placeholder:text-gray-500 focus:bg-white'
-        : 'bg-background border-input focus-visible:ring-primary focus-visible:ring-2 placeholder:text-muted-foreground';
+        ? 'text-gray-900 placeholder:text-gray-500'
+        : 'text-gray-900 placeholder:text-gray-500';
 
 
     return (
         <div className="w-full">
-            <form onSubmit={handleSearch} className="flex gap-2">
-                <div className="relative flex-grow">
-                    <Search className={cn(
-                        "absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5",
-                        variant === 'light' ? 'text-gray-400' : 'text-muted-foreground'
-                    )} />
+            <form onSubmit={handleSearch}>
+                <div className={cn(
+                    "relative flex items-center w-full rounded-full p-2 shadow-sm",
+                    containerClass
+                )}>
+                    <Search className="absolute left-4 h-5 w-5 text-gray-400" />
                     <Input
                         type="search"
                         name="search"
                         placeholder="Search for firmware, brand, or model..."
                         className={cn(
-                            "w-full h-12 pl-12 rounded-full text-base",
+                            "w-full h-10 pl-10 pr-24 rounded-full text-base bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0",
                             inputClass
                         )}
                         disabled={isPending}
                     />
+                    <Button 
+                        type="submit" 
+                        className="absolute right-2 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                        disabled={isPending}
+                    >
+                        {isPending ? 'Searching...' : 'Search'}
+                    </Button>
                 </div>
-                <Button type="submit" size="lg" className="rounded-full bg-accent hover:bg-accent/80 text-accent-foreground" disabled={isPending}>
-                    <Search className="h-5 w-5 md:hidden" />
-                    <span className="hidden md:block">{isPending ? 'Searching...' : 'Search'}</span>
-                </Button>
             </form>
         </div>
     )
