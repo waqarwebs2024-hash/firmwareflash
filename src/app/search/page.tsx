@@ -47,7 +47,7 @@ async function SearchResultsContent({ query }: { query: string }) {
                                     <TableCell>{firmware.size}</TableCell>
                                     <TableCell className="text-right">
                                         <Link href={`/download/${firmware.id}/ad`}>
-                                            <Button variant="default" size="sm">
+                                            <Button variant="primary" size="sm" className="animated-button">
                                                 <Download className="mr-2 h-4 w-4" />
                                                 Download
                                                 <Badge variant="accent" className="ml-2">Free</Badge>

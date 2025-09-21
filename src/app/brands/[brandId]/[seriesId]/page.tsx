@@ -23,7 +23,6 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const series = await getSeriesById(params.seriesId);
   if (!series) return { title: "Series Not Found" };
@@ -79,7 +78,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
                     <TableCell>{firmware.size}</TableCell>
                     <TableCell className="text-right">
                       <Link href={`/download/${firmware.id}/ad`}>
-                        <Button variant="default" size="sm">
+                        <Button variant="primary" size="sm" className="animated-button">
                           <Download className="mr-2 h-4 w-4" />
                           Download
                           <Badge variant="accent" className="ml-2">Free</Badge>

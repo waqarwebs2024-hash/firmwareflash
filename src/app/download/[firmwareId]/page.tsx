@@ -1,9 +1,9 @@
 
 
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool } from '@/lib/data';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronRight, ChevronsRight, Package, Info, ListChecks, HelpCircle } from 'lucide-react';
+import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronsRight, Package, Info, ListChecks, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
@@ -14,6 +14,7 @@ import { FaqSection } from '@/components/faq-section';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { HowTo, WithContext } from 'schema-dts';
 import { Badge } from '@/components/ui/badge';
+import { use } from 'react';
 
 
 type Props = {
@@ -22,7 +23,6 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const firmware = await getFirmwareById(params.firmwareId);
   if (!firmware) return { title: "Firmware Not Found" };
@@ -127,26 +127,27 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   )
 }
 
-export default async function DownloadPage({ params }: Props) {
-  const firmware = await getFirmwareById(params.firmwareId);
+export default function DownloadPage({ params: promiseParams }: { params: Promise<Props['params']> }) {
+  const params = use(promiseParams);
+  const firmware = use(getFirmwareById(params.firmwareId));
   if (!firmware) notFound();
 
-  const series = await getSeriesById(firmware.seriesId);
+  const series = use(getSeriesById(firmware.seriesId));
   if (!series) notFound();
 
-  const brand = await getBrandById(series.brandId);
+  const brand = use(getBrandById(series.brandId));
   if (!brand) notFound();
 
-  let instructionsData: FlashingInstructionsOutput | null = await getFlashingInstructionsFromDB(brand.id);
+  let instructionsData: FlashingInstructionsOutput | null = use(getFlashingInstructionsFromDB(brand.id));
 
   if (!instructionsData) {
     try {
-        instructionsData = await getFlashingInstructions({ brandName: brand.name });
+        instructionsData = use(getFlashingInstructions({ brandName: brand.name }));
         if (instructionsData) {
             if (instructionsData.tool) {
-                await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
+                use(getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name));
             }
-          await saveFlashingInstructionsToDB(brand.id, instructionsData);
+          use(saveFlashingInstructionsToDB(brand.id, instructionsData));
         }
     } catch (error) {
         console.error("Failed to generate or save flashing instructions:", error);
@@ -200,10 +201,7 @@ export default async function DownloadPage({ params }: Props) {
         </div>
 
         <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-lg">Quick Links</CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {tocItems.map((item) => (
               <Link href={item.href} key={item.href}>
                 <div className="p-4 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
@@ -212,7 +210,7 @@ export default async function DownloadPage({ params }: Props) {
                 </div>
               </Link>
             ))}
-          </CardContent>
+          </div>
         </Card>
 
 
@@ -261,7 +259,7 @@ export default async function DownloadPage({ params }: Props) {
           </div>
           <div className="bg-muted/50 p-6 rounded-b-xl">
               <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="block">
-                  <Button className="w-full" variant="primary" size="lg">
+                  <Button className="w-full animated-button" variant="primary" size="lg">
                   <Download className="mr-2 h-5 w-5" />
                   Start Download
                   <Badge variant="accent" className="ml-2">Free</Badge>

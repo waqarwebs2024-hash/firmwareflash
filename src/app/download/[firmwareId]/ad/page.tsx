@@ -7,7 +7,8 @@ import { getAdSettings } from '@/lib/data';
 import { AdSettings } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function AdPage({ params }: { params: { firmwareId: string } }) {
+export default function AdPage({ params: promiseParams }: { params: Promise<{ firmwareId: string }> }) {
+  const params = use(promiseParams);
   const [adSettings, setAdSettings] = useState<AdSettings | null>(null);
   const [countdown, setCountdown] = useState(10);
   const [showButton, setShowButton] = useState(false);
@@ -22,6 +23,8 @@ export default function AdPage({ params }: { params: { firmwareId: string } }) {
   }, []);
 
   useEffect(() => {
+    if (adSettings === null) return;
+
     if (countdown > 0) {
       const timer = setTimeout(() => {
         setCountdown(countdown - 1);
@@ -30,11 +33,24 @@ export default function AdPage({ params }: { params: { firmwareId: string } }) {
     } else {
       setShowButton(true);
     }
-  }, [countdown]);
+  }, [countdown, adSettings]);
 
   if (!adSettings) {
-    return <div>Loading...</div>;
+    return (
+        <div className="container mx-auto py-12 px-4 flex items-center justify-center min-h-[60vh]">
+            <div className="animate-pulse">Loading...</div>
+        </div>
+    );
   }
+
+  const WaitingButtonContent = () => (
+    <div className="flex items-center justify-center">
+      Please wait {countdown} seconds
+      <span className="loading-ellipsis">
+        <span>.</span><span>.</span><span>.</span>
+      </span>
+    </div>
+  );
 
   return (
     <>
@@ -49,9 +65,9 @@ export default function AdPage({ params }: { params: { firmwareId: string } }) {
                       <p className="text-muted-foreground">Ad placeholder</p>
                   </div>
                   
-                  <Link href={`/download/${params.firmwareId}`}>
-                      <Button disabled={!showButton} className="w-full" variant="accent">
-                      {showButton ? 'Continue to Download' : `Please wait ${countdown} seconds...`}
+                  <Link href={`/download/${params.firmwareId}`} className={!showButton ? 'pointer-events-none' : ''}>
+                      <Button disabled={!showButton} className="w-full" variant="primary">
+                        {showButton ? 'Continue to Download' : <WaitingButtonContent />}
                       </Button>
                   </Link>
               </CardContent>

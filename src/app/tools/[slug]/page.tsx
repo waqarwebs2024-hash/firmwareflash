@@ -15,7 +15,6 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const tool = await getToolBySlug(params.slug);
   if (!tool) return { title: "Tool Not Found" };
@@ -47,7 +46,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
                 <h2 className="text-2xl font-bold mb-4">Download</h2>
                 {tool.downloadUrl ? (
                   <Link href={tool.downloadUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="default" size="lg" className="w-full">
+                    <Button variant="primary" size="lg" className="w-full animated-button">
                       <Download className="mr-2 h-5 w-5" />
                       Download {tool.name}
                       <Badge variant="accent" className="ml-2">Free</Badge>
