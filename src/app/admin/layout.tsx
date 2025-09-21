@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
-  FileUp,
   Megaphone,
   CircleDollarSign,
   Settings,
@@ -42,7 +41,6 @@ import {
 
 const menuItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/submissions', label: 'Submissions', icon: FileUp },
   { href: '/admin/messages', label: 'Messages', icon: Mail },
   { href: '/admin/firmware', label: 'Firmware', icon: Database },
   { href: '/admin/tools', label: 'Tools', icon: Wrench },

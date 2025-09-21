@@ -1,77 +1,105 @@
+'use client';
+
+import React from 'react';
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from '@/components/ui/table';
-  import { Badge } from '@/components/ui/badge';
-  import { Button } from '@/components/ui/button';
-  import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-  import { CheckCircle, XCircle } from 'lucide-react';
-  import { format } from 'date-fns';
-  
-  
-  export default async function SubmissionsPage() {
-    const submissions = [];
-  
-    return (
-      <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Firmware Submissions</h1>
-        <Card>
-            <CardHeader>
-                <CardTitle>Pending Review</CardTitle>
-                <CardDescription>Review and approve or reject new firmware submissions.</CardDescription>
-            </CardHeader>
-          <CardContent>
-            <div className="rounded-lg border">
-                <Table>
-                <TableHeader>
-                    <TableRow>
-                    <TableHead>File Name</TableHead>
-                    <TableHead>Brand & Model</TableHead>
-                    <TableHead className="hidden md:table-cell">Size</TableHead>
-                    <TableHead className="hidden lg:table-cell">Submitter</TableHead>
-                    <TableHead className="hidden sm:table-cell">Date</TableHead>
-                    <TableHead className="text-center">Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {submissions.map((sub: any) => (
-                    <TableRow key={sub.id}>
-                        <TableCell className="font-medium break-all">{sub.fileName}</TableCell>
-                        <TableCell>{sub.brand} {sub.model}</TableCell>
-                        <TableCell className="hidden md:table-cell">{sub.size}</TableCell>
-                        <TableCell className="hidden lg:table-cell">{sub.uploaderName}</TableCell>
-                        <TableCell className="hidden sm:table-cell">{format(sub.submittedAt, 'PPP')}</TableCell>
-                        <TableCell className="text-center">
-                            <Badge variant={sub.status === 'pending' ? 'secondary' : 'default'}>{sub.status}</Badge>
-                        </TableCell>
-                        <TableCell className="text-right space-x-2">
-                        <Button variant="outline" size="sm">
-                            <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
-                            Approve
-                        </Button>
-                        <Button variant="outline" size="sm">
-                            <XCircle className="mr-2 h-4 w-4 text-red-500" />
-                            Reject
-                        </Button>
-                        </TableCell>
-                    </TableRow>
-                    ))}
-                </TableBody>
-                </Table>
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarFooter,
+  SidebarTrigger,
+  SidebarInset,
+} from '@/components/ui/sidebar';
+import {
+  LayoutDashboard,
+  Megaphone,
+  CircleDollarSign,
+  Settings,
+  User,
+  Database,
+  Sprout,
+  Wrench,
+  SearchCheck,
+  Mail,
+} from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+const menuItems = [
+  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/messages', label: 'Messages', icon: Mail },
+  { href: '/admin/firmware', label: 'Firmware', icon: Database },
+  { href: '/admin/tools', label: 'Tools', icon: Wrench },
+  { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
+  { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
+  { href: '/admin/seed', label: 'Seed Data', icon: Sprout },
+  { href: '/admin/seo-report', label: 'AI SEO Report', icon: SearchCheck },
+];
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+
+  return (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-semibold">Admin Panel</h1>
+          </div>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarMenu>
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.href}>
+                <Link href={item.href}>
+                  <SidebarMenuButton
+                    isActive={pathname === item.href}
+                    icon={<item.icon />}
+                  >
+                    <span>{item.label}</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarContent>
+        <SidebarFooter>
+          <div className="flex items-center justify-between p-2">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback>A</AvatarFallback>
+              </Avatar>
+              <span className="text-sm font-medium">Admin</span>
             </div>
-            {submissions.length === 0 && (
-                <div className="text-center py-16">
-                    <p className="text-muted-foreground">No pending submissions.</p>
-                </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-  
+            <Link href="/admin/settings">
+              <Button variant="ghost" size="icon">
+                <Settings className="h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </SidebarFooter>
+      </Sidebar>
+      <SidebarInset>
+        <div className="flex-1 p-4 md:p-6">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}

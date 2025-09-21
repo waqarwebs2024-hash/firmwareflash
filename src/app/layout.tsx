@@ -3,8 +3,12 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { WithContext, WebSite, Organization } from 'schema-dts';
-import { MainLayout } from '@/components/main-layout';
 import { headers } from 'next/headers';
+import { getAnnouncement } from '@/lib/data';
+import { AnnouncementBar } from '@/components/announcement-bar';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { WhatsappFab } from '@/components/whatsapp-fab';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -50,6 +54,7 @@ export default async function RootLayout({
   const headersList = headers();
   const pathname = headersList.get('x-pathname') || '';
   const isAdminPage = pathname.startsWith('/admin');
+  const announcement = await getAnnouncement();
 
   return (
     <html lang="en">
@@ -70,7 +75,13 @@ export default async function RootLayout({
         {isAdminPage ? (
           <>{children}</>
         ) : (
-          <MainLayout>{children}</MainLayout>
+          <div className="flex flex-col min-h-screen">
+            <AnnouncementBar announcement={announcement} />
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <WhatsappFab />
+          </div>
         )}
       </body>
     </html>
