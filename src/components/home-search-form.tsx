@@ -90,7 +90,7 @@ export function HomeSearchForm() {
                     />
                      <button 
                         type="submit" 
-                        className={`absolute right-1 top-1/2 -translate-y-1/2 h-10 bg-accent rounded-full text-white flex items-center justify-center hover:bg-accent/90 transition-all duration-300 ${isPending || isSearching ? 'w-32' : 'w-12'}`} 
+                        className={`absolute right-1 top-1/2 -translate-y-1/2 h-10 bg-accent-2 rounded-full text-white flex items-center justify-center hover:bg-accent-2/90 transition-all duration-300 ${isPending || isSearching ? 'w-32' : 'w-12'}`} 
                         aria-label="Search"
                         disabled={isPending || isSearching}
                     >
