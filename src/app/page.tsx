@@ -1,4 +1,4 @@
-import { getBrands } from '@/lib/data';
+import { getBrands, getAdSettings } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Brand } from '@/lib/types';
@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 
 export default async function Home() {
     const brands: Brand[] = await getBrands();
+    const adSettings = await getAdSettings();
+    const inContentAd = adSettings.slots?.inContent;
 
     const faqItems = [
       {
@@ -47,6 +49,10 @@ export default async function Home() {
         description: "All our firmware files are available for free, with no hidden charges or subscriptions."
       },
     ];
+
+    const brandsToShow = brands.slice(0, 12);
+    const firstHalfBrands = brandsToShow.slice(0, 6);
+    const secondHalfBrands = brandsToShow.slice(6);
 
     return (
         <>
@@ -96,7 +102,24 @@ export default async function Home() {
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold mb-8 text-center">Browse All Brands</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {brands.slice(0, 12).map((brand) => ( // Show first 12 brands
+                        {firstHalfBrands.map((brand) => (
+                            <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
+                                <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
+                                    <CardHeader>
+                                        <CardTitle className="text-xl font-semibold">{brand.name}</CardTitle>
+                                         <CardDescription className="pt-2 text-sm">Download official firmware for all {brand.name} devices.</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            </Link>
+                        ))}
+                        
+                        {inContentAd?.enabled && inContentAd.adCode && (
+                            <div className="sm:col-span-2 md:col-span-1 lg:col-span-2 flex items-center justify-center h-full">
+                                <div dangerouslySetInnerHTML={{ __html: inContentAd.adCode }} />
+                            </div>
+                        )}
+
+                        {secondHalfBrands.map((brand) => (
                             <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
                                 <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
                                     <CardHeader>
