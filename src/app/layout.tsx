@@ -25,21 +25,21 @@ export const metadata: Metadata = {
 const organizationSchema: WithContext<Organization> = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Firmware Finder',
-  url: 'https://firmware-finder-app.com', // Replace with your actual domain
-  logo: 'https://firmware-finder-app.com/logo.png', // Replace with your actual logo URL
+  name: 'My Awesome App',
+  url: 'https://my-awesome-app.com', // Replace with your actual domain
+  logo: 'https://my-awesome-app.com/logo.png', // Replace with your actual logo URL
 };
 
 const websiteSchema: WithContext<WebSite> = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Firmware Finder',
-  url: 'https://firmware-finder-app.com', // Replace with your actual domain
+  name: 'My Awesome App',
+  url: 'https://my-awesome-app.com', // Replace with your actual domain
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://firmware-finder-app.com/search?q={search_term_string}',
+      urlTemplate: 'https://my-awesome-app.com/search?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },

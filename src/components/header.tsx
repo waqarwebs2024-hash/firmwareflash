@@ -2,92 +2,48 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HardDrive, Search, Menu } from 'lucide-react';
-import { HomeSearchForm } from './home-search-form';
-import { useState } from 'react';
-import { Button } from './ui/button';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 
 const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/brands', label: 'Brands' },
-  { href: '/tools', label: 'Tools' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/admin', label: 'Admin' },
+  { href: '/about', label: 'About' },
+  { href: '/brands', label: 'Downloads' },
+  { href: '/docs', label: 'Documentation' },
+  { href: '/community', label: 'Community' },
+  { href: '/stories', label: 'Success Stories' },
+  { href: '/blog', label: 'News' },
+  { href: '/events', label: 'Events' },
 ];
 
 export function Header() {
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
 
   return (
-    <header className="border-b bg-background/95 z-40">
+    <header className="bg-background pt-3 pb-2 shadow-lg">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4 gap-4">
-          
-          <Link href="/" className="flex items-center space-x-2 flex-shrink-0" aria-label="Firmware Finder Homepage">
-            <HardDrive className="h-8 w-8 text-primary" />
-            <div>
-              <span className="font-bold text-xl text-primary">
-                Firmware<span className="text-foreground">Finder</span>
-              </span>
-            </div>
-          </Link>
-          
-          <div className="flex-grow flex justify-end items-center gap-4">
-            <nav className="hidden md:flex items-center space-x-2">
-              {navItems.map(item => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link href={item.href} key={item.href}>
-                    <span className={`px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wider transition-colors ${
-                      isActive 
-                        ? 'text-primary' 
-                        : 'text-muted-foreground hover:text-foreground'
-                    }`}>
+        <nav className="bg-primary rounded-lg shadow-md">
+          <ul className="flex justify-center items-center">
+            {navItems.map((item, index) => {
+              const isActive = pathname === item.href;
+              return (
+                <li key={item.href} className="flex items-center">
+                  <Link href={item.href}>
+                    <span
+                      className={`px-6 py-3 block text-sm font-medium transition-colors ${
+                        isActive
+                          ? 'text-white'
+                          : 'text-primary-foreground/80 hover:text-white'
+                      }`}
+                    >
                       {item.label}
                     </span>
                   </Link>
-                )
-              })}
-            </nav>
-            
-            {!isHomePage && (
-              <div className="hidden md:block w-full max-w-xs">
-                <HomeSearchForm />
-              </div>
-            )}
-
-            <div className="md:hidden">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Menu className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left">
-                   <nav className="grid gap-6 text-lg font-medium mt-8">
-                     {!isHomePage && (
-                       <div className="px-4">
-                          <HomeSearchForm />
-                       </div>
-                     )}
-                     {navItems.map(item => (
-                       <Link
-                          key={item.href}
-                          href={item.href}
-                          className="text-muted-foreground hover:text-foreground"
-                      >
-                          {item.label}
-                      </Link>
-                    ))}
-                  </nav>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-
-        </div>
+                  {index < navItems.length - 1 && (
+                    <div className="h-4 w-px bg-blue-400/50"></div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
       </div>
     </header>
   );
