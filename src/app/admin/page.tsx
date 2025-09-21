@@ -1,12 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, HardDrive, FileUp, Database } from 'lucide-react';
-import { getTotalDownloads, getTotalFirmwares } from '@/lib/data';
+import { Users, HardDrive, FileUp, Database, MousePointerClick, Download } from 'lucide-react';
+import { getTotalDownloads, getTotalFirmwares, getTodaysAnalytics } from '@/lib/data';
 
 export default async function AdminDashboard() {
 
-  const [totalDownloads, totalFirmwares] = await Promise.all([
+  const [totalDownloads, totalFirmwares, todaysAnalytics] = await Promise.all([
     getTotalDownloads(),
     getTotalFirmwares(),
+    getTodaysAnalytics(),
   ]);
 
   return (
@@ -16,28 +17,42 @@ export default async function AdminDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Visitors
+              Today's Visitors
             </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,234,567</div>
+            <div className="text-2xl font-bold">{todaysAnalytics.visitors.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">
-              Analytics not yet implemented
+              Unique visitors for today
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Downloads
+              Today's Downloads
             </CardTitle>
-            <HardDrive className="h-4 w-4 text-muted-foreground" />
+            <Download className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalDownloads.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{todaysAnalytics.downloads.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">
-              Across all firmware
+              Total firmware downloads today
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Ad Clicks Today
+            </CardTitle>
+            <MousePointerClick className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{todaysAnalytics.adsClicks.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">
+              Clicks on ad units today
             </p>
           </CardContent>
         </Card>
@@ -50,18 +65,6 @@ export default async function AdminDashboard() {
             <div className="text-2xl font-bold">{totalFirmwares.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">
               In the database
-            </p>
-          </CardContent>
-        </Card>
-         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Submissions</CardTitle>
-            <FileUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">
-              +19% from last month
             </p>
           </CardContent>
         </Card>

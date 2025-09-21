@@ -1,4 +1,5 @@
 
+
 export interface Brand {
     id: string;
     name: string;
@@ -80,4 +81,11 @@ export interface ContactMessage {
     email: string;
     message: string;
     createdAt: any;
+}
+
+export interface DailyAnalytics {
+    id: string; // YYYY-MM-DD
+    visitors: number;
+    downloads: number;
+    adsClicks: number;
 }

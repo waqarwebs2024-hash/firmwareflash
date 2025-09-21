@@ -2,9 +2,9 @@
 
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics } from './types';
 import slugify from 'slugify';
-import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
+import { seedBrands, brands as brandData } from './seed';
 
 // A function to slugify strings for use in Firestore document IDs
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
@@ -255,12 +255,13 @@ export async function addSeries(name: string, brandId: string): Promise<void> {
   await setDoc(seriesDocRef, { name, brandId });
 }
 
-export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>): Promise<void> {
+export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount' | 'androidVersion'>): Promise<void> {
     const id = createId(firmware.fileName);
     const firmwareDocRef = doc(db, 'firmware', id);
   
     const newFirmware: Omit<Firmware, 'id'> = {
       ...firmware,
+      androidVersion: 'N/A', // Set default value
       uploadDate: new Date(),
       downloadCount: Math.floor(Math.random() * 10000),
     };
@@ -441,4 +442,25 @@ export async function getContactMessages(): Promise<ContactMessage[]> {
   const q = query(contactsCol, orderBy('createdAt', 'desc'));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ContactMessage));
+}
+
+export async function getTodaysAnalytics(): Promise<DailyAnalytics> {
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    const docRef = doc(db, 'analytics/daily', today);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return docSnap.data() as DailyAnalytics;
+    }
+
+    // If no data, return a default object, maybe create it?
+    const defaultData: Omit<DailyAnalytics, 'id'> = {
+        visitors: 120, // Dummy data
+        downloads: 45, // Dummy data
+        adsClicks: 10,  // Dummy data
+    };
+    // Let's create it for subsequent loads.
+    await setDoc(docRef, defaultData);
+    
+    return { id: today, ...defaultData };
 }
