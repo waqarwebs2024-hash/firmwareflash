@@ -2,7 +2,7 @@
 
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation } from './types';
 import slugify from 'slugify';
 import { seedBrands, brands as brandData, seedHuaweiFirmware } from './seed';
 
@@ -228,7 +228,7 @@ export async function addBrand(name: string): Promise<void> {
 
 export async function addSeries(name: string, brandId: string): Promise<void> {
   const id = createId(`${brandId}-${name}`);
-  const seriesDocRef = doc(db, 'series', id);
+  const seriesDocRef = doc(db, 'series', seriesId);
   const brandDocRef = doc(db, 'brands', brandId);
   const brandDoc = await getDoc(brandDocRef);
   if(!brandDoc.exists()) {
@@ -398,4 +398,29 @@ export async function getTotalDownloads(): Promise<number> {
     console.error("Error getting total downloads: ", error);
     return 0;
   }
+}
+
+
+export async function saveDonation(data: { name: string; email?: string; amount: number; message?: string; }) {
+    const donationsCol = collection(db, 'donations');
+    await addDoc(donationsCol, { ...data, createdAt: new Date() });
+}
+
+export async function saveContactMessage(data: { name: string; email: string; message: string; }) {
+    const contactsCol = collection(db, 'contacts');
+    await addDoc(contactsCol, { ...data, createdAt: new Date() });
+}
+
+export async function getDonations(): Promise<Donation[]> {
+  const donationsCol = collection(db, 'donations');
+  const q = query(donationsCol, orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Donation));
+}
+
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  const contactsCol = collection(db, 'contacts');
+  const q = query(contactsCol, orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ContactMessage));
 }

@@ -1,3 +1,4 @@
+
 export interface Brand {
     id: string;
     name: string;
@@ -76,4 +77,21 @@ export interface SeoReport {
     whatIsGood: string[];
     whatToImprove: string[];
     recommendations: string[];
+}
+
+export interface Donation {
+    id: string;
+    name: string;
+    email?: string;
+    amount: number;
+    message?: string;
+    createdAt: any;
+}
+
+export interface ContactMessage {
+    id: string;
+    name: string;
+    email: string;
+    message: string;
+    createdAt: any;
 }

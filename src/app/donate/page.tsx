@@ -11,36 +11,36 @@ import { useState, useTransition } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { saveContactMessageAction } from "@/lib/actions";
+import { saveDonationAction } from "@/lib/actions";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
+import { Loader2, Heart } from "lucide-react";
 
-const contactSchema = z.object({
+const donationSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters."),
-    email: z.string().email("Please enter a valid email address."),
-    message: z.string().min(10, "Message must be at least 10 characters."),
+    email: z.string().email("Please enter a valid email address.").optional().or(z.literal('')),
+    amount: z.coerce.number().min(1, "Donation amount must be at least $1."),
+    message: z.string().optional(),
 });
 
-type ContactFormValues = z.infer<typeof contactSchema>;
+type DonationFormValues = z.infer<typeof donationSchema>;
 
-export default function ContactPage() {
+export default function DonatePage() {
     const [submitted, setSubmitted] = useState(false);
     const [isPending, startTransition] = useTransition();
 
-    const form = useForm<ContactFormValues>({
-        resolver: zodResolver(contactSchema),
-        defaultValues: { name: "", email: "", message: "" }
+    const form = useForm<DonationFormValues>({
+        resolver: zodResolver(donationSchema),
+        defaultValues: { name: "", email: "", message: "", amount: 10 }
     });
 
-    const onSubmit: SubmitHandler<ContactFormValues> = (data) => {
+    const onSubmit: SubmitHandler<DonationFormValues> = (data) => {
         startTransition(async () => {
             try {
-                await saveContactMessageAction(data);
+                await saveDonationAction(data);
                 setSubmitted(true);
             } catch (error) {
-                // In a real app, you'd show a toast notification here
-                console.error("Failed to send message:", error);
-                alert("There was an error sending your message. Please try again.");
+                console.error("Failed to save donation:", error);
+                alert("There was an error processing your donation. Please try again.");
             }
         });
     };
@@ -49,15 +49,18 @@ export default function ContactPage() {
         <MainLayout>
             <div className="container mx-auto py-12 px-4">
                 <Card className="max-w-2xl mx-auto">
-                    <CardHeader>
-                        <CardTitle className="text-3xl">Contact Us</CardTitle>
-                        <CardDescription>Have a question or a submission? Drop us a line.</CardDescription>
+                    <CardHeader className="text-center">
+                        <Heart className="mx-auto h-12 w-12 text-destructive mb-4" />
+                        <CardTitle className="text-3xl">Support Firmware Finder</CardTitle>
+                        <CardDescription>
+                            Your contribution helps us maintain our servers and expand our firmware library. Thank you for your support!
+                        </CardDescription>
                     </CardHeader>
                     <CardContent>
                         {submitted ? (
                             <div className="text-center py-8">
-                                <h3 className="text-2xl font-bold text-primary">Thank You!</h3>
-                                <p className="text-muted-foreground">Your message has been sent. We'll get back to you shortly.</p>
+                                <h3 className="text-2xl font-bold text-primary">Thank You for Your Donation!</h3>
+                                <p className="text-muted-foreground">Your generosity helps keep this project alive.</p>
                             </div>
                         ) : (
                             <Form {...form}>
@@ -68,9 +71,9 @@ export default function ContactPage() {
                                             name="name"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <Label htmlFor="name">Name</Label>
+                                                    <Label htmlFor="name">Full Name</Label>
                                                     <FormControl>
-                                                        <Input id="name" placeholder="Your Name" {...field} />
+                                                        <Input id="name" placeholder="John Doe" {...field} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -81,7 +84,7 @@ export default function ContactPage() {
                                             name="email"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <Label htmlFor="email">Email</Label>
+                                                    <Label htmlFor="email">Email (Optional)</Label>
                                                     <FormControl>
                                                         <Input id="email" type="email" placeholder="your@email.com" {...field} />
                                                     </FormControl>
@@ -92,20 +95,36 @@ export default function ContactPage() {
                                     </div>
                                     <FormField
                                         control={form.control}
-                                        name="message"
+                                        name="amount"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <Label htmlFor="message">Message</Label>
+                                                <Label htmlFor="amount">Amount (USD)</Label>
                                                 <FormControl>
-                                                    <Textarea id="message" placeholder="Your message..." rows={6} {...field} />
+                                                    <div className="relative">
+                                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">$</span>
+                                                        <Input id="amount" type="number" placeholder="10" {...field} className="pl-7" />
+                                                    </div>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="w-full" variant="accent" disabled={isPending}>
+                                    <FormField
+                                        control={form.control}
+                                        name="message"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <Label htmlFor="message">Message (Optional)</Label>
+                                                <FormControl>
+                                                    <Textarea id="message" placeholder="A friendly message..." rows={4} {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" className="w-full" variant="accent" size="lg" disabled={isPending}>
                                         {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                        {isPending ? 'Sending...' : 'Send Message'}
+                                        {isPending ? 'Processing...' : 'Donate Now'}
                                     </Button>
                                 </form>
                             </Form>

@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -26,6 +25,7 @@ import {
   Sprout,
   Wrench,
   SearchCheck,
+  Mail,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -43,6 +43,7 @@ import {
 const menuItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/submissions', label: 'Submissions', icon: FileUp },
+  { href: '/admin/messages', label: 'Messages', icon: Mail },
   { href: '/admin/firmware', label: 'Firmware', icon: Database },
   { href: '/admin/tools', label: 'Tools', icon: Wrench },
   { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
