@@ -1,8 +1,9 @@
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HardDrive, Menu, X } from 'lucide-react';
+import { HardDrive, Menu, X, LogIn } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from './ui/sheet';
 import { useState } from 'react';
@@ -39,6 +40,12 @@ export function Header() {
               </Link>
             );
           })}
+           <Link href="/login">
+            <Button variant="outline" size="sm">
+              <LogIn className="mr-2 h-4 w-4" />
+              Login
+            </Button>
+          </Link>
         </nav>
 
         {/* Mobile Navigation */}
@@ -78,6 +85,16 @@ export function Header() {
                     );
                   })}
                 </nav>
+                 <div className="mt-auto border-t pt-4">
+                    <SheetClose asChild>
+                        <Link href="/login" className="w-full">
+                            <Button variant="primary" className="w-full">
+                                <LogIn className="mr-2 h-4 w-4" />
+                                Admin Login
+                            </Button>
+                        </Link>
+                    </SheetClose>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
