@@ -2,25 +2,40 @@
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Facebook, Twitter, Send } from 'lucide-react';
+import { Separator } from './ui/separator';
 
 export function Footer() {
   return (
-    <footer className="bg-muted py-8 mt-12">
-      <div className="container mx-auto px-4 text-center">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-                <p className="text-muted-foreground">&copy; {new Date().getFullYear()} Firmware Finder. All rights reserved.</p>
-            </div>
-            <div className="flex justify-center space-x-6 mb-4 md:mb-0 text-sm">
-              <Link href="/" className="text-muted-foreground hover:text-primary">Home</Link>
-              <Link href="/about" className="text-muted-foreground hover:text-primary">About</Link>
-              <Link href="/brands" className="text-muted-foreground hover:text-primary">Brands</Link>
-              <Link href="/blog" className="text-muted-foreground hover:text-primary">Blog</Link>
-              <Link href="/contact" className="text-muted-foreground hover:text-primary">Contact</Link>
-              <Link href="/privacy" className="text-muted-foreground hover:text-primary">Privacy Policy</Link>
-              <Link href="/donate" className="text-muted-foreground hover:text-primary">Donate</Link>
-            </div>
-            <div className="flex justify-center space-x-4">
+    <footer className="bg-sidebar text-sidebar-foreground border-t">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div className="space-y-2">
+            <h4 className="font-semibold">Firmware Finder</h4>
+            <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Firmware Finder. All rights reserved.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-8">
+              <div className="space-y-2">
+                  <h4 className="font-semibold">Quick Links</h4>
+                  <ul className="space-y-1 text-sm">
+                      <li><Link href="/" className="text-muted-foreground hover:text-primary">Home</Link></li>
+                      <li><Link href="/brands" className="text-muted-foreground hover:text-primary">Brands</Link></li>
+                      <li><Link href="/tools" className="text-muted-foreground hover:text-primary">Tools</Link></li>
+                      <li><Link href="/blog" className="text-muted-foreground hover:text-primary">Blog</Link></li>
+                  </ul>
+              </div>
+              <div className="space-y-2">
+                  <h4 className="font-semibold">Legal</h4>
+                   <ul className="space-y-1 text-sm">
+                      <li><Link href="/about" className="text-muted-foreground hover:text-primary">About Us</Link></li>
+                      <li><Link href="/contact" className="text-muted-foreground hover:text-primary">Contact</Link></li>
+                      <li><Link href="/privacy" className="text-muted-foreground hover:text-primary">Privacy Policy</Link></li>
+                      <li><Link href="/donate" className="text-muted-foreground hover:text-primary">Donate</Link></li>
+                  </ul>
+              </div>
+          </div>
+          <div className="space-y-4">
+            <h4 className="font-semibold">Follow Us</h4>
+            <div className="flex space-x-2">
                 <Button variant="ghost" size="icon" asChild>
                     <Link href="https://facebook.com" target="_blank" aria-label="Facebook">
                         <Facebook className="h-5 w-5" />
@@ -31,12 +46,13 @@ export function Footer() {
                         <Twitter className="h-5 w-5" />
                     </Link>
                 </Button>
-                <Button variant="ghost" size="icon" asChild>
+                 <Button variant="ghost" size="icon" asChild>
                     <Link href="https://telegram.org" target="_blank" aria-label="Telegram">
                         <Send className="h-5 w-5" />
                     </Link>
                 </Button>
             </div>
+          </div>
         </div>
       </div>
     </footer>
