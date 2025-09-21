@@ -127,7 +127,7 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   )
 }
 
-export default async function DownloadPage({ params }: { params: { firmwareId: string } }) {
+export default async function DownloadPage({ params }: Props) {
   const firmware = await getFirmwareById(params.firmwareId);
   if (!firmware) notFound();
 
@@ -261,7 +261,7 @@ export default async function DownloadPage({ params }: { params: { firmwareId: s
           </div>
           <div className="bg-muted/50 p-6 rounded-b-xl">
               <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="block">
-                  <Button className="w-full" variant="default" size="lg">
+                  <Button className="w-full" variant="primary" size="lg">
                   <Download className="mr-2 h-5 w-5" />
                   Start Download
                   <Badge variant="accent" className="ml-2">Free</Badge>
