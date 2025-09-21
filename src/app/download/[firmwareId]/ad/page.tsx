@@ -15,9 +15,16 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
 
   useEffect(() => {
     async function fetchSettings() {
-      const settings = await getAdSettings();
-      setAdSettings(settings);
-      setCountdown(settings.timeout || 10);
+      try {
+        const settings = await getAdSettings();
+        setAdSettings(settings);
+        setCountdown(settings.timeout || 10);
+      } catch (error) {
+        console.error("Failed to fetch ad settings:", error);
+        // Fallback to defaults if fetch fails
+        setAdSettings({ enabled: true, adsenseClient: '', adsenseSlot: '', timeout: 10 });
+        setCountdown(10);
+      }
     }
     fetchSettings();
   }, []);
@@ -30,10 +37,10 @@ export default function AdPage({ params: promiseParams }: { params: Promise<{ fi
         setCountdown(countdown - 1);
       }, 1000);
       return () => clearTimeout(timer);
-    } else {
+    } else if (!showButton) {
       setShowButton(true);
     }
-  }, [countdown, adSettings]);
+  }, [countdown, adSettings, showButton]);
 
   if (!adSettings) {
     return (
