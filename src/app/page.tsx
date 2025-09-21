@@ -40,14 +40,11 @@ export default async function Home() {
                 >
                     <div className="relative z-10 p-8 flex flex-col items-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
-                            Firmware Finder
+                            The Ultimate Firmware Resource
                         </h1>
                         <p className="text-lg text-gray-200 mb-8 max-w-2xl">
-                            The ultimate resource for official stock firmware. Find and download the right ROM for your smartphone or tablet with ease.
+                            Find and download the right ROM for your smartphone or tablet with ease.
                         </p>
-                        <div className="w-full max-w-2xl">
-                            <HomeSearchForm />
-                        </div>
                     </div>
                 </div>
 

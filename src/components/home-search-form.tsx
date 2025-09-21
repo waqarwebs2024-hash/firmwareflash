@@ -1,4 +1,3 @@
-
 'use client';
 
 import { FormEvent, useTransition, useState, useEffect, useCallback, useRef } from 'react';
@@ -10,7 +9,6 @@ import { Firmware } from '@/lib/types';
 import Link from 'next/link';
 import { Button } from './ui/button';
 
-// Debounce function
 function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
     let timeout: NodeJS.Timeout;
     return (...args: Parameters<F>): Promise<ReturnType<F>> =>
@@ -20,12 +18,7 @@ function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
         });
 }
 
-interface HomeSearchFormProps {
-    variant?: 'light' | 'dark';
-    onBlur?: () => void;
-}
-
-export function HomeSearchForm({ variant = 'light', onBlur }: HomeSearchFormProps) {
+export function HomeSearchForm() {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [query, setQuery] = useState('');
@@ -68,35 +61,31 @@ export function HomeSearchForm({ variant = 'light', onBlur }: HomeSearchFormProp
         const handleClickOutside = (event: MouseEvent) => {
             if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
                 setShowResults(false);
-                if (onBlur) {
-                    onBlur();
-                }
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [onBlur]);
+    }, []);
 
     return (
-        <div className="w-full max-w-2xl relative mx-auto" ref={searchContainerRef}>
+        <div className="w-full relative" ref={searchContainerRef}>
             <form onSubmit={handleSearch}>
                 <div className="relative flex items-center w-full">
                     <Input
                         type="search"
                         name="search"
-                        placeholder="Search for firmware, brand, or model..."
-                        className="w-full h-14 pl-5 pr-14 rounded-full text-base bg-white border-2 border-gray-900 text-gray-900 placeholder:text-gray-500 focus-visible:ring-primary"
+                        placeholder="Search firmware..."
+                        className="h-10 pl-4 pr-12 text-sm border-gray-300 rounded-md focus-visible:ring-accent-2"
                         disabled={isPending}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => query.length > 2 && setShowResults(true)}
-                        autoFocus={variant === 'dark'}
                     />
                     <Button 
                         type="submit" 
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground h-10 w-10 p-0"
+                        className="absolute right-0 top-0 rounded-l-none rounded-r-md bg-accent-2 hover:bg-accent-2/90 text-white h-10 w-10 p-0"
                         disabled={isPending}
                         aria-label="Search"
                     >

@@ -1,94 +1,60 @@
-
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from './ui/button';
-import { HardDrive, Search, Menu } from 'lucide-react';
+import { HardDrive } from 'lucide-react';
 import { HomeSearchForm } from './home-search-form';
-import { useEffect, useState } from 'react';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/brands', label: 'Brands' },
+  { href: '/tools', label: 'Tools' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/admin', label: 'Admin' },
+];
 
 export function Header() {
   const pathname = usePathname();
-  const [showSearch, setShowSearch] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const isHomePage = pathname === '/';
-
-  // Close search and mobile menu on navigation
-  useEffect(() => {
-    setShowSearch(false);
-    setMobileMenuOpen(false);
-  }, [pathname]);
-
-  const navLinks = (
-    <>
-        <Link href="/">
-          <Button variant="ghost">Home</Button>
-        </Link>
-        <Link href="/brands">
-          <Button variant="ghost">Brands</Button>
-        </Link>
-        <Link href="/tools">
-          <Button variant="ghost">Tools</Button>
-        </Link>
-        <Link href="/blog">
-          <Button variant="ghost">Blog</Button>
-        </Link>
-        <Link href="/admin">
-          <Button>Admin</Button>
-        </Link>
-    </>
-  );
 
   return (
-    <header className="border-b sticky top-0 bg-background/95 z-40">
+    <header className="border-b bg-background/95 z-40">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
-          <Link href="/" className="flex items-center space-x-2" aria-label="Firmware Finder Homepage">
-            <HardDrive className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg">Firmware Finder</span>
+        <div className="flex justify-between items-center py-4 gap-4">
+          
+          <Link href="/" className="flex items-center space-x-2 flex-shrink-0" aria-label="Firmware Finder Homepage">
+            <HardDrive className="h-8 w-8 text-slate-700" />
+            <div>
+              <span className="font-bold text-xl text-accent-2">
+                Firmware<span className="text-slate-700">Finder</span>
+              </span>
+              <p className="text-xs text-muted-foreground">Your firmware is here!</p>
+            </div>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-1">
-            {navLinks}
-            {!isHomePage && (
-                 <Button variant="ghost" size="icon" onClick={() => setShowSearch(!showSearch)}>
-                    <Search className="h-5 w-5" />
-                    <span className="sr-only">Search</span>
-                </Button>
-            )}
-          </nav>
-
-          <div className="md:hidden flex items-center gap-2">
-            {!isHomePage && (
-                <Button variant="ghost" size="icon" onClick={() => setShowSearch(!showSearch)}>
-                    <Search className="h-5 w-5" />
-                     <span className="sr-only">Search</span>
-                </Button>
-            )}
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left">
-                <div className="flex flex-col gap-4 pt-8">
-                  {navLinks}
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-        
-        {!isHomePage && showSearch && (
-            <div className="pb-4 absolute top-full left-0 w-full bg-background/95 border-b px-4">
-                <HomeSearchForm variant="dark" onBlur={() => setShowSearch(false)} />
+          <div className="flex-grow flex justify-end items-center gap-4">
+            <nav className="hidden md:flex items-center space-x-2">
+              {navItems.map(item => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link href={item.href} key={item.href}>
+                    <span className={`px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wider transition-colors ${
+                      isActive 
+                        ? 'text-accent-2' 
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}>
+                      {item.label}
+                    </span>
+                  </Link>
+                )
+              })}
+            </nav>
+            
+            <div className="w-full max-w-xs">
+              <HomeSearchForm />
             </div>
-        )}
+          </div>
+
+        </div>
       </div>
     </header>
   );
