@@ -10,51 +10,11 @@ import {
   import { Button } from '@/components/ui/button';
   import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
   import { CheckCircle, XCircle } from 'lucide-react';
-  import { Submission } from '@/lib/types';
   import { format } from 'date-fns';
   
-  // Dummy data for now, we will replace this with Firestore data later
-  const dummySubmissions: Submission[] = [
-    {
-      id: 'sub1',
-      fileName: 'galaxy_s22_ultra_firmware.zip',
-      brand: 'Samsung',
-      model: 'Galaxy S22 Ultra',
-      version: 'S908U1UEU2AVF7',
-      size: '4.5 GB',
-      fileUrl: 'https://example.com/s22u.zip',
-      uploaderName: 'John Doe',
-      submittedAt: new Date(2023, 10, 5),
-      status: 'pending',
-    },
-    {
-        id: 'sub2',
-        fileName: 'pixel_7_pro_firmware.zip',
-        brand: 'Google',
-        model: 'Pixel 7 Pro',
-        version: 'TP1A.220624.014',
-        size: '2.1 GB',
-        fileUrl: 'https://example.com/p7p.zip',
-        uploaderName: 'Jane Smith',
-        submittedAt: new Date(2023, 10, 4),
-        status: 'pending',
-    },
-    {
-        id: 'sub3',
-        fileName: 'mi_11_lite_firmware.zip',
-        brand: 'Xiaomi',
-        model: 'Mi 11 Lite',
-        version: 'MIUI 14.0.5.0',
-        size: '3.2 GB',
-        fileUrl: 'https://example.com/mi11.zip',
-        uploaderName: 'Aarav Sharma',
-        submittedAt: new Date(2023, 10, 3),
-        status: 'pending',
-    },
-  ];
   
   export default async function SubmissionsPage() {
-    const submissions = dummySubmissions;
+    const submissions = [];
   
     return (
       <div className="space-y-6">
@@ -79,7 +39,7 @@ import {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {submissions.map((sub) => (
+                    {submissions.map((sub: any) => (
                     <TableRow key={sub.id}>
                         <TableCell className="font-medium break-all">{sub.fileName}</TableCell>
                         <TableCell>{sub.brand} {sub.model}</TableCell>

@@ -1,11 +1,9 @@
 
 'use server';
 
-import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, saveSubmission, getPendingSubmissions, approveSubmission, rejectSubmission } from './data';
+import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage } from './data';
 import { seedHuaweiFirmware } from './seed';
-import type { AdSettings, ScrapedFirmware } from './types';
-import { scrapeFirmwareFlow } from '@/ai/flows/scrape-firmware-flow';
-import { revalidatePath } from 'next/cache';
+import type { AdSettings } from './types';
 
 
 export async function updateAnnouncementAction(text: string) {
@@ -55,38 +53,4 @@ export async function saveDonationAction(data: { name: string; email?: string; a
 
 export async function saveContactMessageAction(data: { name: string; email: string; message: string; }) {
   await saveContactMessage(data);
-}
-
-export async function scrapeUrlAction(url: string) {
-    try {
-        const scrapedData = await scrapeFirmwareFlow({ url });
-        if (scrapedData) {
-            await saveSubmission(scrapedData);
-            revalidatePath('/admin/scraper');
-            return { success: true, data: scrapedData };
-        }
-        return { success: false, error: 'No data scraped.' };
-    } catch (error: any) {
-        return { success: false, error: error.message };
-    }
-}
-
-export async function approveSubmissionAction(submissionId: string, brandId: string, seriesId: string) {
-    try {
-        await approveSubmission(submissionId, brandId, seriesId);
-        revalidatePath('/admin/scraper');
-        return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
-    }
-}
-
-export async function rejectSubmissionAction(submissionId: string) {
-    try {
-        await rejectSubmission(submissionId);
-        revalidatePath('/admin/scraper');
-        return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
-    }
 }

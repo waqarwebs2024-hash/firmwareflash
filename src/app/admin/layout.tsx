@@ -26,7 +26,6 @@ import {
   Wrench,
   SearchCheck,
   Mail,
-  Cpu,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -47,7 +46,6 @@ const menuItems = [
   { href: '/admin/messages', label: 'Messages', icon: Mail },
   { href: '/admin/firmware', label: 'Firmware', icon: Database },
   { href: '/admin/tools', label: 'Tools', icon: Wrench },
-  { href: '/admin/scraper', label: 'Scraper', icon: Cpu },
   { href: '/admin/announcement', label: 'Announcement', icon: Megaphone },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
