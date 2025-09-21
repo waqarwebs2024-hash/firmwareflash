@@ -15,35 +15,33 @@ export async function searchFirmware(searchTerm: string): Promise<Firmware[]> {
   const searchTermLower = searchTerm.toLowerCase();
 
   try {
-    // 1. Get all brands and series to build a lookup map
     const brands = await getBrands();
     const allSeries = await getAllSeries();
-    
-    const brandMap = new Map(brands.map(b => [b.id, b.name]));
-    const seriesMap = new Map(allSeries.map(s => [s.id, { name: s.name, brandName: brandMap.get(s.brandId) || '' }]));
 
-    // 2. Fetch all firmware documents
+    // Find matching brand and series IDs
+    const matchingBrandIds = brands
+      .filter(b => b.name.toLowerCase().includes(searchTermLower))
+      .map(b => b.id);
+    
+    const matchingSeriesIds = allSeries
+      .filter(s => s.name.toLowerCase().includes(searchTermLower))
+      .map(s => s.id);
+
+    // Get all firmware
     const firmwareCol = collection(db, 'firmware');
     const firmwareSnapshot = await getDocs(firmwareCol);
-    
-    // 3. Filter the results in memory
-    const results = firmwareSnapshot.docs.map(doc => {
-      const firmware = { id: doc.id, ...doc.data() } as Firmware;
-      const seriesInfo = seriesMap.get(firmware.seriesId);
-      
-      // Combine all searchable text into a single string
-      const searchableText = [
-        firmware.fileName,
-        seriesInfo?.name,
-        seriesInfo?.brandName
-      ].join(' ').toLowerCase();
+    const allFirmware = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
 
-      return { firmware, searchableText };
-    })
-    .filter(({ searchableText }) => searchableText.includes(searchTermLower))
-    .map(({ firmware }) => firmware);
+    // Filter firmware based on file name, brand, or series
+    const results = allFirmware.filter(fw => {
+      const fileNameMatch = fw.fileName.toLowerCase().includes(searchTermLower);
+      const brandMatch = matchingBrandIds.includes(fw.brandId);
+      const seriesMatch = matchingSeriesIds.includes(fw.seriesId);
+      return fileNameMatch || brandMatch || seriesMatch;
+    });
 
     return results;
+
   } catch (error) {
     console.error("Error searching firmware: ", error);
     return [];
