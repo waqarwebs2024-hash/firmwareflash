@@ -2,7 +2,7 @@
 'use server';
 
 import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts } from './data';
-import { seedHuaweiFirmware } from './seed';
+import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware } from './types';
 import { login, logout } from './auth';
 
@@ -35,10 +35,10 @@ export async function addSeriesAction(name: string, brandId: string) {
     await addSeries(name, brandId);
 }
 
-export async function seedHuaweiDataAction() {
+export async function seedLegacyDataAction() {
   try {
-    await seedHuaweiFirmware();
-    return { success: true, message: 'Huawei firmware has been successfully seeded!' };
+    const result = await seedFromLegacyFiles();
+    return { success: true, message: `Seeding complete! ${result.brandsAdded} brands, ${result.seriesAdded} series, and ${result.firmwareAdded} firmware files were added.` };
   } catch (error: any) {
     return { success: false, message: error.message || 'An unknown error occurred.' };
   }
