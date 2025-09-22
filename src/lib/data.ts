@@ -3,6 +3,7 @@
 
 
 
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, AdSlot, HeaderScripts } from './types';
@@ -270,21 +271,6 @@ export async function addFirmware(firmware: Omit<Firmware, 'id' | 'uploadDate' |
   
     await setDoc(firmwareDocRef, newFirmware);
 }
-
-export async function getAnnouncement(): Promise<string> {
-  const settingsDocRef = doc(db, 'settings', 'announcement');
-  const docSnap = await getDoc(settingsDocRef);
-  if (docSnap.exists()) {
-    return docSnap.data().text || '';
-  }
-  return 'Welcome to Firmware Finder! We are constantly updating our database with new firmware. If you have a request, please let us know.';
-}
-
-export async function setAnnouncement(text: string): Promise<void> {
-  const settingsDocRef = doc(db, 'settings', 'announcement');
-  await setDoc(settingsDocRef, { text });
-}
-
 
 export async function getAdSettings(): Promise<AdSettings> {
   const settingsDocRef = doc(db, 'settings', 'ads');

@@ -1,7 +1,7 @@
 
 'use server';
 
-import { setAnnouncement, updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts } from './data';
 import { seedHuaweiFirmware } from './seed';
 import type { AdSettings, Firmware } from './types';
 import { login, logout } from './auth';
@@ -12,10 +12,6 @@ export async function loginAction(formData: FormData) {
 
 export async function logoutAction() {
     await logout();
-}
-
-export async function updateAnnouncementAction(text: string) {
-    await setAnnouncement(text);
 }
 
 export async function updateAdSettingsAction(settings: AdSettings) {
