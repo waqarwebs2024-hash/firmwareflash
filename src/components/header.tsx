@@ -42,66 +42,72 @@ export function Header() {
               </Link>
             );
           })}
-           <Link href="/login">
-            <Button variant="outline" size="sm">
-              <LogIn className="mr-2 h-4 w-4" />
-              Login
-            </Button>
-          </Link>
         </nav>
 
-        {/* Mobile Navigation */}
-        <div className="md:hidden">
-          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
+        {/* Right side controls */}
+        <div className="flex items-center gap-2">
+          <div className="hidden md:block">
+            <Link href="/login">
+              <Button variant="outline" size="sm">
+                <LogIn className="mr-2 h-4 w-4" />
+                Login
               </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between border-b pb-4">
-                  <Link href="/" className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
-                    <HardDrive className="h-8 w-8 text-primary" />
-                    <span className="text-xl font-bold">
-                        <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
-                    </span>
-                  </Link>
-                  <SheetClose asChild>
-                     <Button variant="ghost" size="icon">
-                        <X className="h-6 w-6" />
-                        <span className="sr-only">Close menu</span>
-                    </Button>
-                  </SheetClose>
-                </div>
-                <nav className="mt-8 flex flex-col gap-6">
-                  {navItems.map((item) => {
-                    const isActive = pathname === item.href;
-                    return (
-                        <SheetClose asChild key={item.href}>
-                          <Link href={item.href} >
-                            <span className={`text-lg font-medium transition-colors hover:text-primary ${isActive ? 'text-primary' : 'text-foreground'}`}>
-                              {item.label}
-                            </span>
-                          </Link>
-                        </SheetClose>
-                    );
-                  })}
-                </nav>
-                 <div className="mt-auto border-t pt-4">
+            </Link>
+          </div>
+          
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center justify-between border-b pb-4">
+                    <Link href="/" className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
+                      <HardDrive className="h-8 w-8 text-primary" />
+                      <span className="text-xl font-bold">
+                          <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
+                      </span>
+                    </Link>
                     <SheetClose asChild>
-                        <Link href="/login" className="w-full">
-                            <Button variant="primary" className="w-full">
-                                <LogIn className="mr-2 h-4 w-4" />
-                                Admin Login
-                            </Button>
-                        </Link>
+                       <Button variant="ghost" size="icon">
+                          <X className="h-6 w-6" />
+                          <span className="sr-only">Close menu</span>
+                      </Button>
                     </SheetClose>
+                  </div>
+                  <nav className="mt-8 flex flex-col gap-6">
+                    {navItems.map((item) => {
+                      const isActive = pathname === item.href;
+                      return (
+                          <SheetClose asChild key={item.href}>
+                            <Link href={item.href} >
+                              <span className={`text-lg font-medium transition-colors hover:text-primary ${isActive ? 'text-primary' : 'text-foreground'}`}>
+                                {item.label}
+                              </span>
+                            </Link>
+                          </SheetClose>
+                      );
+                    })}
+                  </nav>
+                   <div className="mt-auto border-t pt-4">
+                      <SheetClose asChild>
+                          <Link href="/login" className="w-full">
+                              <Button variant="primary" className="w-full">
+                                  <LogIn className="mr-2 h-4 w-4" />
+                                  Admin Login
+                              </Button>
+                          </Link>
+                      </SheetClose>
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
