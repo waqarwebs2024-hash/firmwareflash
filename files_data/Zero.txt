@@ -1,0 +1,5 @@
+Model,File Name,File Size,Download Link
+Zero Metal Pro M3,Zero_Metal_Pro_M3_SP7731_V05_20160907_SPD.zip,854 MB,https://drive.google.com/file/d/11MrT9dXmDM_MP3qKyUZODvDykduebE21/view
+Zero Diamond Plus X50,Zero_Diamond_Plus_X50_SP7731CEB_,971 MB,https://drive.google.com/file/d/1r7I1xZpuie9boO_kcwU_foMBadAwLwHr/view
+Zero Metal Pro M3,Zero_Metal_Pro_M3_SP7731_V05_20160907_SPD.zip,854 MB,https://drive.google.com/file/d/11MrT9dXmDM_MP3qKyUZODvDykduebE21/view
+Zero Diamond Plus X50,Zero_Diamond_Plus_X50_SP7731CEB_,971 MB,https://drive.google.com/file/d/1r7I1xZpuie9boO_kcwU_foMBadAwLwHr/view

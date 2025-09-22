@@ -1,0 +1,3 @@
+Model,File Name,File Size,Download Link
+Wiio Wi Star 3G,Wiio_Wi_Star_3G_MT6572_20141203_4.4.2.zip,387 MB,https://drive.google.com/file/d/14Jjj0GaF3_FDCdkp-YRDf7iizhvatY8D/view
+Wiio Wi Star 3G,Wiio_Wi_Star_3G_MT6572_20141203_4.4.2.zip,387 MB,https://drive.google.com/file/d/14Jjj0GaF3_FDCdkp-YRDf7iizhvatY8D/view

@@ -1,0 +1,3 @@
+Model,File Name,File Size,Download Link
+Winmax M55,Winmax_M55_E301_V5.2_2SIM_TD206B_20121204_SPD.zip,187 MB,https://drive.google.com/file/d/1rc3iiNmsyae969nnlIy8PR51wjF5EVF5/view
+Winmax Polar H4,Winmax_Polar_H4_MT6580_V01.03_20181015_8.1.0.zip,495 MB,https://drive.google.com/file/d/1Pf0-rrNqxlZxbA3K1S_VLMi6TnwHNGMn/view

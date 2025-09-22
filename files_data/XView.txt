@@ -1,0 +1,5 @@
+Model,File Name,File Size,Download Link
+X-View Zen U5,X-View_Zen_U5_MT6735_Dual_SIM_190416_5.1.zip,898 MB,https://drive.google.com/file/d/1fHhov5DZkCwsPOLyb47DsifjBqKwo_8k/view
+X-View Proton Amber LT 7,X-View_Proton_Amber_LT_7_RK3126_RTL8703BS_130417_6.0.1_MIRA.zip,680 MB,https://drive.google.com/file/d/1sCW44LdtR979kGt8iJEy07Jgc-srmkFz/view
+X-View Zen U5,X-View_Zen_U5_MT6735_Dual_SIM_190416_5.1.zip,898 MB,https://drive.google.com/file/d/1fHhov5DZkCwsPOLyb47DsifjBqKwo_8k/view
+X-View Proton Amber LT 7,X-View_Proton_Amber_LT_7_RK3126_RTL8703BS_130417_6.0.1_MIRA.zip,680 MB,https://drive.google.com/file/d/1sCW44LdtR979kGt8iJEy07Jgc-srmkFz/view

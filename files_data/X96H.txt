@@ -1,0 +1,2 @@
+Model,File Name,File Size,Download Link
+X96H Smart,X96H_Smart_181005_9.0_OTA.zip,787 MB,https://drive.google.com/file/d/1SrizA-i2UPvKuxRkvWGM9PGFhIzDYzpD/view

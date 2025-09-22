@@ -1,0 +1,3 @@
+Model,File Name,File Size,Download Link
+Xiaomi Redmi Note 7 Clone,Xiaomi_Redmi_Note_7_Clone_MT6580_220419_7.1.zip,566 MB,https://drive.google.com/file/d/1Ro8h6sFY_Wzbctc6LnEV_-SgoztfozHq/view
+Xiaomi 8X Clone,Xiaomi_8X_Clone_MT6580_03262016_8.0.zip,505 MB,https://drive.google.com/file/d/1u22FLMTznSy2oFxpK9DTrwc0is39Cfo8/view

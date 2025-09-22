@@ -1,0 +1,3 @@
+Model,File Name,File Size,Download Link
+Zelta Q200,Zelta_Q200_MT6580_1.0_13052017_6.0.zip,1008.8 MB,https://drive.google.com/file/d/1LtgZ7r8ewtxMXauVt2yCNbLt3iigd1B8/view
+Zelta Q40,Zelta_Q40_MT6582_07142015_4.4.2.zip,496 MB,https://drive.google.com/file/d/1P9gUCL7kzUrBirKoAzxnkQW-nv8NPUKd/view

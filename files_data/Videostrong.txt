@@ -1,0 +1,5 @@
+Model,File Name,File Size,Download Link
+Videostrong Yoka KB2 Pro,Videostrong_Yoka_KB2_Pro_V0213_120817_OTA.zip,785 MB,https://drive.google.com/file/d/1CwLdl6nTfnOf-yxcC3iO5ojqhyi2Lu85/view
+Videostrong Yoka KB2,Videostrong_Yoka_KB2_V0928_171102_OTA.zip,986 MB,https://drive.google.com/file/d/1s-ToyI7APz8d-5bjep_cDTuJuMFQJU4j/view
+Videostrong Yoka KB2 Pro,Videostrong_Yoka_KB2_Pro_V0213_120817_OTA.zip,785 MB,https://drive.google.com/file/d/1CwLdl6nTfnOf-yxcC3iO5ojqhyi2Lu85/view
+Videostrong Yoka KB2,Videostrong_Yoka_KB2_V0928_171102_OTA.zip,986 MB,https://drive.google.com/file/d/1s-ToyI7APz8d-5bjep_cDTuJuMFQJU4j/view

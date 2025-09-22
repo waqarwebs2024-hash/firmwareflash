@@ -1,0 +1,6 @@
+Model,File Name,File Size,Download Link
+Yu Yureka Black YU5040,Yu_Yureka_Black_YU5040_SW_V10_HW_V1.0_03022017_QPST.zip,2 GB,https://drive.google.com/file/d/1kC-F_GTrXnEnsh6eUmZtPjYmJlu8tNjj/view
+Yu Yureka 2 YU5551,Yu_Yureka_2_YU5551_SW_V023_HW_M11_23072017_QPST.zip,2 GB,https://drive.google.com/file/d/1CqF6Z9JgRwkcW2Oe1sc6LUDuTSr7hCf1/view
+YU YU5014,YU_YU5014_MT6739_SW_V07_HW_V2.0_20180830.zip,1 GB,https://drive.google.com/file/d/195rFQQmCHqA_kiU8H7sBIS1g82Qa3a0L/view
+Yu Ace YU5014,Yu_Ace_YU5014_MT6739_SW_V07_HW_V2.0_20180830.zip,1 GB,https://drive.google.com/file/d/1uZX2HnSkxTRQX0drYXP6YTJIbYhSh689/view
+Yu Yureka Note YU6000,Yu_Yureka_Note_YU6000_MT6753_SW_V1.0.9_HW_V1.0_170516.zip,1 GB,https://drive.google.com/file/d/1E2dfPZHlxsKoJDfc9lUpTuLeJgiW_VY_/view

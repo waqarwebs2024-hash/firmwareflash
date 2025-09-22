@@ -1,0 +1,5 @@
+Model,File Name,File Size,Download Link
+Whitecherry MI Bolt,Whitecherry_MI_Bolt_MT6580_DDR3_V01_030616_5.1.zip,717 MB,https://drive.google.com/file/d/1YqV1_QkpoRrbuwONqK2aNmk8MIs22dfg/view
+Whitecherry MI JooSE2,Whitecherry_MI_JooSE2_MT6580_160622_5.1.zip,543 MB,https://drive.google.com/file/d/1ZRkel7yfLWG4jj7SL2ChIqgNqm_C5_SP/view
+Whitecherry MI1,Whitecherry_Mi_1_MT6572_03022015.zip,441 MB,https://drive.google.com/file/d/1pShgK4rJ5eH5w2r2Lvy7uoMSIs3cznsA/view
+Whitecherry MI2,Whitecherry_MI2_MT6572_V02_030215_4.4.2.zip,399 MB,https://drive.google.com/file/d/1uovbDRYFg-3HkIXl81ocvhi74wdZtNdp/view

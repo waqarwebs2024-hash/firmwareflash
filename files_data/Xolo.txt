@@ -1,0 +1,4 @@
+Model,File Name,File Size,Download Link
+Xolo Tegra Note 7,Xolo_Tegra_Note_7_SW_Lollipop.zip,6.74 GB,https://drive.google.com/file/d/1grIgaukA0oYnI6stDN0DEfvUzosC_NwJ/view
+Xolo Era 4G,Xolo_Era_4G_S118_20160206_SPD.zip,771 MB,https://drive.google.com/file/d/1qm2vURLUqE1J0LTKoUuZ09cS6-B7Dq-a/view
+Xolo Prime,Xolo_Prime_MT6582_S007_18042015.zip,571 MB,https://drive.google.com/file/d/15i1-S90_0zNIgPHK2r4QeTxAnnxgN8Ze/view?usp=drive_link

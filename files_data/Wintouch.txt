@@ -1,0 +1,22 @@
+Model,File Name,File Size,Download Link
+Wintouch A710S,Wintouch_A710S_V2.0.1_140303_4.2.2_LS.zip,626 MB,https://drive.google.com/file/d/1kYQscmvoIZQ-MXDoYsiBSQ6XAXthmNcS/view
+Wintouch K76,Wintouch_K76_190225_4.4.2_LS.zip,1.13 GB,https://drive.google.com/file/d/1BA9x3PTLKksgYswiMeEJQSqzaspOOQLE/view
+Wintouch K93,Wintouch_K93_210824_6.0_LS.zip,873 MB,https://drive.google.com/file/d/19_cC3-34jittzQ95ErFVYTjScTHue94J/view
+Wintouch K81,Wintouch_K81_MT6592_210406_5.1.zip,948 MB,https://drive.google.com/file/d/1IrGCU-aBz8TJ2eKoic_YreeIeYK8Lc98/view
+Wintouch K72P,Wintouch_K72P_R8497_200923_8.1.0_LS.zip,1.34 GB,https://drive.google.com/file/d/1Ax2jD_n_Mkau_2FIGP59dpGWrONYQWM3/view
+Wintouch K717,Wintouch_K717_MT6582_290822_5.1.zip,847 MB,https://drive.google.com/file/d/1xjPmZLxTFMG3JKMBH_DljBlCTHwNNvry/view
+Wintouch M5,Wintouch_M5_MT6582_V02_301215_4.4.2.zip,618 MB,https://drive.google.com/file/d/1Se48EdDmtO5owScUVmN3MjbpVLzBY09Z/view
+Wintouch K72,Wintouch_K72_K50331_140316_RBT.zip,766 MB,https://drive.google.com/file/d/1D636YMmpa987eQQFcanHiOgpmX0XYNV-/view
+Wintouch A91,Wintouch_A91_K50316_140316_PS.zip,372 MB,https://drive.google.com/file/d/1Euw24o1ZBcFOm9AD6QnCa1NElzSw7mHy/view
+Wintouch A11,Wintouch_A11_141120_PS.zip,644 MB,https://drive.google.com/file/d/1TJlfBQjYNoovHlz1kedEqrVl-kc-Z8zf/view
+Wintouch M18,Wintouch_M18_MT6735_250321_8.1.0.zip,844 MB,https://drive.google.com/file/d/1cZpZV5HwGDVALhlw5cUo30EgpMxMWD_U/view
+Wintouch M82,Wintouch_M82_MT6582_150414.zip,583 MB,https://drive.google.com/file/d/1poWURT8-W6W9DqPRZAy9lAIeah8ak0yC/view
+Wintouch M95,Wintouch_M95_MT6572_300515.zip,463 MB,https://drive.google.com/file/d/1CeMtQFe9xZyRFXptmOUG4kA2EFJzd1Ws/view
+Wintouch M502,Wintouch_M502_MT6582_V1.0_101215_4.4.2.zip,444 MB,https://drive.google.com/file/d/1hIraCdEhrf4QwIKP0sZJqGV2EM3mNhyP/view
+Wintouch M702,Wintouch_M702_MT6572_V04_120114_SPMDT.zip,452 MB,https://drive.google.com/file/d/1vncdiwaHHn2pFjWINvIUe-0F1FMtEg5f/view
+Wintouch M702S,Wintouch_M702S_MT6572_V05_150826_SPMDT.zip,443 MB,https://drive.google.com/file/d/1biTS0LtPsZ4jNghPb4dSVUH2c326AJ-m/view
+Wintouch M713,Wintouch_M713_MT6572_V01_150413_SPMDT.zip,447 MB,https://drive.google.com/file/d/1aMgdcubufyH155AC5LCIWfT37uotSNu7/view
+Wintouch MX5,Wintouch_MX5_MT6735M_171215.zip,674 MB,https://drive.google.com/file/d/1KQT-U4zKj0wPw4q_2pYbzq8OedIGm103/view
+Wintouch Q74X,Wintouch_Q74X_261015_PS.zip,390 MB,https://drive.google.com/file/d/1bJUsbF7X-AyGT7qRiJ5i9OQOXD33PuMv/view
+Wintouch Q96,Wintouch_Q96_A31128_181016_PS.zip,675 MB,https://drive.google.com/file/d/1yHziqNtVqwiIn4C0Sd99eg9E5uxDr88r/view
+Wintouch R74X,Wintouch_R74X_K50507_140316_PS.zip,430 MB,https://drive.google.com/file/d/121GQhOfALRlTEsNC51zqFGPbQZFgnUNV/view

@@ -1,0 +1,6 @@
+Model,File Name,File Size,Download Link
+Xplay Y160,Xplay_Y160_MT6820_With_User_Data_MIRA.zip,152 MB,https://drive.google.com/file/d/1GHDSMFBhSX6wrABZglK3rXo92QFRnrlj/view
+Xplay X2000 Tab,Xplay_X2000_Tab_MT6572_01032016_4.4.2.zip,709 MB,https://drive.google.com/file/d/1fkq10KHQEWwHNP4wQICA_pZHScVvyOd1/view
+Xplay Z5,Xplay_Z5_MT6572_V1.6_08082016_5.1.zip,576 MB,https://drive.google.com/file/d/1I8BejlKQN9mYCSeP1ZMhCfdC1ou8baSb/view
+Xplay S800,Xplay_S800_MT6572_050416_4.4.2.zip,627 MB,https://drive.google.com/file/d/1IHHNWj7wNsU81j54rkwSpk3QcG9gEMoJ/view
+Xplay M9 Plus,Xplay_M9_Plus_MT6580_V1.1_84_20160322.zip,740 MB,https://drive.google.com/file/d/12rEibnkvnh5SFTRO3IDy-SHFUTYyPA-p/view

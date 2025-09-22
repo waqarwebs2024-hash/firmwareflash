@@ -1,0 +1,11 @@
+Model,File Name,File Size,Download Link
+Zen U315,Zen_U315_SC7715_V4_150420_FSPD.zip,430 MB,https://drive.google.com/file/d/1IQmIgpnEFGBdR061nlO2nxiet_gvYf9d/view
+Zen P47,Zen_P47_V01_140815_SPD.zip,8.8 MB,https://drive.google.com/file/d/13fAyCcD0bd3JZi4vZAuCZfX8ZqsYq_Iz/view
+Zen P48,Zen_P48_SC6531CA_V4_140805_SPD.zip,10 MB,https://drive.google.com/file/d/1cdFC5ZnIX2tc4-xw9xxzbMFfO-Gz1yjm/view
+Zen Admire 1,Zen_Admire_1_SC7731_V02_150611_SPD.zip,391 MB,https://drive.google.com/file/d/1hRuWZcA88fZ97wIM81CRhGj4w81xcL43/view
+Zen Admire Dragon,Zen_Admire_Dragon_SC9832_V11_LC1_LC2_020517_SPD.zip,880 MB,https://drive.google.com/file/d/16V8veQetBppX48gXxMKt_EFwg_x_HwvA/view
+Zen Admire Fab Q Plus,Zen_Admire_Fab_Q_Plus_SC7731C_V06_160708_SPD.zip,766 MB,https://drive.google.com/file/d/1eKgLaZsA2fWWLYJocVsnBZYWIg9LzcrP/view
+Zen Admire Glow,Zen_Admire_Glow_SC7731C_V6_160804_SPD.zip,742 MB,https://drive.google.com/file/d/1khph1GE1mIuwQ5hKJ-J8jxWFYUnfsidR/view
+Zen Admire Punch,Zen_Admire_Punch_SC7731C_V04_160712_SPD.zip,774 MB,https://drive.google.com/file/d/1ubOyaXPCzKm8J_dtYFt3WklqT2yUy_F3/view
+Zen Admire Sense Duo,Zen_Admire_Sense_Duo_SC9850_V7.0_060218_SPD.zip,1 GB,https://drive.google.com/file/d/1NxfhVUzwJqsgK75eLmRsGyCs_E4yoqUH/view
+Zen Elite Wow,Zen_Elite_Wow_SC7715_V10_160118_SPD.zip,348 MB,https://drive.google.com/file/d/10_8zTzPVsubm1aqosh3RiTlKD-g5OVzS/view

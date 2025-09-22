@@ -1,0 +1,4 @@
+Model,File Name,File Size,Download Link
+Xillion M300,Xillion_M300_MT6582_,614 MB,https://drive.google.com/file/d/1Yp2dzV5KWpzxdzNNjQHHus0KtoxBEVGb/view
+Xillion X400,Xillion_X400_MT6582_,666 MB,https://drive.google.com/file/d/1Q0dOp_xlUlzNaUAq4VjB5gb5LaSEhdJb/view
+Xillion GC320,Xillion_GC320_V01_160118_MIRA.zip,14 MB,https://drive.google.com/file/d/1WMBjKPxtOpSUbKSso-sZYXO2YkdDIhXP/view

@@ -1,0 +1,2 @@
+Model,File Name,File Size,Download Link
+ZYB V10,ZYB_V10_RK3128_V8_4.4.4.zip,509 MB,https://drive.google.com/file/d/1nsRoJ-zoIAlxrWKHjtaOmWpT1nGLGOOn/view

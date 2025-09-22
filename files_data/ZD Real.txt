@@ -1,0 +1,3 @@
+Model,File Name,File Size,Download Link
+ZDR W8,ZDR_W8_MT6582_V14_140603_4.2.2.zip,294 MB,https://drive.google.com/file/d/1I15i5q0GQD4jnZjYuuyRT6Ddhq7heywl/view
+ZDR W6,ZDR_W6_MT6582_V15_140530_4.2.2.zip,258 MB,https://drive.google.com/file/d/1W4DTtwIzoomlsu_XTB87O3A14kgtR9AW/view

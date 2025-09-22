@@ -1,0 +1,3 @@
+Model,File Name,File Size,Download Link
+Yxtel Q1,Yxtel_Q1_SP7715GA_V0.0.1_20151026_4.4.2_SPD.zip,249 MB,https://drive.google.com/file/d/15NnI7iWebtgNHCIQwTbY78LKIPAnzyKb/view
+Yxtel 930,Yxtel_930_MT6260_EN-FR-PT-VI-AR-PS-TH-HI_140604_MIRA.zip,11 MB,https://androiddatahost.com/ytuy4

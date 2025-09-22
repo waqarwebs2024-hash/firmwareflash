@@ -119,13 +119,8 @@ const blogPosts = [
     {slug: "how-to-re-lock-bootloader", title: "How (and Why) to Re-lock Your Bootloader", excerpt: "Learn the process and reasons for re-locking your device's bootloader after returning to stock firmware."},
     {slug: "dangers-of-untrusted-firmware-sources", title: "The Dangers of Downloading from Untrusted Firmware Sources", excerpt: "Why you should always use a reliable source like ours for your device's firmware."},
     {slug: "how-to-flash-oneplus-firmware", title: "The Official Guide to Flashing OnePlus Firmware", excerpt: "Restore your OnePlus device with this easy-to-follow guide using the official flash tools."},
-    {slug: "what-is-project-treble", title: "What is Project Treble and How Does It Affect Firmware?", excerpt: "An explanation of Google's initiative to make Android updates faster and easier."},
-    {slug_generation: "10-more-posts", title: "Understanding Android Partitions (system, data, boot)", excerpt: "A look into the file system of your Android device and the role of each partition."},
-    {slug: "how-to-fix-fastboot-device-not-found-error", title: "How to Fix 'fastboot device not found' Error", excerpt: "Troubleshooting steps for when your computer doesn't recognize your device in fastboot mode."},
-    {slug: "dual-sim-firmware-guide", title: "A Guide to Dual-SIM Firmware", excerpt: "Everything you need to know about firmware for devices that support two SIM cards."},
     {slug: "how-to-update-firmware-on-lg-devices", title: "How to Update Firmware on LG Devices with LGUP", excerpt: "A step-by-step tutorial on using the LGUP tool to flash KDZ firmware files."},
     {slug: "verifying-firmware-file-integrity", title: "How to Verify Firmware File Integrity with MD5/SHA256", excerpt: "Ensure your downloaded firmware file isn't corrupted before you start flashing."},
-_GEN_MORE_POSTS_HERE_
     {
         slug: "what-is-a-kernel-in-android",
         title: "What is a Kernel and How Does it Work in Android?",
