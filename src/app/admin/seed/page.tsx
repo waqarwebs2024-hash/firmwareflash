@@ -12,7 +12,8 @@ export default function SeedPage() {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
 
-  const handleSeed = () => {
+  const handleSeedHuawei = () => {
+    setResult(null);
     startTransition(async () => {
       const response = await seedHuaweiDataAction();
       setResult(response);
@@ -25,21 +26,24 @@ export default function SeedPage() {
         <CardHeader>
           <CardTitle>Seed Database</CardTitle>
           <CardDescription>
-            Manually trigger data seeding processes. Use with caution.
+            Manually trigger data seeding processes. Use with caution as these actions perform bulk database writes.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <p>
-            Click the button below to populate the Firestore database with the large set of Huawei firmware data. This action is designed to run only once. If the data already exists, it will not create duplicates.
-          </p>
-          <p className="text-sm text-destructive">
-            <strong>Warning:</strong> This process may take a few moments and will perform multiple writes to your database.
-          </p>
+          <div className="space-y-4 p-4 border rounded-lg bg-muted/50">
+             <h3 className="font-semibold">Seed Legacy Huawei Data</h3>
+            <p>
+              This action populates the database with a pre-defined set of Huawei firmware data. This is a legacy function and should only be run once if needed.
+            </p>
+            <p className="text-sm text-destructive">
+              <strong>Warning:</strong> This process may take a few moments.
+            </p>
+            <Button onClick={handleSeedHuawei} disabled={isPending} variant="secondary">
+              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isPending ? 'Seeding Huawei Data...' : 'Seed Huawei Firmware Data'}
+            </Button>
+          </div>
           
-          <Button onClick={handleSeed} disabled={isPending}>
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isPending ? 'Seeding in Progress...' : 'Seed Huawei Firmware Data'}
-          </Button>
 
           {result && (
              <Alert variant={result.success ? 'default' : 'destructive'}>

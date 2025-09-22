@@ -1,7 +1,7 @@
 
 
 import { db } from './firebase';
-import { collection, doc, writeBatch, getDocs, query, where, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, writeBatch, getDocs, getDoc, setDoc } from 'firebase/firestore';
 import { Brand } from './types';
 import slugify from 'slugify';
 
@@ -141,15 +141,13 @@ export async function seedHuaweiFirmware() {
     const settingsDocRef = doc(db, 'settings', 'seeding');
     const settingsDoc = await getDoc(settingsDocRef);
     if (settingsDoc.exists() && settingsDoc.data().huaweiSeeded) {
-        console.log('Huawei firmware already seeded.');
-        return;
+        throw new Error('Huawei firmware has already been seeded. This action cannot be run again.');
     }
 
     const brandDocRef = doc(db, 'brands', brandId);
     const brandDoc = await getDoc(brandDocRef);
     if (!brandDoc.exists()) {
-        console.error('Brand "Huawei" not found. Seeding cannot proceed.');
-        return;
+        await setDoc(brandDocRef, { name: 'Huawei' });
     }
 
     const batch = writeBatch(db);
@@ -218,5 +216,6 @@ export async function seedHuaweiFirmware() {
         console.log('Huawei firmware and series successfully seeded to Firestore.');
     } catch (error) {
         console.error('Error seeding Huawei firmware:', error);
+        throw error;
     }
 }
