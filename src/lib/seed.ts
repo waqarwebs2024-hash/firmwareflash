@@ -85,15 +85,15 @@ export async function seedBrands() {
   }
 }
 
-
-async function getOrCreate(collectionName: string, id: string, data: object) {
+async function getOrCreate(batch: import('firebase/firestore').WriteBatch, collectionName: string, id: string, data: object, createdCounter: { count: number }) {
     const docRef = doc(db, collectionName, id);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
-        await setDoc(docRef, data);
-        return true; // Document was created
+        batch.set(docRef, data);
+        createdCounter.count++;
+        return true;
     }
-    return false; // Document already existed
+    return false;
 }
 
 export async function seedFromLegacyFiles() {
@@ -101,48 +101,72 @@ export async function seedFromLegacyFiles() {
     const fileNames = await fs.readdir(dataDir);
     const txtFiles = fileNames.filter(f => f.endsWith('.txt'));
 
-    let brandsAdded = 0;
-    let seriesAdded = 0;
-    let firmwareAdded = 0;
+    let brandsAdded = { count: 0 };
+    let seriesAdded = { count: 0 };
+    let firmwareAdded = { count: 0 };
     
+    // Fetch all existing firmware IDs once to avoid repeated reads inside the loop
     const firmwareCol = collection(db, 'firmware');
     const existingFirmwareSnapshot = await getDocs(firmwareCol);
     const existingFirmwareIds = new Set(existingFirmwareSnapshot.docs.map(d => d.id));
 
+    let batch = writeBatch(db);
+    let operationCount = 0;
+
+    const commitBatchIfNeeded = async () => {
+        if (operationCount >= 499) { // Firestore batch limit is 500
+            await batch.commit();
+            batch = writeBatch(db);
+            operationCount = 0;
+        }
+    };
+
     for (const fileName of txtFiles) {
-        const brandName = fileName.replace('.txt', '');
+        const brandName = fileName.replace('.txt', '').trim();
+        if (!brandName) continue;
+        
         const brandId = createId(brandName);
 
-        if (await getOrCreate('brands', brandId, { name: brandName })) {
-            brandsAdded++;
+        const brandDocRef = doc(db, 'brands', brandId);
+        const brandSnap = await getDoc(brandDocRef);
+        if (!brandSnap.exists()) {
+            batch.set(brandDocRef, { name: brandName });
+            brandsAdded.count++;
+            operationCount++;
+            await commitBatchIfNeeded();
         }
 
         const filePath = path.join(dataDir, fileName);
         const fileContent = await fs.readFile(filePath, 'utf-8');
         const lines = fileContent.split('\n').filter(line => line.trim() !== '');
 
-        if (lines.length <= 1) continue; // Skip header or empty files
+        if (lines.length <= 1) continue;
 
         const records = lines.slice(1).map(line => line.split(','));
 
         for (const record of records) {
-            if (record.length < 4) continue; // Ensure record has all columns
+            if (record.length < 4) continue;
 
             const [model, firmwareFileName, size, downloadUrl] = record;
-            if (!model || !firmwareFileName) continue;
+            if (!model || !model.trim() || !firmwareFileName || !firmwareFileName.trim()) continue;
             
             const seriesName = model.trim();
             const seriesId = createId(`${brandId}-${seriesName}`);
 
-            if (await getOrCreate('series', seriesId, { name: seriesName, brandId })) {
-                seriesAdded++;
+            const seriesDocRef = doc(db, 'series', seriesId);
+            const seriesSnap = await getDoc(seriesDocRef);
+            if (!seriesSnap.exists()) {
+                batch.set(seriesDocRef, { name: seriesName, brandId });
+                seriesAdded.count++;
+                operationCount++;
+                await commitBatchIfNeeded();
             }
             
             const firmwareId = createId(firmwareFileName.trim());
 
             if (!existingFirmwareIds.has(firmwareId)) {
                 const firmwareDocRef = doc(firmwareCol, firmwareId);
-                await setDoc(firmwareDocRef, {
+                batch.set(firmwareDocRef, {
                     brandId,
                     seriesId,
                     fileName: firmwareFileName.trim(),
@@ -153,9 +177,18 @@ export async function seedFromLegacyFiles() {
                     uploadDate: new Date(),
                     downloadCount: Math.floor(Math.random() * 5000),
                 });
-                firmwareAdded++;
+                firmwareAdded.count++;
+                operationCount++;
+                existingFirmwareIds.add(firmwareId); // Add to set to avoid re-adding in the same run
+                await commitBatchIfNeeded();
             }
         }
     }
-    return { brandsAdded, seriesAdded, firmwareAdded };
+
+    // Commit any remaining operations in the final batch
+    if (operationCount > 0) {
+        await batch.commit();
+    }
+
+    return { brandsAdded: brandsAdded.count, seriesAdded: seriesAdded.count, firmwareAdded: firmwareAdded.count };
 }
