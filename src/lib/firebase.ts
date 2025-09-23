@@ -5,12 +5,13 @@ import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  "projectId": "studio-61480213-2f0c9",
-  "appId": "1:206750425989:web:3078713a6c081f0d51daec",
-  "apiKey": "AIzaSyAGIslqX5KMbxbL_ooKU_SYTHUUas2qlIg",
-  "authDomain": "studio-61480213-2f0c9.firebaseapp.com",
-  "storageBucket": "studio-61480213-2f0c9.appspot.com",
-  "messagingSenderId": "206750425989"
+  apiKey: "AIzaSyAL0C5gZ9Xtk4mMe6OkROBrhVPpabF9mL4",
+  authDomain: "firmwareflash-1.firebaseapp.com",
+  projectId: "firmwareflash-1",
+  storageBucket: "firmwareflash-1.firebasestorage.app",
+  messagingSenderId: "747871339448",
+  appId: "1:747871339448:web:eec8edc05650e78009c54d",
+  measurementId: "G-0W8EJHVQ9L"
 };
 
 // Initialize Firebase
@@ -18,7 +19,7 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 // --- Firestore Databases ---
 
-// Database 1 (Default)
+// Database 1 (Default) - firmwareflash-1
 const db = getFirestore(app);
 
 // Database 2
