@@ -27,7 +27,7 @@ export default async function Home() {
 
     const popularBrands = brands.filter(brand => 
         popularBrandNames.some(popularName => 
-            brand.name.toLowerCase() === popularName.toLowerCase()
+            brand.name.trim().toLowerCase() === popularName.trim().toLowerCase()
         )
     );
 
