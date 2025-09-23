@@ -1,246 +1,149 @@
 
 
-
-
-
-
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, AdSlot, HeaderScripts } from './types';
 import slugify from 'slugify';
-import { seedBrands, brands as brandData } from './seed';
+import fs from 'fs/promises';
+import path from 'path';
+import matter from 'gray-matter';
 
-// A function to slugify strings for use in Firestore document IDs
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
+
+async function getFirmwareData() {
+    const dataDir = path.join(process.cwd(), 'files_data');
+    const fileNames = await fs.readdir(dataDir);
+    const txtFiles = fileNames.filter(f => f.endsWith('.txt'));
+
+    const allFirmware: (Firmware & { brandName: string; seriesName: string })[] = [];
+    const allBrands = new Map<string, Brand>();
+    const allSeries = new Map<string, Series>();
+
+    for (const fileName of txtFiles) {
+        const brandName = fileName.replace('.txt', '').trim();
+        if (!brandName) continue;
+
+        const brandId = createId(brandName);
+        if (!allBrands.has(brandId)) {
+            allBrands.set(brandId, { id: brandId, name: brandName });
+        }
+        
+        const filePath = path.join(dataDir, fileName);
+        const fileContent = await fs.readFile(filePath, 'utf-8');
+        const { content } = matter(fileContent);
+        const lines = content.split('\n').filter(line => line.trim() !== '');
+
+        if (lines.length > 1) {
+            const records = lines.slice(1);
+            for (const line of records) {
+                const parts = line.split(',');
+                if(parts.length < 4) continue;
+                
+                const [model, firmwareFileName, size, downloadUrl] = parts;
+                const seriesName = model.trim();
+                const seriesId = createId(`${brandId}-${seriesName}`);
+
+                if (!allSeries.has(seriesId)) {
+                    allSeries.set(seriesId, { id: seriesId, brandId, name: seriesName });
+                }
+
+                allFirmware.push({
+                    id: createId(firmwareFileName.trim()),
+                    brandId,
+                    seriesId,
+                    fileName: firmwareFileName.trim(),
+                    version: "N/A",
+                    androidVersion: "N/A",
+                    size: size.trim(),
+                    downloadUrl: downloadUrl.trim(),
+                    uploadDate: new Date(), 
+                    downloadCount: Math.floor(Math.random() * 5000),
+                    brandName: brandName,
+                    seriesName: seriesName,
+                });
+            }
+        }
+    }
+    return {
+        firmware: allFirmware,
+        brands: Array.from(allBrands.values()),
+        series: Array.from(allSeries.values())
+    };
+}
+
 
 export async function searchFirmware(searchTerm: string, queryLimit?: number): Promise<Firmware[]> {
   if (!searchTerm) return [];
-
+  const { firmware } = await getFirmwareData();
   const searchTermLower = searchTerm.toLowerCase();
 
-  try {
-    const brandsCol = collection(db, 'brands');
-    const seriesCol = collection(db, 'series');
-    
-    // Find matching brand and series IDs first
-    const brandSnapshot = await getDocs(brandsCol);
-    const seriesSnapshot = await getDocs(seriesCol);
+  const results = firmware.filter(fw => 
+    fw.fileName.toLowerCase().includes(searchTermLower) ||
+    fw.brandName.toLowerCase().includes(searchTermLower) ||
+    fw.seriesName.toLowerCase().includes(searchTermLower)
+  );
 
-    const matchingBrandIds = brandSnapshot.docs
-        .filter(doc => doc.data().name.toLowerCase().includes(searchTermLower))
-        .map(doc => doc.id);
-
-    const matchingSeriesIds = seriesSnapshot.docs
-        .filter(doc => doc.data().name.toLowerCase().includes(searchTermLower))
-        .map(doc => doc.id);
-
-    const uniqueIds = [...new Set([...matchingBrandIds, ...matchingSeriesIds])];
-
-    const firmwareCol = collection(db, 'firmware');
-    const firmwareSnapshot = await getDocs(firmwareCol);
-    const allFirmware = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
-    
-    const results = allFirmware.filter(fw => {
-        const fileNameMatch = fw.fileName.toLowerCase().includes(searchTermLower);
-        const brandMatch = matchingBrandIds.includes(fw.brandId);
-        const seriesMatch = matchingSeriesIds.includes(fw.seriesId);
-        return fileNameMatch || brandMatch || seriesMatch;
-    });
-
-    if (queryLimit) {
-        return results.slice(0, queryLimit);
-    }
-    
-    return results;
-
-  } catch (error) {
-    console.error("Error searching firmware: ", error);
-    return [];
-  }
+  return queryLimit ? results.slice(0, queryLimit) : results;
 }
 
 
 export async function getBrands(): Promise<Brand[]> {
-  const brandsCol = collection(db, 'brands');
-  const brandSnapshot = await getDocs(brandsCol);
-  
-  if (brandSnapshot.docs.length < brandData.length) {
-    await seedBrands();
-    const newSnapshot = await getDocs(brandsCol);
-    const brandList = newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
-    return brandList;
-  }
-  
-  const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
-  return brandList.sort((a, b) => a.name.localeCompare(b.name));
+  const { brands } = await getFirmwareData();
+  return brands.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getPopularBrands(count: number = 10): Promise<Brand[]> {
-  const firmwareCol = collection(db, 'firmware');
-  const firmwareSnapshot = await getDocs(firmwareCol);
-  
-  const seriesDownloadCount = new Map<string, number>();
-
-  firmwareSnapshot.docs.forEach(doc => {
-    const firmware = doc.data() as Omit<Firmware, 'id'>;
-    if (firmware.seriesId) {
-      const currentCount = seriesDownloadCount.get(firmware.seriesId) || 0;
-      seriesDownloadCount.set(firmware.seriesId, currentCount + (firmware.downloadCount || 0));
-    }
-  });
-
-  if (seriesDownloadCount.size === 0) {
+    // This function will now return a slice of all brands as popularity cannot be determined from files.
     const allBrands = await getBrands();
     return allBrands.slice(0, count);
-  };
-  
-  const seriesCol = collection(db, 'series');
-  const seriesSnapshot = await getDocs(seriesCol);
-  
-  const brandDownloadCount = new Map<string, number>();
-
-  seriesSnapshot.docs.forEach(doc => {
-    const aSeries = doc.data() as Omit<Series, 'id'>;
-    if (aSeries.brandId) {
-        const seriesDownloads = seriesDownloadCount.get(doc.id) || 0;
-        const currentBrandDownloads = brandDownloadCount.get(aSeries.brandId) || 0;
-        brandDownloadCount.set(aSeries.brandId, currentBrandDownloads + seriesDownloads);
-    }
-  });
-
-  if (brandDownloadCount.size === 0) {
-    const allBrands = await getBrands();
-    return allBrands.slice(0, count);
-  }
-
-  const sortedBrandIds = Array.from(brandDownloadCount.entries())
-    .sort((a, b) => b[1] - a[1])
-    .map(entry => entry[0])
-    .slice(0, count);
-
-  if(sortedBrandIds.length === 0) return [];
-
-  const brandsCol = collection(db, 'brands');
-  const brandsQuery = query(brandsCol, where(documentId(), 'in', sortedBrandIds));
-  const brandSnapshot = await getDocs(brandsQuery);
-
-  const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
-
-  // Sort the final list according to the sortedBrandIds array to maintain popularity order
-  return brandList.sort((a, b) => sortedBrandIds.indexOf(a.id) - sortedBrandIds.indexOf(b.id));
 }
 
 
 export async function getBrandsWithFirmware(): Promise<Brand[]> {
-  const firmwareCol = collection(db, 'firmware');
-  const firmwareSnapshot = await getDocs(firmwareCol);
-  if (firmwareSnapshot.empty) {
-    return [];
-  }
-
-  const seriesIds = new Set<string>();
-  firmwareSnapshot.docs.forEach(doc => {
-    const firmware = doc.data() as Omit<Firmware, 'id'>;
-    if (firmware.seriesId) {
-      seriesIds.add(firmware.seriesId);
-    }
-  });
-
-  if (seriesIds.size === 0) {
-    return [];
-  }
-
-  const seriesCol = collection(db, 'series');
-  const seriesQuery = query(seriesCol, where(documentId(), 'in', Array.from(seriesIds)));
-  const seriesSnapshot = await getDocs(seriesQuery);
-  
-  const brandIds = new Set<string>();
-  seriesSnapshot.docs.forEach(doc => {
-    const aSeries = doc.data() as Omit<Series, 'id'>;
-    if (aSeries.brandId) {
-      brandIds.add(aSeries.brandId);
-    }
-  });
-
-  if (brandIds.size === 0) {
-    return [];
-  }
-  
-  const brandsCol = collection(db, 'brands');
-  const brandsQuery = query(brandsCol, where(documentId(), 'in', Array.from(brandIds)));
-  const brandSnapshot = await getDocs(brandsQuery);
-  const brandList = brandSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
-  
-  return brandList;
+    return getBrands();
 }
 
 
 export async function getBrandById(id: string): Promise<Brand | null> {
   if (!id) return null;
-  const brandDocRef = doc(db, 'brands', id);
-  const brandDoc = await getDoc(brandDocRef);
-  if (brandDoc.exists()) {
-    return { id: brandDoc.id, ...brandDoc.data() } as Brand;
-  }
-  return null;
+  const { brands } = await getFirmwareData();
+  return brands.find(b => b.id === id) || null;
 }
 
 export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
-  const seriesCol = collection(db, 'series');
-  const q = query(seriesCol, where('brandId', '==', brandId));
-  const seriesSnapshot = await getDocs(q);
-  const seriesList = seriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Series));
-  return seriesList;
+  const { series } = await getFirmwareData();
+  return series.filter(s => s.brandId === brandId).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getSeriesById(id: string): Promise<Series | null> {
   if (!id) return null;
-  const seriesDocRef = doc(db, 'series', id);
-  const seriesDoc = await getDoc(seriesDocRef);
-  if (seriesDoc.exists()) {
-    const seriesData = seriesDoc.data();
-    if(seriesData){
-      return { id: seriesDoc.id, ...seriesData } as Series;
-    }
-  }
-  return null;
+  const { series } = await getFirmwareData();
+  return series.find(s => s.id === id) || null;
 }
 
 export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]> {
-  const firmwareCol = collection(db, 'firmware');
-  const q = query(firmwareCol, where('seriesId', '==', seriesId));
-  const firmwareSnapshot = await getDocs(q);
-  const firmwareList = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
-  return firmwareList;
+  const { firmware } = await getFirmwareData();
+  return firmware.filter(fw => fw.seriesId === seriesId);
 }
 
 export async function getFirmwareById(id: string): Promise<Firmware | null> {
-    const firmwareDocRef = doc(db, 'firmware', id);
-    const firmwareDoc = await getDoc(firmwareDocRef);
-    if (firmwareDoc.exists()) {
-        const firmwareData = firmwareDoc.data();
-        if(firmwareData){
-            return { id: firmwareDoc.id, ...firmwareData } as Firmware;
-        }
-    }
-    return null;
+    if(!id) return null;
+    const { firmware } = await getFirmwareData();
+    return firmware.find(fw => fw.id === id) || null;
 }
 
 export async function getRecentFirmwareForSeo(count: number = 20): Promise<Firmware[]> {
-    const firmwareCol = collection(db, 'firmware');
-    const q = query(firmwareCol, orderBy('uploadDate', 'desc'), limit(count));
-    const firmwareSnapshot = await getDocs(q);
-    const firmwareList = firmwareSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
-    return firmwareList;
+    const { firmware } = await getFirmwareData();
+    // Since we don't have real dates, we'll just take a slice.
+    return firmware.slice(0, count);
 }
 
 export async function getAllSeries(): Promise<Series[]> {
-  const seriesCol = collection(db, 'series');
-  const seriesSnapshot = await getDocs(seriesCol);
-  const seriesList = seriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Series));
-  return seriesList.sort((a, b) => a.name.localeCompare(b.name));
+  const { series } = await getFirmwareData();
+  return series.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+// Admin functions remain connected to Firebase
 export async function addBrand(name: string): Promise<void> {
     const id = createId(name);
     const brandDocRef = doc(db, 'brands', id);
@@ -285,18 +188,6 @@ export async function getAdSettings(): Promise<AdSettings> {
 
   if (docSnap.exists()) {
     const data = docSnap.data();
-    // Migration for old structure
-    if (data.adCode || typeof data.enabled === 'boolean') {
-      return {
-        slots: {
-          ...defaultSlots,
-          downloadPage: {
-            enabled: data.enabled || false,
-            adCode: data.adCode || '',
-          }
-        },
-      };
-    }
     return {
         slots: { ...defaultSlots, ...data.slots },
     }
@@ -361,31 +252,13 @@ export async function getToolBySlug(slug: string): Promise<Tool | null> {
 export async function getRelatedFirmware(brandId: string, currentSeriesId: string): Promise<Series[]> {
     if (!brandId) return [];
 
-    const seriesCol = collection(db, 'series');
-    
-    // Firestore doesn't support "not equal" queries efficiently in a way that
-    // scales and can be combined with other filters easily.
-    // The most straightforward approach is to fetch all series for the brand
-    // and filter in the application. This is acceptable for a reasonable number of series per brand.
-    const q = query(
-        seriesCol,
-        where('brandId', '==', brandId)
-    );
+    const { series } = await getFirmwareData();
+    const allSeriesForBrand = series
+        .filter(s => s.brandId === brandId && s.id !== currentSeriesId);
 
-    try {
-        const seriesSnapshot = await getDocs(q);
-        const allSeriesForBrand = seriesSnapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() } as Series))
-            .filter(s => s.id !== currentSeriesId); // Filter out the current series
-
-        // Shuffle the array and take the first 4
-        const shuffled = allSeriesForBrand.sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, 4);
-
-    } catch (error) {
-        console.error("Error fetching related firmware:", error);
-        return [];
-    }
+    // Shuffle the array and take the first 4
+    const shuffled = allSeriesForBrand.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 4);
 }
 
 export async function getApiKey(): Promise<string> {
@@ -417,29 +290,13 @@ export async function setHeaderScripts(scripts: string): Promise<void> {
 }
 
 export async function getTotalFirmwares(): Promise<number> {
-  try {
-    const firmwareCol = collection(db, 'firmware');
-    const snapshot = await getCountFromServer(firmwareCol);
-    return snapshot.data().count;
-  } catch (error) {
-    console.error("Error getting total firmwares: ", error);
-    return 0;
-  }
+  const { firmware } = await getFirmwareData();
+  return firmware.length;
 }
 
 export async function getTotalDownloads(): Promise<number> {
-  try {
-    const firmwareCol = collection(db, 'firmware');
-    const firmwareSnapshot = await getDocs(firmwareCol);
-    let total = 0;
-    firmwareSnapshot.forEach(doc => {
-      total += doc.data().downloadCount || 0;
-    });
-    return total;
-  } catch (error) {
-    console.error("Error getting total downloads: ", error);
-    return 0;
-  }
+  const { firmware } = await getFirmwareData();
+  return firmware.reduce((sum, fw) => sum + (fw.downloadCount || 0), 0);
 }
 
 
@@ -482,19 +339,14 @@ export async function getTodaysAnalytics(): Promise<DailyAnalytics> {
         downloads: 45, // Dummy data
         adsClicks: 10,  // Dummy data
     };
-    // Let's create it for subsequent loads.
     await setDoc(docRef, defaultData);
     
     return { id: today, ...defaultData };
 }
 
 export async function incrementDownloadCount(firmwareId: string): Promise<void> {
-  const firmwareDocRef = doc(db, 'firmware', firmwareId);
-  const firmwareDoc = await getDoc(firmwareDocRef);
-  if (firmwareDoc.exists()) {
-      const currentCount = firmwareDoc.data().downloadCount || 0;
-      await setDoc(firmwareDocRef, { downloadCount: currentCount + 1 }, { merge: true });
-  }
+  // This function now does nothing as we are not using a database for download counts.
+  // We can re-implement this later if needed with a different mechanism.
 
   // Also increment daily download count
   const today = new Date().toISOString().split('T')[0];

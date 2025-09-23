@@ -1,6 +1,8 @@
+
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   "projectId": "studio-61480213-2f0c9",
@@ -13,6 +15,29 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
+// --- Firestore Databases ---
+
+// Database 1 (Default)
 const db = getFirestore(app);
 
-export { app, db };
+// Database 2
+// NOTE: You must create a database with this ID in your Firebase project.
+const db_1 = getFirestore(app, "firestore-db-1");
+
+// Database 3
+// NOTE: You must create a database with this ID in your Firebase project.
+const db_2 = getFirestore(app, "firestore-db-2");
+
+// Database 4
+// NOTE: You must create a database with this ID in your Firebase project.
+const db_3 = getFirestore(app, "firestore-db-3");
+
+
+export { 
+  app, 
+  db,
+  db_1,
+  db_2,
+  db_3,
+};

@@ -9,6 +9,8 @@ import path from 'path';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
+// This brand data is now redundant as we read from files, but we keep it for reference
+// or if we need to seed initial brands for some other purpose.
 export const brands: Omit<Brand, 'id'>[] = [
     { name: 'Samsung' },
     { name: 'Apple' },
@@ -45,7 +47,7 @@ export const brands: Omit<Brand, 'id'>[] = [
     { name: 'QMobile' },
     { name: 'Jio' },
     { name: 'Karbonn' },
-    { name: 'Spice' },
+    { name 'Spice' },
     { name: 'Symphony' },
     { name: 'Walton' },
     { name: 'Gionee' },
