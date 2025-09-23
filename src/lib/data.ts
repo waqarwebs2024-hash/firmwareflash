@@ -1,5 +1,7 @@
 
 
+'use server';
+
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore } from 'firebase/firestore';
 import { ref, get, set, child, push, serverTimestamp, query as rtdbQuery, orderByChild, equalTo } from 'firebase/database';
@@ -417,7 +419,7 @@ export async function incrementDownloadCount(firmwareId: string): Promise<void> 
 }
 
 // Blog Functions using RTDB
-export async function saveBlogPost(post: Omit<BlogPost, 'id' | 'createdAt'>): Promise<string> {
+export async function saveBlogPost(post: Omit<BlogPost, 'id' | 'createdAt' | 'slug'>): Promise<string> {
     const blogRef = ref(rtdb, 'blog');
     const newPostRef = push(blogRef);
     const slug = createId(post.title);
@@ -434,13 +436,14 @@ export async function saveBlogPost(post: Omit<BlogPost, 'id' | 'createdAt'>): Pr
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
     const blogRef = ref(rtdb, 'blog');
-    const snapshot = await get(rtdbQuery(blogRef, orderByChild('createdAt')));
+    const snapshot = await get(blogRef);
     if (snapshot.exists()) {
         const posts: BlogPost[] = [];
         snapshot.forEach((childSnapshot) => {
             posts.push({ id: childSnapshot.key!, ...childSnapshot.val() });
         });
-        return posts.reverse(); // Newest first
+        // Sort posts by createdAt timestamp in descending order (newest first)
+        return posts.sort((a, b) => b.createdAt - a.createdAt);
     }
     return [];
 }
