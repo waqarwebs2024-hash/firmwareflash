@@ -11,14 +11,29 @@ import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'firmwareflash.com: Official Stock ROM & Firmware Downloads',
-  description: 'Find and download official stock firmware for your phone. Get free flash files, step-by-step guides, and fix software issues on Samsung, Xiaomi, and more.',
+  title: 'firmwareflash.com - Official Stock ROM & Firmware Downloads',
+  description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides for your mobile device.',
 };
 
 export default async function Home() {
     const brands: Brand[] = await getBrands();
     const adSettings = await getAdSettings();
     const inContentAd = adSettings.slots?.inContent;
+
+    const popularBrandNames = [
+        "Apple", "Samsung", "Oppo", "Vivo", "Redmi", "Huawei", 
+        "Realme", "Tecno", "Infinix", "Sparx", "Nokia"
+    ];
+
+    const popularBrands = brands.filter(brand => 
+        popularBrandNames.some(popularName => 
+            brand.name.toLowerCase() === popularName.toLowerCase()
+        )
+    );
+
+    const firstHalfBrands = popularBrands.slice(0, 6);
+    const secondHalfBrands = popularBrands.slice(6);
+
 
     const faqItems = [
       {
@@ -31,7 +46,7 @@ export default async function Home() {
       },
       {
         question: "Why would I need to download and flash firmware?",
-        answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version that wasn't released in your region, downgrading to a previous version, or removing custom modifications (like root) to restore your phone to its original state for warranty purposes."
+        answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version that wasn't released in your region, downgrading to a previous version, or removing custom modifications (like root) to restore your phone to its original state for warranty or resale."
       }
     ];
 
@@ -75,11 +90,6 @@ export default async function Home() {
         description: "Bring a 'soft-bricked' phone back to life by flashing the correct stock ROM and rescue it from being unusable."
       }
     ];
-
-
-    const brandsToShow = brands.slice(0, 12);
-    const firstHalfBrands = brandsToShow.slice(0, 6);
-    const secondHalfBrands = brandsToShow.slice(6);
 
     return (
         <>
@@ -139,13 +149,13 @@ export default async function Home() {
                 </div>
               </section>
 
-              {/* Browse All Brands */}
+              {/* Browse Popular Brands */}
               <section className="py-20">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold mb-8 text-center">Browse All Brands</h2>
+                    <h2 className="text-3xl font-bold mb-8 text-center">Popular Brands</h2>
                     <div className="text-center max-w-3xl mx-auto mb-12">
                       <p className="text-muted-foreground">
-                        Our extensive library includes firmware for all major manufacturers. Whether you're looking for the latest firmware for Samsung devices, need specific Xiaomi flash files, or want to restore a Huawei phone, we have you covered. Select a brand below to get started.
+                        Our library includes firmware for all major manufacturers. Whether you're looking for the latest firmware for Samsung devices, need specific Xiaomi flash files, or want to restore a Huawei phone, we have you covered. Select a popular brand below to get started.
                       </p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -182,7 +192,7 @@ export default async function Home() {
                             <Button>View All Brands</Button>
                         </Link>
                     </div>
-                    {brands.length === 0 && (
+                    {popularBrands.length === 0 && (
                         <div className="text-center text-muted-foreground">
                             Loading brands...
                         </div>
