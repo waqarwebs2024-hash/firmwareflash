@@ -5,7 +5,7 @@
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore, updateDoc } from 'firebase/firestore';
 import { ref, get, set, child, push, serverTimestamp, query as rtdbQuery, orderByChild, equalTo } from 'firebase/database';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost, BlogPostOutput } from './types';
 import slugify from 'slugify';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
@@ -14,15 +14,22 @@ async function getCollectionFromAllDBs<T extends { id: string }>(collectionName:
     const dbs = [db, db_1, db_2];
     const promises = dbs.map(dbInstance => {
         const collRef = collection(dbInstance, collectionName);
-        return getDocs(q ? query(collRef, q) : collRef);
+        const finalQuery = q ? query(collRef, q) : collRef;
+        return getDocs(finalQuery);
     });
     const snapshots = await Promise.all(promises);
     const results: T[] = [];
+    const seenIds = new Set<string>();
+
     snapshots.forEach(snapshot => {
         snapshot.docs.forEach(doc => {
-            results.push({ id: doc.id, ...doc.data() } as T);
+            if (!seenIds.has(doc.id)) {
+                results.push({ id: doc.id, ...doc.data() } as T);
+                seenIds.add(doc.id);
+            }
         });
     });
+
     return results;
 }
 
@@ -38,18 +45,13 @@ export async function getPopularBrands(): Promise<Brand[]> {
 
 
 export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
-    const seriesCol = collection(db, 'series');
-    const q = query(seriesCol, where('brandId', '==', brandId));
-    const snapshot = await getDocs(q);
-    const series = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Series));
+    const series = await getCollectionFromAllDBs<Series>('series', where('brandId', '==', brandId));
     return series.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]> {
-    const firmwareCol = collection(db, 'firmware');
-    const q = query(firmwareCol, where('seriesId', '==', seriesId));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
+    const firmware = await getCollectionFromAllDBs<Firmware>('firmware', where('seriesId', '==', seriesId));
+    return firmware.sort((a,b) => a.fileName.localeCompare(b.fileName));
 }
 
 export async function getFirmwareById(id: string): Promise<Firmware | null> {
@@ -80,10 +82,13 @@ export async function getBrandById(id: string): Promise<Brand | null> {
 
 export async function getSeriesById(id: string): Promise<Series | null> {
     if (!id) return null;
-    const docRef = doc(db, 'series', id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() } as Series;
+    const dbs = [db, db_1, db_2];
+    for (const dbInstance of dbs) {
+        const docRef = doc(dbInstance, 'series', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return { id: docSnap.id, ...docSnap.data() } as Series;
+        }
     }
     return null;
 }
@@ -374,9 +379,11 @@ export async function saveDonation(data: { name: string; email?: string; amount:
     await addDoc(donationsCol, { ...data, createdAt: new Date() });
 }
 
-export async function saveContactMessage(data: { name: string; email: string; message: string; }) {
-    const contactsCol = collection(db, 'contacts');
-    await addDoc(contactsCol, { ...data, createdAt: new Date() });
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  const contactsCol = collection(db, 'contacts');
+  const q = query(contactsCol, orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ContactMessage));
 }
 
 export async function getDonations(): Promise<Donation[]> {
@@ -386,11 +393,10 @@ export async function getDonations(): Promise<Donation[]> {
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Donation));
 }
 
-export async function getContactMessages(): Promise<ContactMessage[]> {
-  const contactsCol = collection(db, 'contacts');
-  const q = query(contactsCol, orderBy('createdAt', 'desc'));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ContactMessage));
+
+export async function saveContactMessage(data: { name: string; email: string; message: string; }) {
+    const contactsCol = collection(db, 'contacts');
+    await addDoc(contactsCol, { ...data, createdAt: new Date() });
 }
 
 export async function getTodaysAnalytics(): Promise<DailyAnalytics> {
@@ -454,12 +460,12 @@ export async function incrementDownloadCount(firmwareId: string): Promise<void> 
 }
 
 // Blog Functions using RTDB
-export async function saveBlogPost(post: Omit<BlogPost, 'id' | 'createdAt' | 'slug'>): Promise<string> {
+export async function saveBlogPost(post: BlogPostOutput): Promise<string> {
     const blogRef = ref(rtdb, 'blog');
     const newPostRef = push(blogRef);
     const slug = createId(post.title);
     
-    const dataToSave = {
+    const dataToSave: Omit<BlogPost, 'id'> = {
         ...post,
         slug: slug,
         createdAt: serverTimestamp(),
