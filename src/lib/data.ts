@@ -10,12 +10,24 @@ import slugify from 'slugify';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
+async function getCollectionFromAllDBs<T extends { id: string }>(collectionName: string): Promise<T[]> {
+    const dbs = [db, db_1, db_2];
+    const promises = dbs.map(dbInstance => getDocs(collection(dbInstance, collectionName)));
+    const snapshots = await Promise.all(promises);
+    const results: T[] = [];
+    snapshots.forEach(snapshot => {
+        snapshot.docs.forEach(doc => {
+            results.push({ id: doc.id, ...doc.data() } as T);
+        });
+    });
+    return results;
+}
+
 export async function getBrands(): Promise<Brand[]> {
-    const brandsCol = collection(db, 'brands');
-    const snapshot = await getDocs(brandsCol);
-    const brands = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
+    const brands = await getCollectionFromAllDBs<Brand>('brands');
     return brands.sort((a, b) => a.name.localeCompare(b.name));
 }
+
 
 export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
     const seriesCol = collection(db, 'series');
