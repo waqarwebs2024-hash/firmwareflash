@@ -7,6 +7,7 @@ import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware, BlogPost } from './types';
 import { login, logout } from './auth';
 import { generateBlogPost } from '@/ai/flows/blog-post-flow';
+import { generateTrendingTopics } from '@/ai/flows/trending-topics-flow';
 
 export async function loginAction(formData: FormData) {
     await login(formData);
@@ -108,4 +109,10 @@ export async function autoGenerateBlogPostsAction(topics: string): Promise<{succ
     }
 
     return { success: failedPosts === 0, message };
+}
+
+
+export async function generateTrendingTopicsAction(): Promise<string[]> {
+    const result = await generateTrendingTopics();
+    return result.topics;
 }
