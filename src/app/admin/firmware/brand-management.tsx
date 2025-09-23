@@ -1,15 +1,18 @@
 
+
 'use client';
 
 import { useState, useTransition } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { addBrandAction } from '@/lib/actions';
+import { addBrandAction, toggleBrandPopularityAction } from '@/lib/actions';
 import { getBrands } from '@/lib/data';
 import { Brand } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Star } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 interface BrandManagementProps {
   initialBrands: Brand[];
@@ -33,7 +36,6 @@ export function BrandManagement({ initialBrands }: BrandManagementProps) {
       try {
         await addBrandAction(newBrandName);
         setNewBrandName('');
-        // Refresh the list of brands after adding
         const updatedBrands = await getBrands();
         setBrands(updatedBrands);
       } catch (e: any) {
@@ -42,11 +44,29 @@ export function BrandManagement({ initialBrands }: BrandManagementProps) {
     });
   };
 
+  const handleTogglePopular = (brandId: string, isPopular: boolean) => {
+    startTransition(async () => {
+        try {
+            await toggleBrandPopularityAction(brandId, isPopular);
+            // Optimistically update UI
+            setBrands(prevBrands => 
+                prevBrands.map(b => b.id === brandId ? { ...b, isPopular } : b)
+            );
+        } catch (e: any) {
+            // Revert on error
+            setBrands(prevBrands => 
+                prevBrands.map(b => b.id === brandId ? { ...b, isPopular: !isPopular } : b)
+            );
+            alert(`Failed to update brand: ${e.message}`);
+        }
+    });
+  }
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Brand Management</CardTitle>
-        <CardDescription>Add, edit, or delete brands.</CardDescription>
+        <CardDescription>Add new brands and manage which ones appear on the homepage.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
         <form onSubmit={handleAddBrand} className="flex items-start space-x-4">
@@ -73,6 +93,7 @@ export function BrandManagement({ initialBrands }: BrandManagementProps) {
                     <TableHeader>
                         <TableRow>
                             <TableHead>Brand Name</TableHead>
+                            <TableHead>Popular</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -80,6 +101,14 @@ export function BrandManagement({ initialBrands }: BrandManagementProps) {
                         {brands.map((brand) => (
                             <TableRow key={brand.id}>
                                 <TableCell className="font-medium">{brand.name}</TableCell>
+                                <TableCell>
+                                    <Switch
+                                        checked={!!brand.isPopular}
+                                        onCheckedChange={(checked) => handleTogglePopular(brand.id, checked)}
+                                        aria-label="Toggle Popular"
+                                        disabled={isPending}
+                                    />
+                                </TableCell>
                                 <TableCell className="text-right space-x-2">
                                     <Button variant="outline" size="sm" disabled>Edit</Button>
                                     <Button variant="destructive" size="sm" disabled>Delete</Button>

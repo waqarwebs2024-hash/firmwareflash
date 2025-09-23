@@ -3,16 +3,19 @@
 'use server';
 
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
-import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore, updateDoc } from 'firebase/firestore';
 import { ref, get, set, child, push, serverTimestamp, query as rtdbQuery, orderByChild, equalTo } from 'firebase/database';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost } from './types';
 import slugify from 'slugify';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
-async function getCollectionFromAllDBs<T extends { id: string }>(collectionName: string): Promise<T[]> {
+async function getCollectionFromAllDBs<T extends { id: string }>(collectionName: string, q?: any): Promise<T[]> {
     const dbs = [db, db_1, db_2];
-    const promises = dbs.map(dbInstance => getDocs(collection(dbInstance, collectionName)));
+    const promises = dbs.map(dbInstance => {
+        const collRef = collection(dbInstance, collectionName);
+        return getDocs(q ? query(collRef, q) : collRef);
+    });
     const snapshots = await Promise.all(promises);
     const results: T[] = [];
     snapshots.forEach(snapshot => {
@@ -25,6 +28,11 @@ async function getCollectionFromAllDBs<T extends { id: string }>(collectionName:
 
 export async function getBrands(): Promise<Brand[]> {
     const brands = await getCollectionFromAllDBs<Brand>('brands');
+    return brands.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function getPopularBrands(): Promise<Brand[]> {
+    const brands = await getCollectionFromAllDBs<Brand>('brands', where('isPopular', '==', true));
     return brands.sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -59,10 +67,13 @@ export async function getFirmwareById(id: string): Promise<Firmware | null> {
 
 export async function getBrandById(id: string): Promise<Brand | null> {
     if (!id) return null;
-    const docRef = doc(db, 'brands', id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() } as Brand;
+    const dbs = [db, db_1, db_2];
+    for (const dbInstance of dbs) {
+        const docRef = doc(dbInstance, 'brands', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return { id: docSnap.id, ...docSnap.data() } as Brand;
+        }
     }
     return null;
 }
@@ -177,9 +188,21 @@ export async function addBrand(name: string): Promise<void> {
     const id = createId(name);
     // Add to the first DB by default
     const brandDocRef = doc(db, 'brands', id);
-    await setDoc(brandDocRef, { name });
+    await setDoc(brandDocRef, { name, isPopular: false });
 }
   
+export async function toggleBrandPopularity(brandId: string, isPopular: boolean): Promise<void> {
+    const dbs = [db, db_1, db_2];
+    for (const dbInstance of dbs) {
+        const brandDocRef = doc(dbInstance, 'brands', brandId);
+        const docSnap = await getDoc(brandDocRef);
+        if (docSnap.exists()) {
+            await updateDoc(brandDocRef, { isPopular });
+            return;
+        }
+    }
+    throw new Error(`Brand with id ${brandId} not found in any database.`);
+}
 
 export async function addSeries(name: string, brandId: string): Promise<void> {
     const id = createId(`${brandId}-${name}`);

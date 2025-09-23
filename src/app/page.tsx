@@ -1,7 +1,7 @@
 
 
-import { getBrands, getAdSettings } from '@/lib/data';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getPopularBrands, getAdSettings } from '@/lib/data';
+import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { Brand } from '@/lib/types';
 import { HomeSearchForm } from '@/components/home-search-form';
@@ -16,22 +16,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-    const brands: Brand[] = await getBrands();
+    const popularBrands: Brand[] = await getPopularBrands();
     const adSettings = await getAdSettings();
     const inContentAd = adSettings.slots?.inContent;
-
-    const popularBrandNames = new Set([
-        "apple", "samsung", "oppo", "vivo", "redmi", "huawei", 
-        "realme", "tecno", "infinix", "sparx", "nokia", "itel", "xiaomi"
-    ]);
-
-    const popularBrands = brands.filter(brand => 
-        popularBrandNames.has(brand.name.trim().toLowerCase())
-    );
-
-    const firstHalfBrands = popularBrands.slice(0, 6);
-    const secondHalfBrands = popularBrands.slice(6);
-
 
     const faqItems = [
       {
@@ -177,7 +164,7 @@ export default async function Home() {
                         </>
                     ) : (
                         <div className="text-center text-muted-foreground">
-                            No popular brands matching the criteria were found in the database.
+                            No popular brands have been selected yet.
                         </div>
                     )}
                 </div>

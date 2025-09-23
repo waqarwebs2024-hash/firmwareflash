@@ -2,7 +2,7 @@
 
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity } from './data';
 import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware, BlogPost } from './types';
 import { login, logout } from './auth';
@@ -115,4 +115,8 @@ export async function autoGenerateBlogPostsAction(topics: string): Promise<{succ
 export async function generateTrendingTopicsAction(): Promise<string[]> {
     const result = await generateTrendingTopics();
     return result.topics;
+}
+
+export async function toggleBrandPopularityAction(brandId: string, isPopular: boolean) {
+    await toggleBrandPopularity(brandId, isPopular);
 }

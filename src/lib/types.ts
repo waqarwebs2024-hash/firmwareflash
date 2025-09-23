@@ -3,6 +3,7 @@
 export interface Brand {
     id: string;
     name: string;
+    isPopular?: boolean;
 }
 
 export interface Series {
