@@ -20,13 +20,13 @@ export default async function Home() {
     const adSettings = await getAdSettings();
     const inContentAd = adSettings.slots?.inContent;
 
-    const popularBrandNames = [
+    const popularBrandNames = new Set([
         "apple", "samsung", "oppo", "vivo", "redmi", "huawei", 
         "realme", "tecno", "infinix", "sparx", "nokia", "itel", "xiaomi"
-    ];
+    ]);
 
     const popularBrands = brands.filter(brand => 
-        popularBrandNames.includes(brand.name.trim().toLowerCase())
+        popularBrandNames.has(brand.name.trim().toLowerCase())
     );
 
     const firstHalfBrands = popularBrands.slice(0, 6);
@@ -150,47 +150,32 @@ export default async function Home() {
               {/* Browse Popular Brands */}
               <section className="py-20">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold mb-8 text-center">Popular Brands</h2>
-                    <div className="text-center max-w-3xl mx-auto mb-12">
+                    <h2 className="text-3xl font-bold text-center">Popular Brands</h2>
+                    <div className="text-center max-w-3xl mx-auto mt-4 mb-12">
                       <p className="text-muted-foreground">
                         Our library includes firmware for all major manufacturers. Whether you're looking for the latest firmware for Samsung devices, need specific Xiaomi flash files, or want to restore a Huawei phone, we have you covered. Select a popular brand below to get started.
                       </p>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {firstHalfBrands.map((brand) => (
-                            <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
-                                <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
-                                    <CardHeader>
-                                        <p className="text-xl font-semibold">{brand.name}</p>
-                                         <CardDescription className="pt-2 text-sm">Download official firmware for all {brand.name} devices.</CardDescription>
-                                    </CardHeader>
-                                </Card>
-                            </Link>
-                        ))}
-                        
-                        {inContentAd?.enabled && inContentAd.adCode && (
-                            <div className="sm:col-span-2 md:col-span-1 lg:col-span-2 flex items-center justify-center h-full">
-                                <div dangerouslySetInnerHTML={{ __html: inContentAd.adCode }} />
+                    {popularBrands.length > 0 ? (
+                        <>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                                {popularBrands.map((brand) => (
+                                    <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
+                                        <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
+                                            <CardContent className="flex items-center justify-center p-4 h-full">
+                                                <p className="text-lg text-center font-semibold">{brand.name}</p>
+                                            </CardContent>
+                                        </Card>
+                                    </Link>
+                                ))}
                             </div>
-                        )}
-
-                        {secondHalfBrands.map((brand) => (
-                            <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
-                                <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
-                                    <CardHeader>
-                                        <p className="text-xl font-semibold">{brand.name}</p>
-                                         <CardDescription className="pt-2 text-sm">Download official firmware for all {brand.name} devices.</CardDescription>
-                                    </CardHeader>
-                                </Card>
-                            </Link>
-                        ))}
-                    </div>
-                     <div className="text-center mt-12">
-                        <Link href="/brands">
-                            <Button>View All Brands</Button>
-                        </Link>
-                    </div>
-                    {popularBrands.length === 0 && (
+                            <div className="text-center mt-12">
+                                <Link href="/brands">
+                                    <Button>View All Brands</Button>
+                                </Link>
+                            </div>
+                        </>
+                    ) : (
                         <div className="text-center text-muted-foreground">
                             No popular brands matching the criteria were found in the database.
                         </div>
