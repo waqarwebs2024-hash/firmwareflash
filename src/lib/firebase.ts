@@ -11,7 +11,8 @@ const firebaseConfig = {
   storageBucket: "firmwareflash-1.firebasestorage.app",
   messagingSenderId: "747871339448",
   appId: "1:747871339448:web:eec8edc05650e78009c54d",
-  measurementId: "G-0W8EJHVQ9L"
+  measurementId: "G-0W8EJHVQ9L",
+  databaseURL: "https://firmwareflash-1-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
 // Initialize Firebase
@@ -34,6 +35,9 @@ const db_2 = getFirestore(app, "firestore-db-2");
 // NOTE: You must create a database with this ID in your Firebase project.
 const db_3 = getFirestore(app, "firestore-db-3");
 
+// --- Realtime Database ---
+const rtdb = getDatabase(app);
+
 
 export { 
   app, 
@@ -41,4 +45,5 @@ export {
   db_1,
   db_2,
   db_3,
+  rtdb,
 };
