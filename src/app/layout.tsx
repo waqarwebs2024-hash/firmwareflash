@@ -53,10 +53,8 @@ export default async function RootLayout({
   const pathname = headersList.get('x-pathname') || '';
   const isAdminPage = pathname.startsWith('/admin');
   
-  const [adSettings, headerScripts] = await Promise.all([
-    getAdSettings(),
-    getHeaderScripts(),
-  ]);
+  const adSettings = await getAdSettings();
+  const headerScripts = await getHeaderScripts();
 
   const headerAd = adSettings.slots?.headerBanner;
 

@@ -5,8 +5,14 @@ import Link from 'next/link';
 import { Brand } from '@/lib/types';
 import { HomeSearchForm } from '@/components/home-search-form';
 import { FaqSection } from '@/components/faq-section';
-import { ShieldCheck, Database, Download, BookCheck } from 'lucide-react';
+import { ShieldCheck, Database, Download, BookCheck, Wrench, RefreshCw, LifeBuoy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'firmwareflash.com: Free Official Stock ROM & Firmware Downloads',
+  description: 'Find and download official stock firmware for your phone. Get free flash files, step-by-step guides, and fix software issues on Samsung, Xiaomi, and more.',
+};
 
 export default async function Home() {
     const brands: Brand[] = await getBrands();
@@ -51,6 +57,25 @@ export default async function Home() {
       },
     ];
 
+    const whyUseStockFirmware = [
+      {
+        icon: Wrench,
+        title: "Fix Software Issues",
+        description: "Resolve common problems like bootloops, crashes, and force closes by reinstalling the original software."
+      },
+      {
+        icon: RefreshCw,
+        title: "Restore to Factory State",
+        description: "Remove root access, custom ROMs, and other modifications to return your device to its original condition for warranty or resale."
+      },
+      {
+        icon: LifeBuoy,
+        title: "Unbrick Your Device",
+        description: "Bring a 'soft-bricked' phone back to life by flashing the correct stock ROM and rescue it from being unusable."
+      }
+    ];
+
+
     const brandsToShow = brands.slice(0, 12);
     const firstHalfBrands = brandsToShow.slice(0, 6);
     const secondHalfBrands = brandsToShow.slice(6);
@@ -73,15 +98,26 @@ export default async function Home() {
                 </div>
               </section>
 
-              {/* Mission Section */}
-              <section className="py-20 text-center">
-                <div className="container mx-auto px-4 max-w-4xl">
-                  <h2 className="text-3xl font-bold mb-4">Your Trusted Firmware Source</h2>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Our mission is to provide a safe, reliable, and user-friendly platform for everyone needing to restore or update their mobile devices. We understand how frustrating it can be to deal with software issues, which is why we offer a comprehensive library of official stock firmware and clear, step-by-step guides. From fixing bootloops to updating your Android version, firmwareflash.com is here to empower you with the tools and information you need to keep your device running smoothly.
-                  </p>
+               {/* Why use stock firmware section */}
+               <section className="py-20">
+                <div className="container mx-auto px-4">
+                  <div className="text-center max-w-3xl mx-auto mb-12">
+                    <h2 className="text-3xl font-bold mb-4">Why Use Stock Firmware?</h2>
+                    <p className="text-muted-foreground">Flashing the official stock ROM is the most reliable way to solve software problems and restore your phone to its peak performance.</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    {whyUseStockFirmware.map((item, index) => (
+                      <div key={index} className="flex flex-col items-center">
+                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary mb-4">
+                           <item.icon className="h-8 w-8" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                        <p className="text-muted-foreground">{item.description}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </section>
+               </section>
 
               {/* Features Section */}
               <section className="py-20 bg-secondary">
