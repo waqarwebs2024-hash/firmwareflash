@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'firmwareflash.com - Official Stock ROM & Firmware Downloads',
+  title: 'firmwareflash.com - Official Stock ROM Downloads',
   description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides for your mobile device.',
 };
 
@@ -22,7 +22,7 @@ export default async function Home() {
 
     const popularBrandNames = [
         "Apple", "Samsung", "Oppo", "Vivo", "Redmi", "Huawei", 
-        "Realme", "Tecno", "Infinix", "Sparx", "Nokia"
+        "Realme", "Tecno", "Infinix", "Sparx", "Nokia", "Itel", "Xiaomi"
     ];
 
     const popularBrands = brands.filter(brand => 
@@ -194,7 +194,7 @@ export default async function Home() {
                     </div>
                     {popularBrands.length === 0 && (
                         <div className="text-center text-muted-foreground">
-                            Loading brands...
+                            No popular brands matching the criteria were found in the database.
                         </div>
                     )}
                 </div>
