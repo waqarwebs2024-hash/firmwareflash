@@ -96,3 +96,12 @@ export interface HeaderScripts {
     id: 'scripts';
     content: string;
 }
+
+export interface BlogPost {
+    id: string;
+    slug: string;
+    title: string;
+    excerpt: string;
+    content: string; // The full blog post content in Markdown
+    createdAt: any;
+}

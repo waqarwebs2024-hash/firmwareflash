@@ -2,11 +2,66 @@
 
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore } from 'firebase/firestore';
-import { ref, get, set, child } from 'firebase/database';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts } from './types';
+import { ref, get, set, child, push, serverTimestamp, query as rtdbQuery, orderByChild, equalTo } from 'firebase/database';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost } from './types';
 import slugify from 'slugify';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
+
+export async function getBrands(): Promise<Brand[]> {
+    const brandsCol = collection(db, 'brands');
+    const snapshot = await getDocs(brandsCol);
+    const brands = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Brand));
+    return brands.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
+    const seriesCol = collection(db, 'series');
+    const q = query(seriesCol, where('brandId', '==', brandId));
+    const snapshot = await getDocs(q);
+    const series = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Series));
+    return series.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]> {
+    const firmwareCol = collection(db, 'firmware');
+    const q = query(firmwareCol, where('seriesId', '==', seriesId));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
+}
+
+export async function getFirmwareById(id: string): Promise<Firmware | null> {
+    if (!id) return null;
+    const dbs = [db, db_1, db_2];
+    for (const dbInstance of dbs) {
+        const docRef = doc(dbInstance, 'firmware', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return { id: docSnap.id, ...docSnap.data() } as Firmware;
+        }
+    }
+    return null;
+}
+
+export async function getBrandById(id: string): Promise<Brand | null> {
+    if (!id) return null;
+    const docRef = doc(db, 'brands', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return { id: docSnap.id, ...docSnap.data() } as Brand;
+    }
+    return null;
+}
+
+export async function getSeriesById(id: string): Promise<Series | null> {
+    if (!id) return null;
+    const docRef = doc(db, 'series', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return { id: docSnap.id, ...docSnap.data() } as Series;
+    }
+    return null;
+}
 
 
 async function searchFirestore(dbInstance: Firestore, collectionName: string, field: string, searchTerm: string, limitVal?: number) {
@@ -22,8 +77,6 @@ export async function searchFirmware(searchTerm: string, queryLimit: number = 50
     const dbs = [db, db_1, db_2];
     let results: Firmware[] = [];
 
-    // This is not a perfect search, but it's a simple way to query across collections.
-    // For a production app, a dedicated search service like Algolia or Elasticsearch would be better.
     const brandNameQuery = dbs.map(dbInstance => searchFirestore(dbInstance, 'brands', 'name', searchTerm));
     const seriesNameQuery = dbs.map(dbInstance => searchFirestore(dbInstance, 'series', 'name', searchTerm));
     const fileNameQuery = dbs.map(dbInstance => searchFirestore(dbInstance, 'firmware', 'fileName', searchTermLower));
@@ -86,86 +139,18 @@ async function getAllFromAllDBs<T extends { id: string }>(collectionName: string
     return results;
 }
 
-export async function getBrands(): Promise<Brand[]> {
-    const brands = await getAllFromAllDBs<Brand>('brands');
-    return brands.sort((a, b) => a.name.localeCompare(b.name));
-}
-
-export async function getBrandById(id: string): Promise<Brand | null> {
-    if (!id) return null;
-    const dbs = [db, db_1, db_2];
-    for (const dbInstance of dbs) {
-        const docRef = doc(dbInstance, 'brands', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() } as Brand;
-        }
-    }
-    return null;
-}
-
-export async function getSeriesByBrand(brandId: string): Promise<Series[]> {
-    if (!brandId) return [];
-    const dbs = [db, db_1, db_2];
-    let allSeries: Series[] = [];
-
-    for (const dbInstance of dbs) {
-        const q = query(collection(dbInstance, 'series'), where('brandId', '==', brandId));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            allSeries.push({ id: doc.id, ...doc.data() } as Series);
-        });
-    }
-
-    return allSeries.sort((a, b) => a.name.localeCompare(b.name));
-}
-
-export async function getSeriesById(id: string): Promise<Series | null> {
-    if (!id) return null;
-    const dbs = [db, db_1, db_2];
-    for (const dbInstance of dbs) {
-        const docRef = doc(dbInstance, 'series', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() } as Series;
-        }
-    }
-    return null;
-}
-
-export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]> {
-    if (!seriesId) return [];
-    const dbs = [db, db_1, db_2];
-    let allFirmware: Firmware[] = [];
-
-    for (const dbInstance of dbs) {
-        const q = query(collection(dbInstance, 'firmware'), where('seriesId', '==', seriesId));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            allFirmware.push({ id: doc.id, ...doc.data() } as Firmware);
-        });
-    }
-    return allFirmware;
-}
-
-export async function getFirmwareById(id: string): Promise<Firmware | null> {
-    if (!id) return null;
-    const dbs = [db, db_1, db_2];
-    for (const dbInstance of dbs) {
-        const docRef = doc(dbInstance, 'firmware', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() } as Firmware;
-        }
-    }
-    return null;
-}
-
 export async function getRecentFirmwareForSeo(count: number = 20): Promise<Firmware[]> {
-    // This is simplified, in a real app you might query only one DB or aggregate differently
-    const q = query(collection(db, 'firmware'), orderBy('uploadDate', 'desc'), limit(count));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Firmware));
+    const dbs = [db, db_1, db_2];
+    const results: Firmware[] = [];
+
+    for (const dbInstance of dbs) {
+        const q = query(collection(dbInstance, 'firmware'), orderBy('uploadDate', 'desc'), limit(count));
+        const snapshot = await getDocs(q);
+        snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() } as Firmware));
+    }
+    
+    // Sort all collected items by date and take the most recent 'count'
+    return results.sort((a, b) => b.uploadDate.toMillis() - a.uploadDate.toMillis()).slice(0, count);
 }
 
 export async function getAllSeries(): Promise<Series[]> {
@@ -341,12 +326,8 @@ export async function getTotalFirmwares(): Promise<number> {
     return counts.reduce((sum, count) => sum + count, 0);
 }
 
-async function getFirmwareFromAllDBs(): Promise<Firmware[]> {
-    return getAllFromAllDBs<Firmware>('firmware');
-}
-
 export async function getTotalDownloads(): Promise<number> {
-  const allFirmware = await getFirmwareFromAllDBs();
+  const allFirmware = await getAllFromAllDBs<Firmware>('firmware');
   return allFirmware.reduce((sum, fw) => sum + (fw.downloadCount || 0), 0);
 }
 
@@ -433,4 +414,48 @@ export async function incrementDownloadCount(firmwareId: string): Promise<void> 
     } else {
         await setDoc(analyticsDocRef, { downloads: 1 }, { merge: true });
     }
+}
+
+// Blog Functions using RTDB
+export async function saveBlogPost(post: Omit<BlogPost, 'id' | 'createdAt'>): Promise<string> {
+    const blogRef = ref(rtdb, 'blog');
+    const newPostRef = push(blogRef);
+    const slug = createId(post.title);
+    
+    const dataToSave = {
+        ...post,
+        slug: slug,
+        createdAt: serverTimestamp(),
+    };
+
+    await set(newPostRef, dataToSave);
+    return slug;
+}
+
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+    const blogRef = ref(rtdb, 'blog');
+    const snapshot = await get(rtdbQuery(blogRef, orderByChild('createdAt')));
+    if (snapshot.exists()) {
+        const posts: BlogPost[] = [];
+        snapshot.forEach((childSnapshot) => {
+            posts.push({ id: childSnapshot.key!, ...childSnapshot.val() });
+        });
+        return posts.reverse(); // Newest first
+    }
+    return [];
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+    const blogRef = ref(rtdb, 'blog');
+    const q = rtdbQuery(blogRef, orderByChild('slug'), equalTo(slug));
+    const snapshot = await get(q);
+    if (snapshot.exists()) {
+        let post: BlogPost | null = null;
+        snapshot.forEach((childSnapshot) => {
+             // Since slug should be unique, we only expect one result
+            post = { id: childSnapshot.key!, ...childSnapshot.val() };
+        });
+        return post;
+    }
+    return null;
 }

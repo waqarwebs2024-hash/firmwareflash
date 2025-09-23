@@ -1,9 +1,10 @@
 
+
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost } from './data';
 import { seedFromLegacyFiles } from './seed';
-import type { AdSettings, Firmware } from './types';
+import type { AdSettings, Firmware, BlogPost } from './types';
 import { login, logout } from './auth';
 
 export async function loginAction(formData: FormData) {
@@ -72,4 +73,8 @@ export async function liveSearchAction(query: string): Promise<Firmware[]> {
       ...fw,
       uploadDate: JSON.parse(JSON.stringify(fw.uploadDate)),
     }));
+}
+
+export async function saveBlogPostAction(post: Omit<BlogPost, 'id' | 'createdAt' | 'slug'>): Promise<string> {
+    return await saveBlogPost(post);
 }
