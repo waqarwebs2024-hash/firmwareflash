@@ -1,5 +1,4 @@
 
-
 import { db } from './firebase';
 import { collection, doc, writeBatch, getDocs, getDoc, setDoc } from 'firebase/firestore';
 import { Brand } from './types';
@@ -47,7 +46,7 @@ export const brands: Omit<Brand, 'id'>[] = [
     { name: 'QMobile' },
     { name: 'Jio' },
     { name: 'Karbonn' },
-    { name 'Spice' },
+    { name: 'Spice' },
     { name: 'Symphony' },
     { name: 'Walton' },
     { name: 'Gionee' },
