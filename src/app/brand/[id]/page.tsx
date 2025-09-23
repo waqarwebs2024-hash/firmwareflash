@@ -1,3 +1,4 @@
+
 import { getBrandById, getSeriesByBrand } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -38,12 +39,12 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
         </h1>
 
         {series.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-10">
             {series.map((s) => (
               <Link href={`/brands/${brand.id}/${s.id}`} key={s.id} className="group">
                   <div className="flex flex-col items-center text-center">
                       <Image
-                        src="/f.svg"
+                        src="/f.png"
                         alt="Folder icon"
                         width={80}
                         height={60}
