@@ -21,14 +21,12 @@ export default async function Home() {
     const inContentAd = adSettings.slots?.inContent;
 
     const popularBrandNames = [
-        "Apple", "Samsung", "Oppo", "Vivo", "Redmi", "Huawei", 
-        "Realme", "Tecno", "Infinix", "Sparx", "Nokia", "Itel", "Xiaomi"
+        "apple", "samsung", "oppo", "vivo", "redmi", "huawei", 
+        "realme", "tecno", "infinix", "sparx", "nokia", "itel", "xiaomi"
     ];
 
     const popularBrands = brands.filter(brand => 
-        popularBrandNames.some(popularName => 
-            brand.name.trim().toLowerCase() === popularName.trim().toLowerCase()
-        )
+        popularBrandNames.includes(brand.name.trim().toLowerCase())
     );
 
     const firstHalfBrands = popularBrands.slice(0, 6);
