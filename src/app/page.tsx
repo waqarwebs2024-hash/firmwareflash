@@ -1,4 +1,5 @@
 
+
 import { getBrands, getAdSettings } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
@@ -10,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'firmwareflash.com: Free Official Stock ROM & Firmware Downloads',
+  title: 'firmwareflash.com: Official Stock ROM & Firmware Downloads',
   description: 'Find and download official stock firmware for your phone. Get free flash files, step-by-step guides, and fix software issues on Samsung, Xiaomi, and more.',
 };
 
@@ -122,6 +123,10 @@ export default async function Home() {
               {/* Features Section */}
               <section className="py-20 bg-secondary">
                 <div className="container mx-auto px-4">
+                    <div className="text-center max-w-3xl mx-auto mb-12">
+                        <h2 className="text-3xl font-bold mb-4">Our Features</h2>
+                        <p className="text-muted-foreground">Everything you need to confidently manage your device's software.</p>
+                    </div>
                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
                         {features.map((feature, index) => (
                             <div key={index} className="flex flex-col items-center">
@@ -148,7 +153,7 @@ export default async function Home() {
                             <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
                                 <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
                                     <CardHeader>
-                                        <CardTitle className="text-xl font-semibold">{brand.name}</CardTitle>
+                                        <p className="text-xl font-semibold">{brand.name}</p>
                                          <CardDescription className="pt-2 text-sm">Download official firmware for all {brand.name} devices.</CardDescription>
                                     </CardHeader>
                                 </Card>
@@ -165,7 +170,7 @@ export default async function Home() {
                             <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
                                 <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card">
                                     <CardHeader>
-                                        <CardTitle className="text-xl font-semibold">{brand.name}</CardTitle>
+                                        <p className="text-xl font-semibold">{brand.name}</p>
                                          <CardDescription className="pt-2 text-sm">Download official firmware for all {brand.name} devices.</CardDescription>
                                     </CardHeader>
                                 </Card>
