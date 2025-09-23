@@ -6,6 +6,7 @@ import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, save
 import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware, BlogPost } from './types';
 import { login, logout } from './auth';
+import { generateBlogPost } from '@/ai/flows/blog-post-flow';
 
 export async function loginAction(formData: FormData) {
     await login(formData);
@@ -77,4 +78,34 @@ export async function liveSearchAction(query: string): Promise<Firmware[]> {
 
 export async function saveBlogPostAction(post: Omit<BlogPost, 'id' | 'createdAt' | 'slug'>): Promise<string> {
     return await saveBlogPost(post);
+}
+
+export async function autoGenerateBlogPostsAction(topics: string): Promise<{success: boolean, message: string}> {
+    const topicList = topics.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+    if (topicList.length === 0) {
+        return { success: false, message: 'No topics provided.' };
+    }
+
+    let successfulPosts = 0;
+    let failedPosts = 0;
+    const errors: string[] = [];
+
+    for (const topic of topicList) {
+        try {
+            const postContent = await generateBlogPost({ topic });
+            await saveBlogPost(postContent);
+            successfulPosts++;
+        } catch (e: any) {
+            failedPosts++;
+            errors.push(`Failed to generate post for topic "${topic}": ${e.message}`);
+            console.error(`Error processing topic "${topic}":`, e);
+        }
+    }
+
+    let message = `Finished processing. Successfully generated ${successfulPosts} posts.`;
+    if (failedPosts > 0) {
+        message += ` Failed to generate ${failedPosts} posts. Errors: ${errors.join(', ')}`;
+    }
+
+    return { success: failedPosts === 0, message };
 }

@@ -18,6 +18,7 @@ import {
   HardDrive,
   LogOut,
   Newspaper,
+  Bot,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -38,6 +39,7 @@ const menuItems = [
   { href: '/admin/messages', label: 'Messages', icon: Mail },
   { href: '/admin/firmware', label: 'Firmware', icon: Database },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
+  { href: '/admin/auto-blog', label: 'Auto Blog', icon: Bot },
   { href: '/admin/tools', label: 'Tools', icon: Wrench },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
