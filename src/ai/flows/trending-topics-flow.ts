@@ -4,16 +4,16 @@
  * @fileOverview An AI flow to generate trending blog post topics.
  *
  * - generateTrendingTopics - Generates a list of trending topics.
- * - TrendingTopicsOutput - The return type for the function.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-export const TrendingTopicsOutputSchema = z.object({
+// Define schema inside the function that uses it to avoid exporting non-function from 'use server' file.
+const TrendingTopicsOutputSchema = z.object({
   topics: z.array(z.string()).describe("A list of 5-10 trending blog post topics."),
 });
-export type TrendingTopicsOutput = z.infer<typeof TrendingTopicsOutputSchema>;
+type TrendingTopicsOutput = z.infer<typeof TrendingTopicsOutputSchema>;
 
 export async function generateTrendingTopics(): Promise<TrendingTopicsOutput> {
   return trendingTopicsFlow();
