@@ -1,7 +1,8 @@
 
 
-import { db } from '@/lib/firebase';
+import { db, db_1, rtdb } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer } from 'firebase/firestore';
+import { ref, get, set, child } from 'firebase/database';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, AdSlot, HeaderScripts } from './types';
 import slugify from 'slugify';
 import fs from 'fs/promises';
@@ -204,17 +205,22 @@ export async function updateAdSettings(settings: AdSettings): Promise<void> {
 }
 
 export async function getFlashingInstructionsFromDB(brandId: string): Promise<FlashingInstructions | null> {
-    const instructionsDocRef = doc(db, 'flashingInstructions', brandId);
-    const docSnap = await getDoc(instructionsDocRef);
-    if (docSnap.exists()) {
-        return docSnap.data() as FlashingInstructions;
+    const dbRef = ref(rtdb);
+    try {
+        const snapshot = await get(child(dbRef, `flashingInstructions/${brandId}`));
+        if (snapshot.exists()) {
+            return snapshot.val() as FlashingInstructions;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching flashing instructions from RTDB:", error);
+        return null;
     }
-    return null;
 }
 
 export async function saveFlashingInstructionsToDB(brandId: string, instructions: FlashingInstructions): Promise<void> {
-    const instructionsDocRef = doc(db, 'flashingInstructions', brandId);
-    await setDoc(instructionsDocRef, instructions);
+    const instructionsRef = ref(rtdb, `flashingInstructions/${brandId}`);
+    await set(instructionsRef, instructions);
 }
 
 export async function getOrCreateTool(toolSlug: string, toolName: string): Promise<Tool> {
