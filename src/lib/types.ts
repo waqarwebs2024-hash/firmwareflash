@@ -1,4 +1,5 @@
 
+import { z } from 'zod';
 
 export interface Brand {
     id: string;
@@ -98,11 +99,21 @@ export interface HeaderScripts {
     content: string;
 }
 
-export interface BlogPost {
+export const BlogPostInputSchema = z.object({
+  topic: z.string().describe('The topic for the blog post, e.g., "How to flash Samsung firmware".'),
+});
+export type BlogPostInput = z.infer<typeof BlogPostInputSchema>;
+
+export const BlogPostOutputSchema = z.object({
+  title: z.string().describe("A catchy and SEO-friendly title for the blog post."),
+  excerpt: z.string().describe("A short, compelling summary of the blog post (1-2 sentences)."),
+  content: z.string().describe("The full content of the blog post in Markdown format. Should be well-structured with headings, lists, and bold text."),
+});
+export type BlogPostOutput = z.infer<typeof BlogPostOutputSchema>;
+
+
+export interface BlogPost extends BlogPostOutput {
     id: string;
     slug: string;
-    title: string;
-    excerpt: string;
-    content: string; // The full blog post content in Markdown
     createdAt: any;
 }

@@ -4,7 +4,7 @@
 
 import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity } from './data';
 import { seedFromLegacyFiles } from './seed';
-import type { AdSettings, Firmware, BlogPost } from './types';
+import type { AdSettings, Firmware, BlogPost, BlogPostOutput } from './types';
 import { login, logout } from './auth';
 import { generateBlogPost } from '@/ai/flows/blog-post-flow';
 import { generateTrendingTopics } from '@/ai/flows/trending-topics-flow';
@@ -77,7 +77,7 @@ export async function liveSearchAction(query: string): Promise<Firmware[]> {
     }));
 }
 
-export async function saveBlogPostAction(post: Omit<BlogPost, 'id' | 'createdAt' | 'slug'>): Promise<string> {
+export async function saveBlogPostAction(post: BlogPostOutput): Promise<string> {
     return await saveBlogPost(post);
 }
 

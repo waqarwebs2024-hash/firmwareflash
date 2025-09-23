@@ -9,8 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
-import { generateBlogPost, BlogPostOutput } from '@/ai/flows/blog-post-flow';
+import { generateBlogPost } from '@/ai/flows/blog-post-flow';
 import { saveBlogPostAction } from '@/lib/actions';
+import { BlogPostOutput } from '@/lib/types';
 
 export default function BlogAdminPage() {
   const [isPending, startTransition] = useTransition();
