@@ -128,17 +128,17 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   )
 }
 
-function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brandId: string, brandName: string, seriesName: string }) {
-    let instructionsData: FlashingInstructionsOutput | null = use(getFlashingInstructionsFromDB(brandId));
+async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brandId: string, brandName: string, seriesName: string }) {
+    let instructionsData = await getFlashingInstructionsFromDB(brandId);
     
     if (!instructionsData) {
         try {
-            const generatedInstructions = use(getFlashingInstructions({ brandName: brandName }));
+            const generatedInstructions = await getFlashingInstructions({ brandName: brandName });
             if (generatedInstructions?.tool) {
-                use(getOrCreateTool(generatedInstructions.tool.slug, generatedInstructions.tool.name));
+                await getOrCreateTool(generatedInstructions.tool.slug, generatedInstructions.tool.name);
             }
             if (generatedInstructions) {
-                use(saveFlashingInstructionsToDB(brandId, generatedInstructions));
+                await saveFlashingInstructionsToDB(brandId, generatedInstructions);
             }
             instructionsData = generatedInstructions;
         } catch (error) {
@@ -151,17 +151,16 @@ function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brand
 }
 
 
-export default function DownloadPage({ params: promiseParams }: { params: Promise<Props['params']> }) {
-  const params = use(promiseParams);
-  const firmware = use(getFirmwareById(params.firmwareId));
-  const adSettings = use(getAdSettings());
+export default async function DownloadPage({ params }: Props) {
+  const firmware = await getFirmwareById(params.firmwareId);
+  const adSettings = await getAdSettings();
   
   if (!firmware) notFound();
 
-  const series = use(getSeriesById(firmware.seriesId));
+  const series = await getSeriesById(firmware.seriesId);
   if (!series) notFound();
 
-  const brand = use(getBrandById(series.brandId));
+  const brand = await getBrandById(series.brandId);
   if (!brand) notFound();
 
   const { fileName, version, androidVersion, size, uploadDate, downloadCount } = firmware;

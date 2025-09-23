@@ -1,4 +1,5 @@
 
+
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -72,10 +73,6 @@ const db_1 = getFirestore(app1);
 // Database 3
 const db_2 = getFirestore(app2);
 
-// Database 4
-// NOTE: You must create a database with this ID in your Firebase project.
-const db_3 = getFirestore(app, "firestore-db-3");
-
 // --- Realtime Database ---
 const rtdb = getDatabase(app);
 
@@ -85,6 +82,5 @@ export {
   db,
   db_1,
   db_2,
-  db_3,
   rtdb,
 };
