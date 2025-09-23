@@ -128,9 +128,34 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   )
 }
 
+function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brandId: string, brandName: string, seriesName: string }) {
+    let instructionsData: FlashingInstructionsOutput | null = use(getFlashingInstructionsFromDB(brandId));
+    
+    if (!instructionsData) {
+        try {
+            const generatedInstructions = use(getFlashingInstructions({ brandName: brandName }));
+            if (generatedInstructions?.tool) {
+                use(getOrCreateTool(generatedInstructions.tool.slug, generatedInstructions.tool.name));
+            }
+            if (generatedInstructions) {
+                use(saveFlashingInstructionsToDB(brandId, generatedInstructions));
+            }
+            instructionsData = generatedInstructions;
+        } catch (error) {
+            console.error("Failed to generate or save flashing instructions:", error);
+            instructionsData = null;
+        }
+    }
+    
+    return <FlashingInstructions brandId={brandId} seriesName={seriesName} instructionsData={instructionsData} />
+}
+
+
 export default function DownloadPage({ params: promiseParams }: { params: Promise<Props['params']> }) {
   const params = use(promiseParams);
   const firmware = use(getFirmwareById(params.firmwareId));
+  const adSettings = use(getAdSettings());
+  
   if (!firmware) notFound();
 
   const series = use(getSeriesById(firmware.seriesId));
@@ -139,28 +164,10 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
   const brand = use(getBrandById(series.brandId));
   if (!brand) notFound();
 
-  let instructionsData: FlashingInstructionsOutput | null = use(getFlashingInstructionsFromDB(brand.id));
-
-  if (!instructionsData) {
-    try {
-        instructionsData = use(getFlashingInstructions({ brandName: brand.name }));
-        if (instructionsData) {
-            if (instructionsData.tool) {
-                use(getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name));
-            }
-          use(saveFlashingInstructionsToDB(brand.id, instructionsData));
-        }
-    } catch (error) {
-        console.error("Failed to generate or save flashing instructions:", error);
-        // instructionsData remains null, so the page can still render without them.
-    }
-  }
-
   const { fileName, version, androidVersion, size, uploadDate, downloadCount } = firmware;
   // @ts-ignore
   const date = uploadDate.toDate ? uploadDate.toDate() : new Date(uploadDate);
 
-  const adSettings = use(getAdSettings());
   const inContentAd = adSettings.slots?.inContent;
 
   const faqItems = [
@@ -218,7 +225,7 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
         </Card>
 
 
-        <FlashingInstructions brandId={series.brandId} seriesName={series.name} instructionsData={instructionsData} />
+        <FlashingInstructionsFetcher brandId={brand.id} brandName={brand.name} seriesName={series.name} />
 
         {inContentAd?.enabled && inContentAd.adCode && (
           <div className="my-8 flex justify-center">
@@ -277,16 +284,6 @@ export default function DownloadPage({ params: promiseParams }: { params: Promis
               </Link>
           </div>
         </section>
-
-        {instructionsData?.warning && (
-          <aside className="mt-8 bg-destructive/10 p-4 border border-destructive/20 rounded-lg flex items-start">
-              <AlertTriangle className="h-5 w-5 mr-3 text-destructive shrink-0 mt-0.5" />
-              <div>
-                  <strong className="text-destructive font-semibold">Warning</strong>
-                  <p className="text-sm text-destructive/90">{instructionsData.warning}</p>
-              </div>
-          </aside>
-        )}
 
         <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} id="faqs" />
 

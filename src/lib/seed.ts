@@ -1,6 +1,6 @@
 
-import { db } from './firebase';
-import { collection, doc, writeBatch, getDocs, getDoc, setDoc } from 'firebase/firestore';
+import { db, db_1, db_2 } from './firebase';
+import { collection, doc, writeBatch, getDocs, getDoc, Firestore } from 'firebase/firestore';
 import { Brand } from './types';
 import slugify from 'slugify';
 import fs from 'fs/promises';
@@ -86,53 +86,30 @@ export async function seedBrands() {
   }
 }
 
-async function getOrCreate(batch: import('firebase/firestore').WriteBatch, collectionName: string, id: string, data: object, createdCounter: { count: number }) {
-    const docRef = doc(db, collectionName, id);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) {
-        batch.set(docRef, data);
-        createdCounter.count++;
-        return true;
-    }
-    return false;
-}
-
-export async function seedFromLegacyFiles() {
-    const dataDir = path.join(process.cwd(), 'files_data');
-    const fileNames = await fs.readdir(dataDir);
-    const txtFiles = fileNames.filter(f => f.endsWith('.txt'));
-
-    let brandsAdded = { count: 0 };
-    let seriesAdded = { count: 0 };
-    let firmwareAdded = { count: 0 };
-    
-    // Fetch all existing firmware IDs once to avoid repeated reads inside the loop
-    const firmwareCol = collection(db, 'firmware');
-    const existingFirmwareSnapshot = await getDocs(firmwareCol);
-    const existingFirmwareIds = new Set(existingFirmwareSnapshot.docs.map(d => d.id));
-
-    let batch = writeBatch(db);
+async function seedDataToDatabase(database: Firestore, files: string[], existingFirmwareIds: Set<string>, counters: { brandsAdded: number, seriesAdded: number, firmwareAdded: number }) {
+    let batch = writeBatch(database);
     let operationCount = 0;
+    const dataDir = path.join(process.cwd(), 'files_data');
 
     const commitBatchIfNeeded = async () => {
-        if (operationCount >= 499) { // Firestore batch limit is 500
+        if (operationCount >= 499) {
             await batch.commit();
-            batch = writeBatch(db);
+            batch = writeBatch(database);
             operationCount = 0;
         }
     };
 
-    for (const fileName of txtFiles) {
+    for (const fileName of files) {
         const brandName = fileName.replace('.txt', '').trim();
         if (!brandName) continue;
-        
-        const brandId = createId(brandName);
 
-        const brandDocRef = doc(db, 'brands', brandId);
+        const brandId = createId(brandName);
+        const brandDocRef = doc(database, 'brands', brandId);
         const brandSnap = await getDoc(brandDocRef);
+
         if (!brandSnap.exists()) {
             batch.set(brandDocRef, { name: brandName });
-            brandsAdded.count++;
+            counters.brandsAdded++;
             operationCount++;
             await commitBatchIfNeeded();
         }
@@ -150,23 +127,22 @@ export async function seedFromLegacyFiles() {
 
             const [model, firmwareFileName, size, downloadUrl] = record;
             if (!model || !model.trim() || !firmwareFileName || !firmwareFileName.trim()) continue;
-            
+
             const seriesName = model.trim();
             const seriesId = createId(`${brandId}-${seriesName}`);
-
-            const seriesDocRef = doc(db, 'series', seriesId);
+            const seriesDocRef = doc(database, 'series', seriesId);
             const seriesSnap = await getDoc(seriesDocRef);
+
             if (!seriesSnap.exists()) {
                 batch.set(seriesDocRef, { name: seriesName, brandId });
-                seriesAdded.count++;
+                counters.seriesAdded++;
                 operationCount++;
                 await commitBatchIfNeeded();
             }
-            
-            const firmwareId = createId(firmwareFileName.trim());
 
+            const firmwareId = createId(firmwareFileName.trim());
             if (!existingFirmwareIds.has(firmwareId)) {
-                const firmwareDocRef = doc(firmwareCol, firmwareId);
+                const firmwareDocRef = doc(database, 'firmware', firmwareId);
                 batch.set(firmwareDocRef, {
                     brandId,
                     seriesId,
@@ -178,18 +154,48 @@ export async function seedFromLegacyFiles() {
                     uploadDate: new Date(),
                     downloadCount: Math.floor(Math.random() * 5000),
                 });
-                firmwareAdded.count++;
+                counters.firmwareAdded++;
                 operationCount++;
-                existingFirmwareIds.add(firmwareId); // Add to set to avoid re-adding in the same run
+                existingFirmwareIds.add(firmwareId); // Avoid duplicates across batches
                 await commitBatchIfNeeded();
             }
         }
     }
 
-    // Commit any remaining operations in the final batch
     if (operationCount > 0) {
         await batch.commit();
     }
+}
 
-    return { brandsAdded: brandsAdded.count, seriesAdded: seriesAdded.count, firmwareAdded: firmwareAdded.count };
+
+export async function seedFromLegacyFiles() {
+    const dataDir = path.join(process.cwd(), 'files_data');
+    const fileNames = (await fs.readdir(dataDir)).filter(f => f.endsWith('.txt'));
+
+    // Fetch all existing firmware IDs from all dbs to avoid duplicates
+    const allDbs = [db, db_1, db_2];
+    const existingFirmwareIds = new Set<string>();
+    for (const database of allDbs) {
+        const firmwareCol = collection(database, 'firmware');
+        const existingFirmwareSnapshot = await getDocs(firmwareCol);
+        existingFirmwareSnapshot.docs.forEach(d => existingFirmwareIds.add(d.id));
+    }
+
+    const totalFiles = fileNames.length;
+    const chunkSize = Math.ceil(totalFiles / 3);
+    const fileChunks = [
+        fileNames.slice(0, chunkSize),
+        fileNames.slice(chunkSize, 2 * chunkSize),
+        fileNames.slice(2 * chunkSize)
+    ];
+
+    const counters = { brandsAdded: 0, seriesAdded: 0, firmwareAdded: 0 };
+    
+    await Promise.all([
+        seedDataToDatabase(db, fileChunks[0], existingFirmwareIds, counters),
+        seedDataToDatabase(db_1, fileChunks[1], existingFirmwareIds, counters),
+        seedDataToDatabase(db_2, fileChunks[2], existingFirmwareIds, counters)
+    ]);
+
+    return counters;
 }
