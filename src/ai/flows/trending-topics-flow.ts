@@ -9,7 +9,6 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-// Define schema inside the function that uses it to avoid exporting non-function from 'use server' file.
 const TrendingTopicsOutputSchema = z.object({
   topics: z.array(z.string()).describe("A list of 5-10 trending blog post topics."),
 });
