@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { getAdSettings } from '@/lib/data';
@@ -9,8 +9,7 @@ import { AdSettings } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 
-export default function AdPage({ params: promiseParams }: { params: Promise<{ firmwareId: string }> }) {
-  const params = use(promiseParams);
+export default function AdPage({ params }: { params: { firmwareId: string } }) {
   const [adSettings, setAdSettings] = useState<AdSettings | null>(null);
   const [countdown, setCountdown] = useState(10);
   const [showButton, setShowButton] = useState(false);
