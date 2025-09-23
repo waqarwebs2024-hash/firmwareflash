@@ -26,9 +26,39 @@ const firebaseConfig1 = {
   measurementId: "G-KWBHVFW00B"
 };
 
+const firebaseConfig2 = {
+    apiKey: "AIzaSyCIqlMMb1yteZbkehFU3lz6-91fVDxmrZ8",
+    authDomain: "firmwareflash-3.firebaseapp.com",
+    databaseURL: "https://firmwareflash-3-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "firmwareflash-3",
+    storageBucket: "firmwareflash-3.firebasestorage.app",
+    messagingSenderId: "658862711175",
+    appId: "1:658862711175:web:489354a3c852babc86f322",
+    measurementId: "G-J6NGRK9987"
+};
+
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const app1 = initializeApp(firebaseConfig1, 'db-1');
+// To avoid reinitialization errors, check if apps are already initialized.
+let app, app1, app2;
+
+const apps = getApps();
+if (!apps.find(a => a.name === '[DEFAULT]')) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp('[DEFAULT]');
+}
+
+if (!apps.find(a => a.name === 'db-1')) {
+  app1 = initializeApp(firebaseConfig1, 'db-1');
+} else {
+  app1 = getApp('db-1');
+}
+
+if (!apps.find(a => a.name === 'db-2')) {
+  app2 = initializeApp(firebaseConfig2, 'db-2');
+} else {
+  app2 = getApp('db-2');
+}
 
 
 // --- Firestore Databases ---
@@ -40,8 +70,7 @@ const db = getFirestore(app);
 const db_1 = getFirestore(app1);
 
 // Database 3
-// NOTE: You must create a database with this ID in your Firebase project.
-const db_2 = getFirestore(app, "firestore-db-2");
+const db_2 = getFirestore(app2);
 
 // Database 4
 // NOTE: You must create a database with this ID in your Firebase project.
