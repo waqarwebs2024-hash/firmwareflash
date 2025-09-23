@@ -1,9 +1,8 @@
 import { getBrandById, getSeriesByBrand } from '@/lib/data';
 import { notFound } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { Smartphone } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
+import Image from 'next/image';
 
 type Props = {
   params: { id: string }
@@ -35,30 +34,31 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
     <>
       <div className="container mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold mb-8 text-center">
-          Select a {brand.name} Model
+          Firmware for {brand.name} Devices
         </h1>
 
         {series.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
             {series.map((s) => (
-              <Link href={`/brands/${brand.id}/${s.id}`} key={s.id}>
-                  <Card className="h-full hover:shadow-primary/20 hover:shadow-lg transition-shadow">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                          <CardTitle className="text-lg font-medium">
-                              {s.name}
-                          </CardTitle>
-                          <Smartphone className="h-6 w-6 text-muted-foreground" />
-                      </CardHeader>
-                      <CardContent>
-                          <p className="text-xs text-muted-foreground">View available firmware</p>
-                      </CardContent>
-                  </Card>
+              <Link href={`/brands/${brand.id}/${s.id}`} key={s.id} className="group">
+                  <div className="flex flex-col items-center text-center">
+                      <Image
+                        src="/f.svg"
+                        alt="Folder icon"
+                        width={80}
+                        height={60}
+                        className="transition-transform group-hover:-translate-y-1"
+                      />
+                      <p className="mt-2 text-sm font-medium text-foreground group-hover:text-primary">
+                        {s.name}
+                      </p>
+                  </div>
               </Link>
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground">
-            <p>No series found for this brand.</p>
+          <div className="text-center text-muted-foreground py-16">
+            <p>No device models found for this brand yet.</p>
           </div>
         )}
       </div>
