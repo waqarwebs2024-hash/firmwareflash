@@ -3,7 +3,7 @@
 
 import { FormEvent, useTransition, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Loader2 } from 'lucide-react';
+import { Search, Loader2, Usb } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { liveSearchAction } from '@/lib/actions';
 import { Firmware } from '@/lib/types';
@@ -81,17 +81,16 @@ export function HomeSearchForm() {
                 onSubmit={handleSearch} 
                 className={cn(
                     "relative",
-                    "search-form-container",
-                    (hasQuery || showSuggestions) && 'search-active'
+                    "search-form-container"
                 )}
             >
                 <div className="relative flex items-center w-full">
-                    <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
+                    <Search className="absolute left-4 h-5 w-5 text-muted-foreground pointer-events-none" />
                     <Input
                         type="text"
                         name="search"
                         placeholder="Search for firmware, brand, or model..."
-                        className="search-input h-16 pl-12 pr-28 text-base rounded-full bg-background border-2 border-border focus:border-primary/30"
+                        className="h-16 pl-12 pr-28 text-base rounded-full bg-background border-2 border-border focus:bg-background"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
@@ -130,6 +129,12 @@ export function HomeSearchForm() {
                     </div>
                 </div>
             )}
+             <div className="mt-4 flex justify-center">
+                <Button variant="outline" disabled>
+                    <Usb className="mr-2 h-4 w-4" />
+                    Detect Device
+                </Button>
+            </div>
         </div>
     )
 }
