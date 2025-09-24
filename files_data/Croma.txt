@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Croma CRXT1125Q,Croma_CRXT1125Q_MT6582_V3_20131231_4.2.2.zip,749 MB,https://www.mediafire.com/file/6cgdr8fync7igjd/Croma_CRXT1125Q_MT6582_V3_20131231_4.2.2.zip/file

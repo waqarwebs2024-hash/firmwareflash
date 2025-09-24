@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Phablet Q10,Phablet_Q10_MT8312_V1.00_140920_4.4.2.zip,443 MB,https://drive.google.com/file/d/1BEoclJVweCiFswDSLt9N9Ri13_I8nBJy/view

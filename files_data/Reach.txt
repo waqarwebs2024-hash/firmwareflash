@@ -1,9 +1,0 @@
-Model,File Name,File Size,Download Link
-Reach Sense 402,Reach_Sense_402_V1.4_20150728_SPD.zip,395 MB,https://drive.google.com/file/d/1K9lCO2XsAHTYeKU77FwetUuBbiNZofdf/view
-Reach RD613E,Reach_RD613E_MT6572_260914.zip,295 MB,https://drive.google.com/file/d/1N7dlhNXBAehzbRnxuY_QKHqwhDSwszpX/view
-Reach RD513E,Reach_RD513E_MT6572_16G_2G_R06_210414.zip,243 MB,https://drive.google.com/file/d/1MR8VzEeL0Bb_Xo1QbQtKgtOKM-_3U3JY/view
-Reach RD53E,Reach_RD53E_V6.0_150115_SPD.zip,283 MB,https://drive.google.com/file/d/1JjnCl3KDvPxXskeuCzp7ucwvLQJRS09z/view
-Reach RD623E,Reach_RD623E_MT6572_A10102_20140730.zip,258 MB,https://drive.google.com/file/d/1AcYHERMwpOPlTRbNVZlf2JXuturZRbPG/view
-Reach RD633E,Reach_RD633E_MT6572_100914.zip,212 MB,https://drive.google.com/file/d/118tL1wRFT1chHqurbizCCjyftmTku94b/view
-Reach Sense 400,Reach_Sense_400_V05_20150825_SPD.zip,382 MB,https://drive.google.com/file/d/1HCZp597Om2RjKhg0ezIZa18l9wG0Y5zO/view
-Reach Allure Ultra Curve,Reach_Allure_Ultra_Curve_SC9832_V04_20170503_6.0_SPD.zip,766 MB,https://drive.google.com/file/d/1ECZSu96mvN6oCaD1PHiFBkkaNUK-j1jY/view

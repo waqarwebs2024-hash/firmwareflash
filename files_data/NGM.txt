@@ -1,6 +1,0 @@
-Model,File Name,File Size,Download Link
-NGM Time,NGM_Time_MT6582_280115_4.4.2.zip,521 MB,https://firmwaredrive.com/index.php?a=downloads&b=file&id=65396
-NGM Stylo,NGM_Stylo_MT6589_051113_4.2.1.zip,527 MB,https://drive.google.com/file/d/1qa5chob7WlCwtoV9akq3yJu32DgFkcg3/view
-NGM Life,NGM_Life_MT6582_290815_5.0.2.zip,404 MB,https://firmwaredrive.com/index.php?a=downloads&b=file&id=65395
-NGM Forward Evolve,NGM_Forward_Evolve_MT6582_170714_4.2.2.zip,513 MB,https://firmwaredrive.com/index.php?a=downloads&b=file&id=65394
-NGM Dynamic E400,NGM_Dynamic_E400_MT6572_291215_5.1.zip,531 MB,https://firmwaredrive.com/index.php?a=downloads&b=file&id=65393

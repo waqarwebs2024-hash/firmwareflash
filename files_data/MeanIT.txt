@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-MeanIT MQ55,MeanIT_MQ55_MT6582_V1.0_150227_4.4.2.zip,543 MB,https://drive.google.com/file/d/1jO2RB-du19xymvCLjFgTPXaoTA6P1e6n/view

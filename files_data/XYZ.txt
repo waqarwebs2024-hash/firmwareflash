@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-XYZ Saga X7 Plus,XYZ_Saga_X7_Plus_MT6735M_V17_20160809.zip,546 MB,https://drive.google.com/file/d/1R6-HTYRcHX_OSvGinhX73VirIF2Ml1a1/view

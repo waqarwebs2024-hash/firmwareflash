@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Mapple Prime M4,Mapple_Prime_M4_MT6582_25022016.zip,1 GB,https://drive.google.com/file/d/1Ql5PSJsRxRbkuo4qntZUgRTzFJhIQmiN/view

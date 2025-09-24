@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-Peace PP30 Pro,Peace_PP30_Pro_MT6582_20150828_4.4.2.zip,402 MB,https://drive.google.com/file/d/1a483Ibux-vPg-UsfDmVasohzf-3D46Io/view
-Peace P88,Peace_P88_MT6572_08042015_4.2.2.zip,398 MB,https://drive.google.com/file/d/1zobZLmDXxFE4Eukv7yS2IP0e4-wk2Zqn/view
-Peace PXX02,Peace_PXX02_MT6580_V1.2_170816_5.1.zip,780 MB,https://drive.google.com/file/d/1f6Q8U6bRXRK9jlp2vSgTHS9STfzq8PpN/view
-Peace PSR05,Peace_PSR05_MT6580_26072017_5.1.zip,452 MB,https://drive.google.com/file/d/1ENnX0Ujv2XKGoFZ2Ml-dBHwS1Z9Vpwgo/view
-Peace P4,Peace_P4_MT6572_20170426_6.0.zip,248 MB,https://www.mediafire.com/file/94zxd3ebdy4fjdc/Peace_P4_MT6572_20170426_6.0.zip/file
-Peace P33,Peace_P33_V3.02_24112016_5.1_SPD.zip,488 MB,https://drive.google.com/file/d/1bYoxcfDHIdURvWaM9Ot14grTB754rlFx/view

@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-Ice Mobile Apollo Touch,Ice_Mobile_Apollo_Touch_MT6575_20141126.zip,117 MB,https://drive.google.com/file/d/1AhcuMNuonUaB_2afcNtMZ3XE2UufkgSa/view
-Ice Revolt TX1,Ice_Revolt_TX1_040316_DGUI.zip,744 MB,https://drive.google.com/file/d/1OKDbnw6tt8Ag0t8wxzqEtf7d3AaXVewh/view
-Ice Ace XT303,Ice_Ace_XT303_MT6572_WH64_20160412.zip,500 MB,https://drive.google.com/file/d/1gQxB9CNyMfxeIjrIzZqtHtffIpxiHvq4/view
-Ice Iconia XT401,Ice_Iconia_XT401_MT6735M_WH57_20170320.zip,1 GB,https://drive.google.com/file/d/1rmEaGKcTJwntZJYSvhp468gJHYzcUx-s/view
-Ice Mobile Prime 4.5,Ice_Mobile_Prime_4.5_MT6572_V1.5_10032014_4.2.2.zip,283 MB,https://drive.google.com/file/d/1ZZKqqJEYX92j5g5maOluXbk54LPVHL9v/view
-Ice Prime 3G XT303,Ice_Prime_3G_XT303_MT6572_20160412.zip,500 MB,https://drive.google.com/file/d/1VhHyt5PHvOPdJIu9bbC3B-8dmg0WNYgc/view

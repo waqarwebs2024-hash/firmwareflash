@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-Xcell Nova,Xcell_Nova_MT6750_V14_20180105_7.0.zip,990 MB,https://drive.google.com/file/d/15g54EF5wDVw4EUlL-4Gm3baCpBmMVtI8/view
-Xcell Enia,Xcell_Enia_MT6580_V3.02_040518_7.0.zip,1 GB,https://drive.google.com/file/d/1HYvA0EZuSOskJ1ue7KqT2ow4XgB76iS5/view
-Xcell Coosea Zoom,Xcell_Coosea_Zoom_MT6737M_V3.04_180220_7.0.zip,1.25 GB,https://drive.google.com/file/d/1HCttJFZQb0WKzaJwELw0iIEPOUL452Yc/view
-Xcell Zoom,Xcell_Zoom_MT6737M_V3.04_180220_7.0.zip,1.25 GB,https://drive.google.com/file/d/1kQ4w8WmsCIkI3pMWsU42_nZVm8fBu9W5/view

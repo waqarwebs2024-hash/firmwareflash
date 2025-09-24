@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-Colors P51,Colors_P51_,719 MB,https://drive.google.com/file/d/1KGHWRa9ahtCg_7_Vq5jUG0B4JNMSWP-x/view
-Colors Pride 1A,Colors_Pride_1A_V11_190617_SPD.zip,719 MB,https://drive.google.com/file/d/1jf9E_m4S9LeCN66jIuhhn6vdL8ObPHtV/view
-Colors P60,Colors_P60_V07_20180717_SPD.zip,773 MB,https://drive.google.com/file/d/1y9bpNKMBTBcqWpPT5gsfdja9sJW3v6sf/view
-Colors P88 Pride 1X,Colors_P88_Pride_1X_MT6739_V10_190508_9.0.zip,1 GB,https://drive.google.com/file/d/1DzfXrRjyG-K2UWyiPJfjnvO1lVSnbyYZ/view
-Colors P70,Colors_P70_MT6737M_V01_20180628_7.0.zip,1 GB,https://drive.google.com/file/d/1yI9wXaLDtfDJt3qtZ-8NqRDx24OqFWol/view
-Colors S1,Colors_S1_MT6580_V06_20171017_7.0.zip,1 GB,https://drive.google.com/file/d/18jspLLfkck5G0pp4YFbV_iClqpIHRIq9/view

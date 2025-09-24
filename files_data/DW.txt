@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-DW Q8C1,DW_Q8C1_MT6582_V1.0.3_220722_12.zip,752 MB,https://drive.google.com/file/d/10Ze_2Hgq-Mz2W1FsGlrEJ0ZIfqU9Y_A5/view

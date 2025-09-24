@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Mango E60,Mango_E60_MT6737M_240617_5.1.zip,815 MB,https://drive.google.com/file/d/1iTqkNwoHF7TyXfcHXZF0b85jGi9jvjDz/view
-Mango SQ7,Mango_SQ7_MT6580_V05_151118_8.1.0.zip,655 MB,https://drive.google.com/file/d/10pLwzOqYg3-WobLy3H7AuktD_vHfzKkF/view

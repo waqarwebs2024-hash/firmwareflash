@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-DBphone DB6 Plus,DBphone_DB6_Plus_MT6735M_150626_5.1.zip,724 MB,https://drive.google.com/file/d/1j8nRVXYhQFjSwRuSSSlNvljjZjMCJ3iV/view

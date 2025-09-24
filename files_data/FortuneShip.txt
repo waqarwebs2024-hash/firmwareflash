@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-FortuneShip L503F Plus,FortuneShip_L503F_Plus_V31_20230616_8.1.0_MIRA.zip,833 MB,https://drive.google.com/file/d/16_weNB31sjbMkR15T02OlSLRq6xQWBtR/view

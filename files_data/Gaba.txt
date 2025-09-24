@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Gaba A6 Knight,Gaba_A6_Knight_MT6582_20151210_4.4.2.zip,551.2 MB,https://drive.google.com/file/d/1qVy2MmjPP6I1qn9Urfu0BkTwonnh4p99/view
-Gaba A62,Gaba_A62_MT6572_V0.3_20140620_4.2.2.zip,399 MB,https://drive.google.com/file/d/1VhWb4LjTIXFTPmcYm4LTXe9fMw4olslK/view

@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Arbutus AR7 Plus,Arbutus_AR7_Plus_MT6580_150826.zip,595 MB,https://www.mediafire.com/file/1364cajk85gmh4f/Arbutus_AR7_Plus_MT6580_150826.zip/file

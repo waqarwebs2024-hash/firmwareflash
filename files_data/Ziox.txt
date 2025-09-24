@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-Ziox Duotel D1,Ziox_Duotel_D1_V09_20181030_SPD.zip,729 MB,https://www.mediafire.com/file/usjj05w5wwvk9r9/Ziox_Duotel_D1_V09_20181030_SPD.zip/file
-Ziox Duopix F9,Ziox_Duopix_F9_V09_16012018_SPD.zip,1.06 GB,https://www.mediafire.com/file/xdirmtu0o77fkiz/Ziox_Duopix_F9_V09_16012018_SPD.zip/file
-Ziox Astra Champ 4G,Ziox_Astra_Champ_4G_V08_09062017_SPD.zip,594 MB,https://www.mediafire.com/file/blaxq05mkx80v5q/Ziox_Astra_Champ_4G_V08_09062017_SPD.zip/file
-Ziox Duopix R1,Ziox_Duopix_R1_MT6737M_V20_20171121.zip,1.05 GB,https://www.mediafire.com/file/4vn4qzuwbbh0byx/Ziox_Duopix_R1_MT6737M_V20_20171121.zip/file
-Ziox Duopix F1,Ziox_Duopix_F1_v13_21112017_SPD.zip,1 GB,https://drive.google.com/file/d/1oG11Bp5xQxpaHXR30n8oB1d-WhaF5FVs/view
-Ziox Astra Curve Pro,Ziox_Astra_Curve_Pro_V12_04042018_SPD.zip,1 GB,https://drive.google.com/file/d/1DSjPBrkohaBmVOfQqxk1sI3bb6eQWeA6/view

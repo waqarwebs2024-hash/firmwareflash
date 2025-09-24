@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-Dark EvoPad V1012,Dark_EvoPad_V1012_CMD.zip,367 MB,https://drive.google.com/file/d/1b77i51T9p9Cibe7Wu9nBBE7fmbtzUdsK/view
-Dark EvoPad V1010,Dark_EvoPad_V1010_CMD.zip,367 MB,https://drive.google.com/file/d/1N6AuuwkfM1r0oHTN2016HXPYs7CsITyR/view
-Dark EvoPad A1040,Dark_EvoPad_A1040_13042013_RBT.zip,443 MB,https://drive.google.com/file/d/1BtSBJ38vwTFZkSpo-8Sote6CGhTTBT_y/view
-Dark EvoPad C1044,Dark_EvoPad_C1044_20140806_4.4.2_APPT.zip,469 MB,https://drive.google.com/file/d/1qxbxMvRXlMPnp3jXOj8TzeRD2FubWHrj/view
-Dark EvoPad M1042,Dark_EvoPad_M1042_MT6582_20150205_4.4.2.zip,554 MB,https://drive.google.com/file/d/1qmcxviXhPE4dQDkqN-CmJ3NOarmR0cKx/view
-Dark EvoPad 3G M1040,Dark_EvoPad_3G_M1040_MT6589_20131224_4.2.2.zip,650 MB,https://drive.google.com/file/d/1TFF5rwkbqTfSyIdnfsFJXWeOELPwAzLB/view

@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-DQ06 TV Stick,DQ06_TV_Stick_V1.1_231102_12_PS.zip,998 MB,https://drive.google.com/file/d/1TdTXlfYiEdcQ4lJsxTKG-RDjynXHRzcK/view

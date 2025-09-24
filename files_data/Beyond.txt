@@ -1,6 +1,0 @@
-Model,File Name,File Size,Download Link
-Beyond Curve 15,Beyond_Curve_15_MT6580_07172020_7.0.zip,893 MB,https://drive.google.com/file/d/1VgWQvM53XTLnpV7sDdd3E__RFEWRRbE-/view
-Beyond BTab 1,Beyond_BTab_1_MT6572_08182014_4.2.2.zip,399 MB,https://drive.google.com/file/d/180MQfqshgULANpzYFC0rwNboz-osNWQV/view
-Beyond Win 3,Beyond_Win_3_MT6580_050918_5.1.zip,587.5 MB,https://drive.google.com/file/d/1i9CtJo_LZX84QZnAO-eDsl-uV9RrDIMv/view
-Beyond WIN 2,Beyond_Win_2_MT6580_050918_5.1.zip,584.4 MB,https://drive.google.com/file/d/1K3rvSoTaPVvsB7P65zDX4Dp6NcGDxRBb/view
-Beyond WIN 1,Beyond_Win_1_MT6580_040918_5.1.zip,675.8 MB,https://drive.google.com/file/d/1wggpaPzrQceE5MQI39oFTbvhSu-nLDmT/view

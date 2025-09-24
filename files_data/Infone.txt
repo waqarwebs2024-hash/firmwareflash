@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Infone X-Cite,Infone_X-Cite_MT6582_V2.26_150307_4.4.2.zip,544 MB,https://drive.google.com/file/d/1YCh_mb8-4rhfPqVEbsoquQQj6t5ISbQT/view
-Infone XE,Infone_XE_MT6580_20180926_8.1.0.zip,639 MB,https://drive.google.com/file/d/1XZ5ot7RSbutu6llJd-3F2zmipbjca4e0/view

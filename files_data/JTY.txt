@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-JTY N100,JTY_N100_MT6753_281118_5.1.zip,970 MB,https://drive.google.com/file/d/16KayWp3abDMCctF_TiyJqSnb0RBtXpM_/view
-JTY Hoozo MT232,JTY_Hoozo_MT232_MT6580_V01_160119_6.0.zip,556 MB,https://drive.google.com/file/d/1c5Vd7Niq9WCkzyGEe7IOI39zojxqq514/view

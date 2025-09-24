@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Etoway E1,Etoway_E1_MT6572_160308_4.4.2.zip,512 MB,https://drive.google.com/file/d/1DN12NAQrIjlyy0NY8Dt17qnhBRhlCKyJ/view

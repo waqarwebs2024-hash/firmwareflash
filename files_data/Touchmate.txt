@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-Touchmate TM-SM540,Touchmate_TM-SM540_MT6737M_V5_20170821_6.0.zip,1.68 GB,https://drive.google.com/file/d/18WPDVWZDr9v87y7UwcE29E8coNDxojxL/view
-Touchmate TM-MID793E,Touchmate_TM-MID793E_MT6572_04282015_4.4.2.zip,587 MB,https://drive.google.com/file/d/1vgLtydEC9S2d0OFdZLKFZf_A1JHD6lc_/view
-Touchmate TM-MID790Q,Touchmate_TM-MID790Q_MT6580_21122015_5.1.zip,845 MB,https://drive.google.com/file/d/1caLq3sYvSVkL9gLv3rmH6R4XTzpHJRiK/view
-Touchmate TM-SM500,Touchmate_TM-SM500_MT6582_V1.2_07242015_4.4.2.zip,648 MB,https://drive.google.com/file/d/1UtpAznnjFtXKkTxoQXD-obsr1rTZxr5C/view

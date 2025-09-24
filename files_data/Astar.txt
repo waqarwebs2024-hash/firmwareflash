@@ -1,6 +1,0 @@
-Model,File Name,File Size,Download Link
-Astar M1000,Astar_M1000_v2.1_4.4.2_LS.zip,552.3 MB,https://drive.google.com/file/d/1gFCIC1_IWZB62MFVj9kqA1GUJ5E-D7Kp/view
-Astar Y3,Astar_Y3_170306_4.4.2_LS.zip,290 MB,https://drive.google.com/file/d/17eQ2KBdXtdIZMO2wHlzr1IFXRabwGHaO/view
-Astar Dolphin,Astar_Dolphin_v1.0_4.4.2_LS.zip,162 MB,https://drive.google.com/file/d/1lN0f2nlwEjcgWCryOXTXuWSwgiva7IXg/view
-Astar H7,Astar_H7_170708_5.1_LS.zip,421 MB,https://drive.google.com/file/d/1BZcMZ9sPfEB6w4FZX6osaOKXSsZdsVgC/view
-Astar M708,Astar_M708_V0.1_240617_5.1.1_LS.zip,406 MB,https://drive.google.com/file/d/1JnrEH5Wv4LPMxfB9B_lRcm8nFx46Mxk_/view

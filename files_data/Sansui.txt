@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-Sansui S5021,Sansui_S5021_20160818_SPD.zip,643 MB,https://drive.google.com/file/d/1Obi32WsCVUUmHso993IQxayp-v3lRSaj/view
-Sansui U32,Sansui_U32_V8.0_20151204_SPD.zip,500 MB,https://drive.google.com/file/d/1pW66ycZiYMtzEwNpzdzwk8kyPa_09PX-/view
-Sansui ST81 Pro Plus,Sansui_ST81_Pro_Plus_MT6580_RD_20160825.zip,673 MB,https://drive.google.com/file/d/1WSMjukeCEVWma1C_nOMC5SfJWcjTib13/view
-Sansui U55,Sansui_U55_V1.16_14092015_SPD.zip,343 MB,https://drive.google.com/file/d/1rHS-3vRyXZrA5CqRrlX-4yFRYSGPwts6/view
-Sansui U52,Sansui_U52_S802_VC02_Y04_V0.8_06112015_SPD.zip,271 MB,https://drive.google.com/file/d/1fRu8bgPhH7livxV-pqCzy5dg-6sLi5gb/view
-Sansui S455120,Sansui_S455120_455_91_V1.0_FD45S_20170316_SPD.zip,964 MB,https://www.mediafire.com/file/bn14qsaptyaobjr/Sansui_S455120_455_91_V1.0_FD45S_20170316_SPD.zip/file

@@ -1,6 +1,0 @@
-Model,File Name,File Size,Download Link
-Tork X10,Tork_X10_V05_191023_FSPD.zip,5 MB,https://androiddatahost.com/y6768
-Tork X7,Tork_X7_V3_210122_FSPD.zip,3 MB,https://androiddatahost.com/yu657h
-Tork X5S,Tork_X5S_V1_191012_FSPD.zip,3.50 MB,https://androiddatahost.com/u85gh
-Tork X1i,Tork_X1i_V1.0_230921_FSPD.zip,4 MB,https://androiddatahost.com/yt67j
-Tork X3 Plus,Tork_X3_Plus_V3_200907_FSPD.zip,3 MB,https://androiddatahost.com/rt657

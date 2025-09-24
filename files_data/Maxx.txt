@@ -1,4 +1,0 @@
-Model,File Name,File Size,Download Link
-Maxx MX152T,Maxx_MX152T_MT6260_V1_F15_MIRA.zip,2.40 MB,https://androiddatahost.com/giphr
-Maxx MX240,Maxx_MX240_MT6260_V0.2_MIRA.zip,2.50 MB,https://androiddatahost.com/jtyjg
-Maxx M550i,Maxx_M550i_MT6261_V13_MIRA.zip,3.3 MB,https://androiddatahost.com/gh5hj

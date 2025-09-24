@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Amway A725W,Amway_A725W_MT6572_07052014_4.2.2.zip,268 MB,https://drive.google.com/file/d/1mzSFwnARMXwTP5fGk7F0XVOWHv0poYib/view

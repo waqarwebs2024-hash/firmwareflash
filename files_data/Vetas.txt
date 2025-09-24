@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-Vetas V5,Vetas_V5_MT6753_CN_5092YP_BD6753_200715_5.1.zip,618 MB,https://www.mediafire.com/file/vihb4jwuevskgoq/Vetas_V5_MT6753_CN_5092YP_BD6753_200715_5.1.zip/file
-Vetas V5 Pro,Vetas_V5_Pro_MT6750_CN_170926_6.0.zip,691 MB,https://www.mediafire.com/file/2hmitlwrjmhdeok/Vetas_V5_Pro_MT6750_CN_170926_6.0.zip/file
-Vetas V5,Vetas_V5_MT6753_CN_5092YP_BD6753_200715_5.1.zip,618 MB,https://www.mediafire.com/file/vihb4jwuevskgoq/Vetas_V5_MT6753_CN_5092YP_BD6753_200715_5.1.zip/file
-Vetas V5 Pro,Vetas_V5_Pro_MT6750_CN_170926_6.0.zip,691 MB,https://www.mediafire.com/file/2hmitlwrjmhdeok/Vetas_V5_Pro_MT6750_CN_170926_6.0.zip/file

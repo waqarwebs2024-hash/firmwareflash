@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-Qin F21 Pro,Qin_F21_Pro_MT6761_V2.1.6_041121.zip,1.37 GB,https://drive.google.com/file/d/1jLy_ahE1vPjyuUC5C-EQSMBa2LkPBejF/view
-Qin F22,Qin_F22_MT6739_501.ST_200720_11.zip,989 MB,https://drive.google.com/file/d/1zM6nXxp_tqRNVYW6rb50eYajMytKTr-h/view
-Qin F21 Pro Plus,Qin_F21_Pro_Plus_5.0.5_OTA.zip,840 MB,https://drive.google.com/file/d/1PpLRZcf2Ms4aDpmKttkf7pvvDG9iY3G5/view rel=
-Qin 1S,Qin_1S_V1.2.2_RU_SPD.zip,208 MB,https://drive.google.com/file/d/1sv2wkDBoJItm3feLLg1T_5qsJ6fRRSKq/view

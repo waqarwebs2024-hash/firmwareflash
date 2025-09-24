@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-WellPhone D4568,WellPhone_D4568_MT6571_V1.5_150304_4.2.2.zip,474 MB,https://www.mediafire.com/file/59woo1zjf6f99q6/WellPhone_D4568_MT6571_V1.5_150304_4.2.2.zip/file
-WellPhone S1 D4510,WellPhone_S1_D4510_MT6582_LWT_V11_140825_4.2.2.zip,345 MB,https://www.mediafire.com/file/tq0fayttst2tcws/WellPhone_S1_D4510_MT6582_LWT_V11_140825_4.2.2.zip/file
-WellPhone S1 D4511,WellPhone_S1_D4511_MT6571_V02_150128_4.2.2.zip,541 MB,https://www.mediafire.com/file/hmeyhqkkuhjsoro/WellPhone_S1_D4511_MT6571_V02_150128_4.2.2.zip/file
-WellPhone Q9,WellPhone_Q9_MT6571_CN_131214_4.4.2.zip,728 MB,https://www.mediafire.com/file/2rm1ofp7yqjoosf/WellPhone_Q9_MT6571_CN_131214_4.4.2.zip/file

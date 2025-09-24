@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Plum Z405,Plum_Z405_MT6580_20161129_6.0_OTA.zip,2 GB,https://www.mediafire.com/file/tm6j83znwjw1zaf/Plum_Z405_MT6580_V1.0_281016_6.0.zip/file

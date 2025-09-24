@@ -1,6 +1,0 @@
-Model,File Name,File Size,Download Link
-MyGica ATV329X,MyGica_ATV329X_S905X-B_191101_7.1_Amlo.zip,712 MB,https://drive.google.com/file/d/19luLT8ygcmhMTV1q-EaFTG3gtdYtb_tm/view
-MyGica ATV495 Max,MyGica_ATV495_Max_S905X_181009_7.1_Amlo.zip,781 MB,https://drive.google.com/file/d/1h5bKVT7qG3O5XOCUHm2fqZdX7CtRL6Kh/view
-MyGica ATV495 Pro,MyGica_ATV495_Pro_161125_5.1_Amlo.zip,514 MB,https://drive.google.com/file/d/1RGKcoPiicS-6LyHLxFjM3L5vmLr8lvvY/view
-MyGica ATV1910,MyGica_ATV1910_170425_5.1_Amlo.zip,587 MB,https://drive.google.com/file/d/1Ghkb8HUNuBBEfyVx94FqKSxxjgQxLVaM/view
-MyGica ATV1960,MyGica_ATV1960_170929_6.0_OTA.zip,566 MB,https://drive.google.com/file/d/19AiQq7Tj8BisS949UtrrYLMyXfeI2V5b/view

@@ -1,4 +1,0 @@
-Model,File Name,File Size,Download Link
-Mafe Z2,Mafe_Z2_SP9832E_V03_20200805_10_SPD.zip,1 GB,https://drive.google.com/file/d/1uBrISPKb0Q9tPgtaTFgsSjV_Tvy1vLTE/view
-Mafe Z1,Mafe_Z1_SP9832E_V03_20190302_8.1.0_SPD.zip,796 MB,https://drive.google.com/file/d/1Jy-mNpZ53YIqj8pyCFRIPJbYg6K-djx4/view
-Mafe V9,Mafe_V9_SC9832E_V11_India_190711_MIRA.zip,1 GB,https://drive.google.com/file/d/1q_lrxR__5da3srlwpMMxlgZgUxF1yyqE/view

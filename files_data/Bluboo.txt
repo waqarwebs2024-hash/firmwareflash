@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-Bluboo D6 Lite,Bluboo_D6_Lite_MT6580_20180805_8.1.zip,647 MB,https://drive.google.com/file/d/1GJaRR2RYfbhdCQ3kkqCSgtUYAGNtkRRx/view
-Bluboo Picasso,Bluboo_Picasso_MT6580_5122016_5.1.zip,623 MB,https://drive.google.com/file/d/1GTCA1d5quKShNIApegLeeCZkW6gUO9Y_/view
-Bluboo Cielo,Bluboo_Cielo_MT6572_V0.6_170915_7.0.zip,452 MB,https://www.mediafire.com/file/2ofjmdadqhfr4r3/Bluboo_Cielo_MT6572_V0.6_170915_7.0.zip/file
-Bluboo S8 Plus,Bluboo_S8_Plus_7.0.026_171225_7.0_QGDP.zip,1.4 GB,https://drive.google.com/file/d/1P-10_pXZmBttECMo-42abCRZLklupt-u/view
-Bluboo D2,Bluboo_D2_MT6580_151217.zip,931 MB,https://drive.google.com/file/d/1rCxfl_F8KNETMp59wRd72v-dlLDY0434/view
-Bluboo S3,Bluboo_S3_MT6750T_V03_20180815_8.1.0_OTA.zip,1.15 GB,https://www.mediafire.com/file/qhbullhq5euh7h0/Bluboo_S3_MT6750T_V03_20180815_8.1.0_OTA.zip/file

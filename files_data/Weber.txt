@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Weber S1,Weber_S1_MT8167_180610_9.0.zip,811 MB,https://www.mediafire.com/file/4xq4kkdpjgppow9/Weber_S1_MT8167_180610_9.0.zip/file
-Weber S1,Weber_S1_MT8167_180610_9.0.zip,811 MB,https://www.mediafire.com/file/4xq4kkdpjgppow9/Weber_S1_MT8167_180610_9.0.zip/file

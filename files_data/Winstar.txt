@@ -1,8 +1,0 @@
-Model,File Name,File Size,Download Link
-Winstar S-1,Winstar_S-1_MT6580_U2_301219_5.1.zip,706 MB,https://drive.google.com/file/d/1Xw-CInvhXRiInLULbXI_fPeqFGQAPvtN/view
-Winstar S-3,Winstar_S-3_MT6580_V216F3_220708_8.1.0.zip,703.8 GB,https://drive.google.com/file/d/1erQX8MKvMsFBAIRMvKSXFJ970aiD0sTW/view
-Winstar WBX-5,Winstar_WBX-5_MT6580_V203F3_201103.zip,1 GB,https://drive.google.com/file/d/1a6tJAD0olp-XGNUn0IOTd4XNLCUxvluV/view
-Winstar S3,Winstar_S-3_SP7731E_171019_8.1.0_MIRA.zip,939 MB,https://drive.google.com/file/d/1oVkHuutGwWvuSsLA3PwsomjXSt3QuliC/view
-Winstar S1,Winstar_S1_MT6580_U2_eMMC_DDR3_64_8_191105_5.1.zip,701 MB,https://drive.google.com/file/d/1O9LL8lm22rNfh_B4uHJh8BIiuJZGushN/view
-Winstar WS112,Winstar_WS112_MT6580_240618.zip,883 MB,https://drive.google.com/file/d/1czOrx-ScsOZcIXHrJnvjMMyKFaP5ixuu/view
-Winstar W68,Winstar_W68_MT6580_301019_5.1.zip,618 MB,https://drive.google.com/file/d/19NRLluBlpHELEWN599yaFKpvHik9JMU_/view

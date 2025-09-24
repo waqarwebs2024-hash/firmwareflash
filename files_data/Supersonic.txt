@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Supersonic SC-4507,Supersonic_SC-4507_5.1.1_LS.zip,475 MB,https://drive.google.com/file/d/1F6SML19lNmepHQEgPyaw1oFvNHvl8FT6/view

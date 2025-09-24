@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Octenn T570 Krome,Octenn_T570 Krome_MT6582_10212015_4.4.2.zip,491 MB,https://drive.google.com/file/d/1UF3mgXRiVeOKssTnQtqRRQ0jL9oW27PQ/view

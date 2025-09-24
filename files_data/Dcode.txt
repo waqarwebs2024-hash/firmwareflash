@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Dcode Bold DS BD1,Dcode_Bold_DS_BD1_MT6765_V6.0_210611_11.zip,1.79 GB,https://drive.google.com/file/d/1bOgjVq5ADV_9Ughz3VhV4hlzq0UTICJo/view

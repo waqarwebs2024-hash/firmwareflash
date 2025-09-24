@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-Gplus S6,Gplus_S6_MT6572_06052015_4.4.3.zip,308 MB,https://drive.google.com/file/d/1IqT9Eas3u66TAG-no4WTwXDGUV12gcWG/view
-Gplus C2K,Gplus_C2K_MT6737T_060217_6.zip,459 MB,https://drive.google.com/file/d/114OmHtwubCCk5I3cNiqlvhnYB8Wjuj_B/view
-Gplus M9,GPlus_M9_V02_23102015_SPD.zip,138 MB,https://drive.google.com/file/d/188A44vFe-_YnfN0X8CUo1GCgQPgY8U5f/view?usp=drive_link
-Gplus BE23,GPlus_BE23_SW07_20141230_SPD.zip,311 MB,https://drive.google.com/file/d/1kfLTIpmCaRjawk610mM9i4Nyut3BKuwo/view

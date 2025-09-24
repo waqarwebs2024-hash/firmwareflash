@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-HDC Note 5 N9200,HDC_Note_5_N9200_MT6582_27012016.zip,317 MB,https://drive.google.com/file/d/1zzNhHser8HOOaF0K0UZONVm-c245futV/view

@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-Maximum MB10,Maximum_MB10_SC6531A_MIRA.zip,4 MB,https://androiddatahost.com/mn4nf
-Maximum MB99,Maximum_MB99_MT6580_U2_06172019_5.1.zip,515 MB,https://drive.google.com/file/d/1NEUOo2o3fCYG7pWVyOesvA5nCsg4u3o8/view
-Maximum MB97,Maximum_MB97_MT6580_20160601_5.1.zip,483 MB,https://www.mediafire.com/file/p9qp7h6bid8kcbc/Maximum_MB97_MT6580_20160601_5.1.zip/file
-Maximum MB101,Maximum_MB101_MT6580_01222018_6.0.zip,592 MB,https://www.mediafire.com/file/ddmoidpvl36y8xi/Maximum_MB101_MT6580_01222018_6.0.zip/file

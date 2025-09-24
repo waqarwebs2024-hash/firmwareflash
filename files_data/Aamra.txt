@@ -1,6 +1,0 @@
-Model,File Name,File Size,Download Link
-Aamra Kaya Pro,Aamra_Kaya_Pro_MT6582_V07_150413_4.4.2.zip,644 MB,https://drive.google.com/file/d/1lwr2ayJudaP8V8BrbrINn2VSoxNflkSK/view
-Aamra T200A,Aamra_T200A_MT6735M_CN_150730_5.1.zip,527 MB,https://drive.google.com/file/d/1V-j7f-2QRLBgbFlnIahH4wHXKFyruoYG/view
-Aamra X3,Aamra_X3_MT6737T_,1.14 GB,https://drive.google.com/file/d/1EV34DlDHjRYTCxD4mDUnE0qWDQGRyAJe/view
-Aamra T200,Aamra_T200_MT6592_150625_4.4.2.zip,857 MB,https://www.mediafire.com/file/gw330m2ggkubiho/Aamra_T200_MT6592_150625_4.4.2.zip/file
-Aamra Kaya Lite,Aamra_Kaya_Lite_MT6582_4.4.2.zip,477 MB,https://drive.google.com/file/d/1OwhFlRqzmr97ps65SqVHJ6u5tzBDPKRR/view

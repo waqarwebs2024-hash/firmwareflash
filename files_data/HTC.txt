@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-HTC Desire 830,HTC_Desire_830_MT6753_Dual_SIM_Signed_Hboot_2.4.zip,150.6 MB,https://drive.google.com/file/d/1RjKoZ0UJKTE6-ujyoiOyWWAUKk8kaKYr/view
-HTC Desire D820PI,HTC_Desire_820G_D820PI_MT6592_Dual_SIM_1.12.401.1_Radio.zip,867.50 MB,https://drive.google.com/file/d/19m2o4LCRoViJXfUKvsTznHPOYgeL-HOE/view

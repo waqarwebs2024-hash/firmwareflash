@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Telefunken TF6M,Telefunken_TF6M_MT6739_V1.08_180810_8.1.0.zip,724.3 MB,https://drive.google.com/file/d/1BtSAVq9rAJMZYM3_iqeatVtHZuVSF1HA/view
-Telefunken TelC-1013GIQP,Telefunken_TelC_1013GIQP_K03_20160618_SPD.zip,468 MB,https://drive.google.com/file/d/16iNgvM5LDnTza1lWER2KyhFPYd4-Hcpd/view

@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Obi S452,Obi_S452_MT6572_V02.02_150814_4.4.zip,350 MB,https://drive.google.com/file/d/1pEXuoFrNHRZ3R6XE86OK6lVBNYaqEZum/view

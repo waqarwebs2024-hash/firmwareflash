@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Sigo G200,SiGo_G200_MT6572_V17_210214_4.2.2.zip,503 MB,https://drive.google.com/file/d/1r-odhaXrcGylfBfzozFukIpt387A9ykC/view
-Sigo G90D,Sigo_G90D_RK3026_V1.0_4.4.4_RBT.zip,321 MB,https://drive.google.com/file/d/1fAAfT3xYIFzxXwcYDlapdE9kVMzb_kk4/view

@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Forstar FT7Q4,Forstar_FT7Q4_MT6737M_IND_V01_20180604_6.0.zip,1001 MB,https://drive.google.com/file/d/1vUQqZSeCRl_YCKwYFwjO-yDWQ3lFrDPO/view
-Forstar FT970,Forstar_FT970_RK30XX_270416_4.1.1_MIRA.zip,330 MB,https://drive.google.com/file/d/16haMWFfNBNqxLlJTf4LVi-T2humFX4Gt/view

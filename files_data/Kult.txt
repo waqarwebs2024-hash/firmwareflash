@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Kult Ambition,Kult_Ambition_MT6737_V9_14112017.zip,1.3 GB,https://www.mediafire.com/file/l84eyczt8tkgiuw/Kult_Ambition_MT6737_V9_14112017.zip/file
-Kult Gladiator,Kult_Gladiator_MT6737_V7_22092017.zip,1.25 GB,https://drive.google.com/file/d/1KqpF9xYWn3cu3vtot_XAbCkedFwxzacb/view?usp=drive_link

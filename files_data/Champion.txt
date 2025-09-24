@@ -1,4 +1,0 @@
-Model,File Name,File Size,Download Link
-Champion Myphone 36,Champion_Myphone_36_4X2_20150604_RDA.zip,162 MB,https://drive.google.com/file/d/1CXBkZJbdrDLIH6NDq2-ca8uwCHi8ChA4/view
-Champion Myphone 35,Champion_Myphone_35_V2.2_22122014_SPD.zip,245 MB,https://drive.google.com/file/d/1dsZi1btPJ4nB48dFiv3ftzYn4Au7gGDX/view?usp=drive_link
-Champion Myphone 42,Champion_Myphone_42_V1.6_150122_SPD.zip,235 MB,https://drive.google.com/file/d/1j8NZZihmcfPGCwFjqqRarUzMdHNXa5Um/view

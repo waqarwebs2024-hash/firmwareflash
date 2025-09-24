@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Billow S51HD,Billow_S51HD_MT6582_03122015_4.4.2.zip,490 MB,https://drive.google.com/file/d/1jvH3R5j7PSK_REn-5N5qsvhEqMrcYJhM/view

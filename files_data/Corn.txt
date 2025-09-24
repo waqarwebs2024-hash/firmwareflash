@@ -1,4 +1,0 @@
-Model,File Name,File Size,Download Link
-Corn X5,Corn_X5_MT6580_V01_20220313_11.zip,980.5 MB,https://drive.google.com/file/d/1cN7smUkR4cgt2zzrbj_du6UPx_TrthPE/view
-Corn R40,Corn_R40_MT6739_V01_B06_200715_10.zip,963 MB,https://drive.google.com/file/d/1NECtEGPovTEHNOjWoYSNqJxHZ_XM16PR/view
-Corn C10,Corn_C10_MT6739_V1.0_190718_9.0.zip,1.5 GB,https://drive.google.com/file/d/1Q_7U6AzS3T7cJ5hio1CNwho_u-RpObaT/view

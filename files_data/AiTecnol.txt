@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-AiTecnol A1,AiTecnol_A1_MT6580_V1.0_20181122_5.1.zip,514 MB,https://drive.google.com/file/d/1hry1mntly_3Pntf2YGrtdoB52-X2HTlg/view

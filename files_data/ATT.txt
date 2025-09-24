@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-AT&T Fusion 5G EA211005,AT&T_Fusion_5G_EA211005_MT6833_01US_2_080_200720_11.zip,2.08 GB,https://drive.google.com/file/d/1UVOnHAiP_wzXMmOpqtNUqNSA6WZGNSXL/view

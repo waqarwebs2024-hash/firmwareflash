@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Souiycin T800,Souiycin_T800_MT6735M_v2.08_160115_5.1.zip,933 MB,https://drive.google.com/file/d/1f3uev-1_v2m1OQFAFt7Zo77Yo3JFoZ_P/view

@@ -1,4 +1,0 @@
-Model,File Name,File Size,Download Link
-Discoveri-y D30,Discoveri-y_D30_SC6531E_210922_MIRA.zip,3.53 MB,https://androiddatahost.com/dcsfx
-Discoveri-y D8,Discoveri-y_D8_MT6580_08072017_5.1.zip,605 MB,https://drive.google.com/file/d/1i86san1skIhCppPWQNFNeu04cF2mxPtd/view
-Discoveri-y D5,Discoveri-y_D5_MT6572_03212017_5.1.zip,584 MB,https://www.mediafire.com/file/74p2f2t2rjia277/Discoveri-y_D5_MT6572_03212017_5.1.zip/file

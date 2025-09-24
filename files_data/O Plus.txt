@@ -1,9 +1,0 @@
-Model,File Name,File Size,Download Link
-Oplus Ossi,Oplus_Ossi_MT6768_20230102_12.zip,4.44 GB,https://drive.google.com/file/d/16E6Lz0JH6GLq3GYpvJgWbiRyd7W6MuPJ/view
-Oplus Compact Pro,Oplus_Compact_Pro_MT6735_V8.0.3_280418_6.0.zip,1.11 GB,https://drive.google.com/file/d/1UlP0xey_L1cqs0KOlTZM2UU84HKWf9a-/view
-Oplus Grande,Oplus_Grande_MT6582_190914_4.4.2.zip,175 MB,https://drive.google.com/file/d/1Uye_oCz3mcrQ2WK6767ZxU8KLZVNCEh-/view
-Oplus Ultra 2.0,Oplus_Ultra_2.0_MT6582_V8.0.6_19012016_5.0.zip,793 MB,https://drive.google.com/file/d/1-ZyugZa7wYCfW00xdnm_Rigeo5Mh3o4u/view
-Oplus Evo 4G,Oplus_Evo_4G_MT6752_V8.0.7_11242014_4.4.4.zip,666 MB,https://drive.google.com/file/d/1BGCZZvyzT3IHrSbE6owYHvd-sNQQr3V7/view
-Oplus 8.38,Oplus_8.38_MT6582_09062015_4.4.2.zip,582 MB,https://drive.google.com/file/d/1BMDbl-IjQlnuVlnfVj7HgaSlJmxA4SEY/view
-Oplus Stream HDTV Splash,Oplus_Stream_HDTV_Splash_SP7731CEA_07022018_5.1_SPD.zip,662 MB,https://drive.google.com/file/d/1LxqRQ4s6jGe79nfcdg2RyxUt8otpSa8B/view
-Oplus Stream HDTV Metro,Oplus_Stream_HDTV_Metro_SP7731CEA_5.1.zip,662 MB,https://drive.google.com/file/d/1fIrxSqLWa0PpSGDVRnw2nlFbMga8Y0u8/view

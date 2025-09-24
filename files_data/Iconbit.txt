@@ -1,5 +1,0 @@
-Model,File Name,File Size,Download Link
-Iconbit Matrix 3G,Iconbit_Matrix_3G_MT6577_17042013_4.1.2.zip,219 MB,https://drive.google.com/file/d/14MDYvBEn67AdHHxpSMkIldp-xwOuQDDG/view
-Iconbit NetTab Thor LE NT-1002T,Iconbit_NetTab_Thor_LE_NT-1002T_20120928_4.0.4_RBT.zip,311 MB,https://drive.google.com/file/d/1TzS-ZZqYreJl0mBCgURzL0cmT6sj5kVY/view
-Iconbit NetTab Skat LE NT-0806C,Iconbit_NetTab_Skat_LE_NT-0806C_V1.00_20130821_4.2.2_RBT.zip,325 MB,https://drive.google.com/file/d/18yyuiUQqw5P_S0702bJ07DjwGFswZrYA/view
-Iconbit Nettab Thor X,Iconbit_Nettab_Thor_X_28122012_4.1.1_RBT.zip,234 MB,https://drive.google.com/file/d/1QawY1WU-nENZ2L85zlegPObl8aNPz4n7/view

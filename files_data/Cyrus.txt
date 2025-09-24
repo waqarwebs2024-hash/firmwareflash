@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Cyrus Atompad 3,Cyrus_Atompad_3_L7-A20-V01_130904_PS.zip,264 MB,https://drive.google.com/file/d/1YAWrgwKHD5GN1zm26pFe2_I-kyEjxG_n/view

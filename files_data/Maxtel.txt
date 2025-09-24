@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Maxtel MAX-30,Maxtel_MAX-30_MT6572_01092019_6.1.zip,225.7 MB,https://drive.google.com/file/d/1UTkOGHJ7u4JqKQ9iUxtC76OlDMJ_2ASL/view
-Maxtel Max 10,Maxtel_Max_10_MT6572_141218.zip,306 MB,https://drive.google.com/file/d/1b-Kt7SCyceAVIxlhpxCAgiReFlC_XKYa/view

@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-AIS Ruio S6501,AIS_Ruio_S6501_SP9832E_10_RE77A_XX16_V1.6_210421_MIRA.zip,1.03 GB,https://drive.google.com/file/d/1mAujFwYgdZbrlgPO__ThC-BsxfRyzM5N/view

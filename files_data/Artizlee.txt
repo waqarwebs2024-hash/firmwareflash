@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Artizlee ATL-21X,Artizlee_ATL-21X_MT8163_04082017_6.0.zip,655 MB,https://drive.google.com/file/d/1tMIIWUiwsUunv5VKBuVYwuZUOnULaEO1/view

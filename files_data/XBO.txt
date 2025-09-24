@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-XBO U6,XBO_U6_MT6580_20180515_5.1.zip,738 MB,https://drive.google.com/file/d/1VULRMR5dckeq96M1uXeDLJS-R0YJKX5l/view

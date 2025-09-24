@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Hoffmann X-Max,Hoffmann_X-Max_MT6737_V7_20170731_7.0.zip,1.49 GB,https://drive.google.com/file/d/1txv9pLKd8wI-9jGuanag4sqignHAWZoF/view

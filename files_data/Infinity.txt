@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Infinity i20,Infinity_i20_MT6580_V1.0.7_271219_5.1.zip,1.35 GB,https://drive.google.com/file/d/1u-d9wYCb4sW5UjkkIvUp1DTuDAA_9mSt/view

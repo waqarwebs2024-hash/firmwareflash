@@ -1,4 +1,0 @@
-Model,File Name,File Size,Download Link
-Western T2,Western_T2_MT6572_EMMC4_32_M08_20170808_6.0.zip,479 MB,https://drive.google.com/file/d/1-6dW6DxtxHmZL5Q_KBl7Qn389TOwFeoN/view
-Western W1,Western_W1_MT6580_M07_170808_6.0.zip,1007.2 MB,https://drive.google.com/file/d/1gofIhWXNh_DCexe05zx-r8_OgYJOIXjT/view
-Western Jara D1,Western_Jara_D1_MT6572_19022015_4.4.2.zip,510 MB,https://drive.google.com/file/d/1QBIabZyWcqXUidmL-nMFtZs9Gl6qdB-e/view

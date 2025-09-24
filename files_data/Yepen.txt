@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Yepen T40 Plus,Yepen_T40_Plus_MT6572_080518_4.2.2.zip,518 MB,https://drive.google.com/file/d/1HEb-EI_Q5GDuVLJvmXjNTxy_j-bo5rUo/view

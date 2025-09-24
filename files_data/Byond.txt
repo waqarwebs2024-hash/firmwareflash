@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Byond Mi8,Byond_Mi8_MT6577_20121210.zip,330 MB,https://drive.google.com/file/d/16xv-X-vPFexdM3yynSA5Ld6kweCJFtfq/view?usp=drive_link

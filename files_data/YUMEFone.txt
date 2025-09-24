@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-YUMEFone M12 Pro,YUMEFone_M12_Pro_SP7731GEA_V1.0.0_210707.zip,892 MB,https://drive.google.com/file/d/1ZCPtwdUT70Dbc99p5ZcxlxIPaS3Fv9Rj/view
-YUMEFone M12 Pro,YUMEFone_M12_Pro_SP7731GEA_V1.0.0_210707.zip,892 MB,https://drive.google.com/file/d/1ZCPtwdUT70Dbc99p5ZcxlxIPaS3Fv9Rj/view

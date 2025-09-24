@@ -1,8 +1,0 @@
-Model,File Name,File Size,Download Link
-Masstel Tab 8 Pro,Masstel_Tab_8_Pro_MT6580_180610_9.0.zip,1 GB,https://drive.google.com/file/d/1eEPXkZJfSvh1M39I9S5hPZB8QQxFPsfC/view
-Masstel Tab 10 Plus,Masstel_Tab_10_Plus_MT6580_V0.1_20180912_8.1.zip,5.91 GB,https://drive.google.com/file/d/1AmGQC_yr3L3-UbNAvfxXVbuCatoyPxip/view
-Masstel Tab 860,Masstel_Tab_860_MT6580_V1_160912.zip,759 MB,https://www.mediafire.com/file/z9ll7quxah7qr6r/Masstel_Tab_860_MT6580_V1_160912.zip/file
-Masstel X9,Masstel_X9_SC9863A_V1.09_190831_SPD.zip,1.49 GB,https://www.mediafire.com/file/u57iia954r5l0hz/Masstel_X9_SC9863A_V1.09_190831_SPD.zip/file
-Masstel X5,Masstel_X5_V6_311018_SPD.zip,720 MB,https://firmwaredrive.com/index.php?a=downloads&b=file&id=10188
-Masstel Tab 8 Plus,Masstel_Tab_8_Plus_MT6580_V01_190104.zip,732 MB,https://drive.google.com/file/d/1UPac1K1j6_YO8dQ85z7z6ApT1_FdA-ZY/view
-Masstel Tab 705,Masstel_Tab_705_210815_IDTG.zip,593 MB,https://drive.google.com/file/d/1pP4cOHimH5u8aC7BtBAF8ZVmce08ia99/view

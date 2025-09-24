@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-iBoo Y68,iBoo_Y68_MT6572_20170712_5.1.zip,436 MB,https://drive.google.com/file/d/1MCJ-U2zD0cfEgi51JbdD2gH-XNqbxngA/view

@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Coolmex T81,Coolmex_T81_MT6582_10182019_8.1.zip,724 MB,https://drive.google.com/file/d/1HvRSUjetPXWvFXYbtp3JtKaqJlOplP6k/view

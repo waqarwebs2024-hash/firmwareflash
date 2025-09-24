@@ -1,7 +1,0 @@
-Model,File Name,File Size,Download Link
-DNS S4509,DNS_S4509_MT6572_R01_V1.6_20052014.zip,569 MB,https://drive.google.com/file/d/1rHh19KpFxq1Aw2UAaxwVD_Dv-Dpuz2mv/view
-DNS M100QW,DNS_M100QW_V001_16072013_RBT.zip,384 MB,https://drive.google.com/file/d/1daAkEgQ_gGMOywoyTxSvrK7P1H01SRnW/view
-DNS E5,DNS_E5_MT6572_E5_R01_V1.6_09102014_4.2.2.zip,800 MB,https://drive.google.com/file/d/1XiIQhOVBSoFxIbvWbhILuYzx2yY613Qj/view
-DNS AirTab M101G,DNS_AirTab_M101G_20130311_RBT.zip,318 MB,https://drive.google.com/file/d/1qaRQqB1629laC7c5ilo_0y2A1Z0rYmQj/view
-DNS AirTab M100QG,DNS_AirTab_M100QG_V1.0.0_20130829_RBT.zip,380 MB,https://drive.google.com/file/d/152OeL48qE-vLIXA9JltOlEMwaFXCS5Gj/view
-DNS AirTab M101W,DNS_AirTab_M101W_RK30XX_090413_4.1.1_MIRA.zip,279 MB,https://drive.google.com/file/d/1A_uP3gBpa_Yk7HlW5gisQCjWq3s6gokP/view

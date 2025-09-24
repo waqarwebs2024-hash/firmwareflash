@@ -1,9 +1,0 @@
-Model,File Name,File Size,Download Link
-SKK Phoenix Tab 3 Plus,SKK_Phoenix_Tab_3_Plus_MT6572_V02_120423_4.2.2.zip,388 MB,https://drive.google.com/file/d/1NpeDMiXBngJtIQUm0ht8E7MN2eZET8Z2/view
-SKK Phoenix Tab 4,SKK_Phoenix_Tab_4_MT6575_V04_131029_4.0.4.zip,434 MB,https://drive.google.com/file/d/1JhYXZCVFSSeQBW792i8PzML6YQ59N-EY/view
-SKK Extreme New,SKK_Extreme_New_RK2928_060114_4.1.1_RBT.zip,603 MB,https://drive.google.com/file/d/1NZEZyzKjOTB-E1iHipe-RYGkqWdcPePr/view
-SKK Bubble Gum,SKK_Bubble_Gum_RK2928_280315_4.1.1_RBT.zip,326 MB,https://drive.google.com/file/d/1hAl68Op6YRUQ-ePeoBAM4a8g2P3_VPTB/view
-SKK W1,SKK_W1_MT6260_131015_MIRA.zip,11 MB,https://androiddatahost.com/hjrty
-SKK K18,SKK_K18_SC6610_00400000_MOCOR_09A_MP.W11.16_P6_MIRA.zip,2.30 MB,https://androiddatahost.com/ghjr4
-SKK Phoenix Z5,SKK_Phoenix_Z5_MT6572_200627_4.4.2.zip,282 MB,https://drive.google.com/file/d/1tI5vltQaVFFFboxLRMvbeI8UqyHBn6n1/view
-SKK Phoenix Plus,SKK_Phoenix_Plus_MT6582_02112014.zip,285 MB,https://drive.google.com/file/d/1WxEh78FElKojBVaHwwl1a0pzdVZMrZA3/view

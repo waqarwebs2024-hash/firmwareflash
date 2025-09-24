@@ -1,2 +1,0 @@
-Model,File Name,File Size,Download Link
-Timmy M12,Timmy_M12_MT6580_R1_20160120_5.1.zip,510 MB,https://www.mediafire.com/file/ghvhkt51m3jpiur/Timmy_M12_MT6580_R1_20160120_5.1.zip/file

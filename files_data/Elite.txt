@@ -1,3 +1,0 @@
-Model,File Name,File Size,Download Link
-Elite Evo 8D,Elite_Evo_8D_MT6580_04162016_5.1.zip,617 MB,https://drive.google.com/file/d/1wK_eRcghJxZ6DkHfe4eAPwFPrUEEJbC-/view
-Elite Evo JX1,Elite_Evo_JX1_V05_20151020.zip,585 MB,https://drive.google.com/file/d/1LxWJ3iifotg7ChYHFUtPuBAZ5H8gKb1q/view
