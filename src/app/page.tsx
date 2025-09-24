@@ -114,7 +114,7 @@ export default async function Home() {
               <section className="bg-secondary py-20 text-center">
                 <div className="container mx-auto px-4">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Find & Download Official Stock Firmware (ROM)
+                    Find & Download Free Official Stock Firmware (ROM)
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                     Welcome to firmwareflash.com, your trusted source for official flash files to update, unbrick, or restore your mobile device.
