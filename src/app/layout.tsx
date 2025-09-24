@@ -8,7 +8,6 @@ import { getAdSettings, getHeaderScripts } from '@/lib/data';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
-import { HeaderSearchForm } from '@/components/header-search-form';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -53,7 +52,6 @@ export default async function RootLayout({
   const headersList = headers();
   const pathname = headersList.get('x-pathname') || '';
   const isAdminPage = pathname.startsWith('/admin');
-  const isHomePage = pathname === '/';
   
   const adSettings = await getAdSettings();
   const headerScripts = await getHeaderScripts();
@@ -88,13 +86,6 @@ export default async function RootLayout({
                 <div className="py-2 bg-secondary flex justify-center">
                     <div dangerouslySetInnerHTML={{ __html: headerAd.adCode }} />
                 </div>
-            )}
-             {!isHomePage && (
-              <div className="bg-background border-b py-3">
-                  <div className="container mx-auto px-4 flex justify-center">
-                      <HeaderSearchForm />
-                  </div>
-              </div>
             )}
             <main className="flex-grow">{children}</main>
             <Footer />
