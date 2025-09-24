@@ -13,8 +13,8 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@genkit-ai/googleai": "^1.19.1",
-    "@genkit-ai/next": "^1.19.3",
+    "@genkit-ai/googleai": "1.18.0",
+    "@genkit-ai/next": "1.18.0",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -45,7 +45,7 @@
     "firebase": "^10.12.4",
     "firebase-admin": "^12.2.0",
     "framer-motion": "^11.3.8",
-    "genkit": "^1.19.1",
+    "genkit": "1.18.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.417.0",
     "next": "^14.2.5",
@@ -54,6 +54,7 @@
     "react-day-picker": "8.10.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",
+    "react-markdown": "^9.0.1",
     "recharts": "^2.12.7",
     "schema-dts": "^1.1.2",
     "slugify": "^1.6.6",
@@ -65,7 +66,7 @@
     "@types/node": "^20.14.11",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "genkit-cli": "^1.19.1",
+    "genkit-cli": "1.18.0",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.5.3"

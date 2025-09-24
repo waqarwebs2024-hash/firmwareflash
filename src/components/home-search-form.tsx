@@ -77,12 +77,13 @@ export function HomeSearchForm() {
 
     return (
         <div className="relative" ref={searchContainerRef}>
-            <form onSubmit={handleSearch} className={cn("relative", hasQuery && "search-loading")}>
+            <form onSubmit={handleSearch} className="relative flex items-center w-full bg-card border-2 rounded-full h-14 pr-2">
+                 <Search className="absolute left-6 h-5 w-5 text-muted-foreground" />
                  <Input
                     type="text"
                     name="search"
-                    placeholder="Search millions of firmware files (e.g., 'Galaxy S22')"
-                    className="h-14 pl-6 pr-12 text-base rounded-full bg-card border-2"
+                    placeholder="Search anything..."
+                    className="h-full pl-14 pr-24 text-base rounded-full bg-transparent border-none focus-visible:ring-0"
                     disabled={isPending}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -90,14 +91,14 @@ export function HomeSearchForm() {
                 />
                  <Button
                     type="submit" 
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 p-0 rounded-full" 
+                    className="h-10 px-6 rounded-full" 
                     aria-label="Search"
                     disabled={isLoading}
                 >
                     {isLoading ? (
                         <div className="custom-spinner"></div>
                     ) : (
-                        <Search className="h-5 w-5" />
+                       'Search'
                     )}
                 </Button>
             </form>

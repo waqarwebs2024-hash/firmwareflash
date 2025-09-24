@@ -15,13 +15,18 @@ export async function RelatedFirmware({ brandId, seriesId, ...props }: RelatedFi
   const brand = await getBrandById(brandId);
 
   if (related.length === 0 || !brand) {
-    return null;
+    return (
+        <div {...props}>
+             <h2 className="text-lg font-bold mb-4">Related Firmware</h2>
+             <p className="text-sm text-muted-foreground">No related firmware found.</p>
+        </div>
+    );
   }
 
   return (
     <section className="mt-12 scroll-mt-20" {...props}>
-      <h2 className="text-2xl md:text-3xl font-bold mb-6">Other {brand.name} Firmwares</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <h2 className="text-lg font-bold mb-4">Other {brand.name} Firmwares</h2>
+      <div className="space-y-4">
         {related.map((series) => (
           <Link href={`/brands/${brand.id}/${series.id}`} key={series.id} className="block">
              <Card className="h-full hover:shadow-primary/20 hover:shadow-lg transition-shadow">
@@ -38,9 +43,9 @@ export async function RelatedFirmware({ brandId, seriesId, ...props }: RelatedFi
           </Link>
         ))}
       </div>
-      <div className="text-center mt-8">
+      <div className="text-center mt-6">
         <Link href={`/brand/${brand.id}`}>
-            <Button variant="outline">
+            <Button variant="outline" size="sm">
                 View All {brand.name} Firmwares <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
         </Link>

@@ -131,29 +131,12 @@
     animation: scroll-gradient 2.5s ease-in-out infinite;
   }
 
-  .search-loading {
-    animation: glowing-border 2s ease-in-out infinite;
-    border-radius: 9999px; /* Ensure glow matches the border radius */
-  }
-
   @keyframes scroll-gradient {
     0% {
       background-position: 100% 0;
     }
     100% {
       background-position: -100% 0;
-    }
-  }
-  
-  @keyframes glowing-border {
-    0% {
-        box-shadow: 0 0 3px hsl(var(--primary)), 0 0 5px hsl(var(--primary)), 0 0 7px hsl(var(--primary));
-    }
-    50% {
-        box-shadow: 0 0 7px hsl(var(--primary)), 0 0 15px hsl(var(--primary)), 0 0 20px hsl(var(--primary));
-    }
-    100% {
-        box-shadow: 0 0 3px hsl(var(--primary)), 0 0 5px hsl(var(--primary)), 0 0 7px hsl(var(--primary));
     }
   }
 }
