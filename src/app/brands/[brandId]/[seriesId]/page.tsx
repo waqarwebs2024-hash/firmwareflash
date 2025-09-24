@@ -1,15 +1,17 @@
 
 
-import { getFirmwareBySeries, getSeriesById, getBrandById } from '@/lib/data';
+import { getFirmwareBySeries, getSeriesById, getBrandById, getAllBlogPosts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Download, FileText, Star, ChevronsRight } from 'lucide-react';
+import { Download, FileText, Star, ChevronsRight, Newspaper } from 'lucide-react';
 import type { Metadata } from 'next';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { format } from 'date-fns';
+import { BlogPost } from '@/lib/types';
+import { FaqSection } from '@/components/faq-section';
 
 type Props = {
   params: { brandId: string, seriesId: string }
@@ -29,6 +31,30 @@ export async function generateMetadata(
   }
 }
 
+const RelatedBlogPosts = ({ posts }: { posts: BlogPost[] }) => {
+    if (posts.length === 0) return null;
+    return (
+        <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-4">Related Guides & Articles</h2>
+            <div className="space-y-4">
+                 {posts.map((post) => (
+                    <Link href={`/blog/${post.slug}`} key={post.id} className="block group">
+                        <Card className="hover:shadow-md transition-shadow">
+                            <CardContent className="p-4 flex items-center gap-4">
+                                <Newspaper className="h-8 w-8 text-muted-foreground shrink-0" />
+                                <div>
+                                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors">{post.title}</p>
+                                    <p className="text-xs text-muted-foreground line-clamp-2">{post.excerpt}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                 ))}
+            </div>
+        </section>
+    );
+};
+
 export default async function SeriesPage({ params }: { params: { brandId: string, seriesId: string } }) {
   const series = await getSeriesById(params.seriesId);
 
@@ -41,8 +67,33 @@ export default async function SeriesPage({ params }: { params: { brandId: string
     notFound();
   }
 
-  const firmwareList = await getFirmwareBySeries(params.seriesId);
+  const [firmwareList, allPosts] = await Promise.all([
+    getFirmwareBySeries(params.seriesId),
+    getAllBlogPosts(),
+  ]);
+
   const uploadDate = (firmwareList.length > 0 && firmwareList[0]?.uploadDate?.toDate) ? firmwareList[0].uploadDate.toDate() : new Date();
+
+  // Filter for related blog posts
+  const relatedPosts = allPosts.filter(post => 
+    post.title.toLowerCase().includes(brand.name.toLowerCase()) || 
+    post.title.toLowerCase().includes(series.name.toLowerCase())
+  ).slice(0, 3); // Show up to 3 related posts
+
+  const faqItems = [
+    {
+        question: `How to flash ${brand.name} ${series.name} firmware?`,
+        answer: `You can find a step-by-step guide for flashing firmware on the download page for your specific file. Generally, for ${brand.name} devices, you'll use a specific tool like Odin or Fastboot. The guide will provide all the necessary details.`
+    },
+    {
+        question: `Is this the official stock ROM for ${brand.name} ${series.name}?`,
+        answer: `Yes, all files listed here are the official stock ROMs (firmware) for the ${brand.name} ${series.name}. This is the original software provided by the manufacturer.`
+    },
+    {
+        question: `Can I use this flash file to unbrick my ${series.name}?`,
+        answer: `Yes, downloading and flashing the correct stock ROM is a common way to fix a soft-bricked device (e.g., stuck in a bootloop). Make sure to use the file that matches your device's model number.`
+    }
+  ];
 
 
   return (
@@ -109,7 +160,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
           <div className="text-center py-16 border rounded-lg">
             <p className="text-muted-foreground mb-4">No stock ROM or flash file download available for this model yet.</p>
             <a
-              href={`https://www.google.com/search?q=${encodeURIComponent(series.name + ' stock rom download')}`}
+              href={`https://www.google.com/search?q=${encodeURIComponent(brand.name + ' ' + series.name + ' stock rom download')}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -117,6 +168,10 @@ export default async function SeriesPage({ params }: { params: { brandId: string
             </a>
           </div>
         )}
+
+        <FaqSection title={`Frequently Asked Questions for ${series.name}`} items={faqItems} />
+
+        <RelatedBlogPosts posts={relatedPosts} />
 
         <RelatedFirmware brandId={params.brandId} seriesId={params.seriesId} />
       </div>
