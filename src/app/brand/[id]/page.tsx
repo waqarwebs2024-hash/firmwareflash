@@ -3,8 +3,7 @@ import { getBrandById, getSeriesByBrand } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
-import Image from 'next/image';
-import { ChevronsRight } from 'lucide-react';
+import { ChevronsRight, Folder } from 'lucide-react';
 
 type Props = {
   params: { id: string }
@@ -50,14 +49,8 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
             {series.map((s) => (
               <Link href={`/brands/${brand.id}/${s.id}`} key={s.id} className="group">
-                  <div className="flex items-center gap-4">
-                      <Image
-                        src="/f.png"
-                        alt="Folder icon"
-                        width={60}
-                        height={60}
-                        className="transition-transform group-hover:-translate-y-1 shrink-0"
-                      />
+                  <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted transition-colors">
+                      <Folder className="h-10 w-10 text-primary/80 shrink-0" />
                       <p className="font-medium text-foreground group-hover:text-primary">
                         {s.name}
                       </p>
