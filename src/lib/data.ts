@@ -96,7 +96,8 @@ export async function getSeriesById(id: string): Promise<Series | null> {
 
 async function searchFirestore(dbInstance: Firestore, collectionName: string, field: string, searchTerm: string, limitVal?: number) {
     const collRef = collection(dbInstance, collectionName);
-    const q = query(collRef, where(field, '>=', searchTerm), where(field, '<=', searchTerm + '\uf8ff'), limit(limitVal || 25));
+    const endTerm = searchTerm.slice(0, -1) + String.fromCharCode(searchTerm.charCodeAt(searchTerm.length - 1) + 1);
+    const q = query(collRef, where(field, '>=', searchTerm), where(field, '<', endTerm), limit(limitVal || 25));
     return await getDocs(q);
 }
 
@@ -129,7 +130,7 @@ export async function searchFirmware(searchTerm: string, queryLimit: number = 50
     let firmwareQueries = [];
 
     if (brandIds.length > 0) {
-        firmwareQueries.push(...dbs.map(dbInstance => getDocs(query(collection(dbInstance, 'firmware'), where('brandId', 'in', brandIds), limit(queryLimit)))))
+        firmwareQueries.push(...dbs.map(dbInstance => getDocs(query(collection(dbInstance, 'series'), where('brandId', 'in', brandIds), limit(queryLimit)))))
     }
     if (seriesIds.length > 0) {
         firmwareQueries.push(...dbs.map(dbInstance => getDocs(query(collection(dbInstance, 'firmware'), where('seriesId', 'in', seriesIds), limit(queryLimit)))))

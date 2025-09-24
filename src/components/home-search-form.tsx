@@ -3,7 +3,7 @@
 
 import { FormEvent, useTransition, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { liveSearchAction } from '@/lib/actions';
 import { Firmware } from '@/lib/types';
@@ -82,8 +82,7 @@ export function HomeSearchForm() {
                 className={cn(
                     "relative",
                     "search-form-container",
-                    (hasQuery || showSuggestions) && 'search-active',
-                    isLoading && 'search-loading'
+                    (hasQuery || showSuggestions) && 'search-active'
                 )}
             >
                 <div className="relative flex items-center w-full">
@@ -92,22 +91,16 @@ export function HomeSearchForm() {
                         type="text"
                         name="search"
                         placeholder="Search for firmware, brand, or model..."
-                        className="search-input h-16 pl-12 pr-28 text-base rounded-full bg-background border-2 border-border focus:border-primary/30 focus:bg-background"
+                        className="search-input h-16 pl-12 pr-28 text-base rounded-full bg-background border-2 border-border focus:border-primary/30"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
                     />
                     <div className="absolute inset-y-0 right-2 flex items-center">
                         <Button type="submit" className="rounded-full h-12 w-24" disabled={isLoading}>
-                            Search
+                             {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : 'Search'}
                         </Button>
                     </div>
-                </div>
-                 <div className="loading-bar absolute bottom-0 left-0 w-full h-0.5 bg-primary/20 rounded-b-full overflow-hidden opacity-0 transition-opacity">
-                    <div className="h-full w-full bg-primary" style={{
-                         background: 'linear-gradient(90deg, transparent, hsl(var(--primary)), transparent)',
-                         backgroundSize: '200% 100%'
-                    }} />
                 </div>
             </form>
             

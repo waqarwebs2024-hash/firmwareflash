@@ -105,20 +105,6 @@
   .search-form-container .search-input {
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
-  
-  .search-form-container.search-loading .loading-bar {
-      opacity: 1;
-      animation: glowing-border-anim 3s linear infinite;
-  }
-
-  @keyframes glowing-border-anim {
-    from {
-      background-position: 200% 0;
-    }
-    to {
-      background-position: -200% 0;
-    }
-  }
 
   @keyframes loading-ellipsis {
     0% {
