@@ -5,7 +5,7 @@
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore, updateDoc, deleteDoc } from 'firebase/firestore';
 import { ref, get, set, child, push, serverTimestamp, query as rtdbQuery, orderByChild, equalTo } from 'firebase/database';
-import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost, BlogPostOutput } from './types';
+import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost, BlogPostOutput, Announcement } from './types';
 import slugify from 'slugify';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
@@ -532,6 +532,8 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     return null;
 }
+
+
 
 
 
