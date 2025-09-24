@@ -130,6 +130,18 @@
     background-size: 200% 100%;
     animation: scroll-gradient 2.5s ease-in-out infinite;
   }
+  
+  .search-loading::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+    animation: loading-bar-slide 1.5s linear infinite;
+    border-radius: 2px;
+  }
 
   @keyframes scroll-gradient {
     0% {
@@ -137,6 +149,15 @@
     }
     100% {
       background-position: -100% 0;
+    }
+  }
+  
+  @keyframes loading-bar-slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
     }
   }
 }

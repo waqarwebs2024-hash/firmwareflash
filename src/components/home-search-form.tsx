@@ -9,6 +9,7 @@ import { liveSearchAction } from '@/lib/actions';
 import { Firmware } from '@/lib/types';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { cn } from '@/lib/utils';
 
 export function HomeSearchForm() {
     const router = useRouter();
@@ -71,9 +72,11 @@ export function HomeSearchForm() {
         }
     }
 
+    const isLoading = isPending || isSearching;
+
     return (
         <div className="relative" ref={searchContainerRef}>
-            <form onSubmit={handleSearch} className="relative">
+            <form onSubmit={handleSearch} className={cn("relative", isLoading && "search-loading")}>
                  <Input
                     type="text"
                     name="search"
@@ -88,9 +91,9 @@ export function HomeSearchForm() {
                     type="submit" 
                     className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 p-0 rounded-full" 
                     aria-label="Search"
-                    disabled={isPending || isSearching}
+                    disabled={isLoading}
                 >
-                    {isPending || isSearching ? (
+                    {isLoading ? (
                         <div className="custom-spinner"></div>
                     ) : (
                         <Search className="h-5 w-5" />
