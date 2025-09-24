@@ -1,4 +1,5 @@
 
+
 import { db, db_1, db_2 } from './firebase';
 import { collection, doc, writeBatch, getDocs, getDoc, Firestore } from 'firebase/firestore';
 import { Brand } from './types';
@@ -125,8 +126,8 @@ async function seedDataToDatabase(database: Firestore, files: string[], existing
         for (const record of records) {
             if (record.length < 4) continue;
 
-            const [model, firmwareFileName, size, downloadUrl] = record;
-            if (!model || !model.trim() || !firmwareFileName || !firmwareFileName.trim()) continue;
+            const [model, originalFirmwareFileName, size, downloadUrl] = record;
+            if (!model || !model.trim() || !originalFirmwareFileName || !originalFirmwareFileName.trim()) continue;
 
             const seriesName = model.trim();
             const seriesId = createId(`${brandId}-${seriesName}`);
@@ -140,13 +141,15 @@ async function seedDataToDatabase(database: Firestore, files: string[], existing
                 await commitBatchIfNeeded();
             }
 
-            const firmwareId = createId(firmwareFileName.trim());
+            const newFirmwareName = `${brandName} ${seriesName} Stock Firmware (Flash File)`;
+            const firmwareId = createId(newFirmwareName);
+            
             if (!existingFirmwareIds.has(firmwareId)) {
                 const firmwareDocRef = doc(database, 'firmware', firmwareId);
                 batch.set(firmwareDocRef, {
                     brandId,
                     seriesId,
-                    fileName: firmwareFileName.trim(),
+                    fileName: newFirmwareName,
                     version: "N/A",
                     androidVersion: "N/A",
                     size: size.trim(),
