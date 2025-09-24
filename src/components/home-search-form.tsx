@@ -70,25 +70,28 @@ export function HomeSearchForm() {
         });
 
         try {
-            const device = await navigator.usb.requestDevice({ filters: [] }); // Request any device
-            console.log('Device selected:', device);
-            console.log('Manufacturer:', device.manufacturerName);
-            console.log('Product Name:', device.productName);
-
-            if(device.manufacturerName) {
-                setQuery(device.manufacturerName);
-            }
+            // Request permission to access any USB device.
+            const device = await navigator.usb.requestDevice({ filters: [] });
             
-            toast({
-                title: 'Device Detected',
-                description: `Detected ${device.manufacturerName} ${device.productName}.`,
-            });
+            if (device.manufacturerName) {
+                setQuery(device.manufacturerName);
+                toast({
+                    title: 'Device Detected',
+                    description: `Detected: ${device.manufacturerName} ${device.productName || ''}. Searching for manufacturer.`,
+                });
+            } else {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Manufacturer Not Found',
+                    description: 'Could not identify the device manufacturer. Please search manually.',
+                });
+            }
         } catch (error) {
             console.error('Error selecting device:', error);
             toast({
                 variant: 'destructive',
                 title: 'Device Not Detected',
-                description: 'No device was selected or an error occurred.',
+                description: 'No device was selected or an error occurred during detection.',
             });
         }
     };
