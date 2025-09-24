@@ -90,7 +90,7 @@ export function HomeSearchForm() {
                     type="text"
                     name="search"
                     placeholder="Search for firmware, brand, or model..."
-                    className="h-14 pl-12 pr-4 text-base rounded-lg bg-background/80 border-2 border-transparent focus:border-primary/50 focus-visible:ring-0 focus:bg-background transition-all"
+                    className="h-14 pl-12 pr-4 text-base rounded-lg bg-background border-2 border-transparent focus:border-primary/50 focus-visible:ring-0 transition-all"
                     disabled={isLoading}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
