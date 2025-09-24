@@ -47,18 +47,18 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
         </h1>
 
         {series.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
             {series.map((s) => (
               <Link href={`/brands/${brand.id}/${s.id}`} key={s.id} className="group">
-                  <div className="flex flex-col items-center text-center">
+                  <div className="flex items-center gap-4">
                       <Image
                         src="/f.png"
                         alt="Folder icon"
-                        width={80}
+                        width={60}
                         height={60}
-                        className="transition-transform group-hover:-translate-y-1"
+                        className="transition-transform group-hover:-translate-y-1 shrink-0"
                       />
-                      <p className="mt-2 text-sm font-medium text-foreground group-hover:text-primary">
+                      <p className="font-medium text-foreground group-hover:text-primary">
                         {s.name}
                       </p>
                   </div>
