@@ -4,7 +4,7 @@
 
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore, updateDoc, deleteDoc } from 'firebase/firestore';
-import { ref, get, set, child, push, serverTimestamp } from 'firebase/database';
+import { ref, get, set, child, push, serverTimestamp, runTransaction } from 'firebase/database';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost, BlogPostOutput, Announcement, AdSlot } from './types';
 import slugify from 'slugify';
 
@@ -16,14 +16,15 @@ async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id
     
     const promises = dbs.map(dbInstance => getDoc(doc(dbInstance, collectionName, id)));
     
-    const results = await Promise.allSettled(promises);
-
-    for (const result of results) {
-        if (result.status === 'fulfilled') {
-            const docSnap = result.value;
+    // Wait for the first successful result
+    for (const promise of promises) {
+        try {
+            const docSnap = await promise;
             if (docSnap.exists()) {
                 return { id: docSnap.id, ...docSnap.data() };
             }
+        } catch (e) {
+            console.warn(`Error querying one of the databases for doc ${id} in ${collectionName}:`, e);
         }
     }
     
@@ -316,7 +317,7 @@ export async function addOrUpdateTool(toolData: Partial<Tool>): Promise<void> {
 export async function deleteToolById(id: string): Promise<void> {
     if (!id) throw new Error('Tool ID is required.');
     const toolDocRef = doc(db, 'tools', id);
-    await deleteDoc(toolDocRef);
+await deleteDoc(toolDocRef);
 }
 
 export async function getAllTools(): Promise<Tool[]> {
@@ -385,8 +386,9 @@ export async function getTotalFirmwares(): Promise<number> {
 }
 
 export async function getTotalDownloads(): Promise<number> {
-  const allFirmware = await getAllFromAllDBs<Firmware>('firmware');
-  return allFirmware.reduce((sum, fw) => sum + (fw.downloadCount || 0), 0);
+    const totalDownloadsRef = ref(rtdb, 'analytics/totalDownloads');
+    const snapshot = await get(totalDownloadsRef);
+    return snapshot.exists() ? snapshot.val() : 0;
 }
 
 
@@ -415,30 +417,9 @@ export async function saveContactMessage(data: { name: string; email: string; me
     await addDoc(contactsCol, { ...data, createdAt: new Date() });
 }
 
-export async function getTodaysAnalytics(): Promise<DailyAnalytics> {
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const docRef = doc(db, 'analytics/daily/data', today);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        return docSnap.data() as DailyAnalytics;
-    }
-
-    // If no data, create some random realistic data for today
-    const defaultData: Omit<DailyAnalytics, 'id'> = {
-        visitors: Math.floor(Math.random() * (2500 - 500 + 1)) + 500, // Random visitors between 500 and 2500
-        downloads: Math.floor(Math.random() * (500 - 50 + 1)) + 50,  // Random downloads between 50 and 500
-        adsClicks: Math.floor(Math.random() * (100 - 10 + 1)) + 10,   // Random ad clicks between 10 and 100
-    };
-    await setDoc(docRef, defaultData);
-    
-    return { id: today, ...defaultData };
-}
-
 export async function incrementDownloadCount(firmwareId: string): Promise<void> {
     const dbs = [db, db_1, db_2];
-    let firmwareDocRef;
-    let dbInstance;
+    let firmwareDocRef: any;
 
     // Find which DB the firmware is in
     for (const dbInst of dbs) {
@@ -446,12 +427,11 @@ export async function incrementDownloadCount(firmwareId: string): Promise<void> 
         const tempSnap = await getDoc(tempRef);
         if (tempSnap.exists()) {
             firmwareDocRef = tempRef;
-            dbInstance = dbInst;
             break;
         }
     }
 
-    if (!firmwareDocRef || !dbInstance) {
+    if (!firmwareDocRef) {
         console.error(`Firmware with id ${firmwareId} not found in any database.`);
         return;
     }
@@ -459,20 +439,14 @@ export async function incrementDownloadCount(firmwareId: string): Promise<void> 
     const firmwareDoc = await getDoc(firmwareDocRef);
     if (firmwareDoc.exists()) {
         const currentCount = firmwareDoc.data().downloadCount || 0;
-        await setDoc(firmwareDocRef, { downloadCount: currentCount + 1 }, { merge: true });
+        await updateDoc(firmwareDocRef, { downloadCount: currentCount + 1 });
     }
 
-    // Also increment daily download count
-    const today = new Date().toISOString().split('T')[0];
-    const analyticsDocRef = doc(db, 'analytics/daily/data', today); // Analytics are in the main DB
-    const analyticsDoc = await getDoc(analyticsDocRef);
-
-    if (analyticsDoc.exists()) {
-        const currentDownloads = analyticsDoc.data().downloads || 0;
-        await setDoc(analyticsDocRef, { downloads: currentDownloads + 1 }, { merge: true });
-    } else {
-        await setDoc(analyticsDocRef, { downloads: 1 }, { merge: true });
-    }
+    // Also increment total download count in RTDB for fast access on dashboard
+    const totalDownloadsRef = ref(rtdb, 'analytics/totalDownloads');
+    await runTransaction(totalDownloadsRef, (currentCount) => {
+        return (currentCount || 0) + 1;
+    });
 }
 
 // Blog Functions using RTDB

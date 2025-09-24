@@ -1,6 +1,6 @@
 
 
-import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, incrementDownloadCount, getAdSettings } from '@/lib/data';
+import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, getAdSettings } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronsRight, Package, Info, ListChecks, HelpCircle } from 'lucide-react';
@@ -14,7 +14,7 @@ import { FaqSection } from '@/components/faq-section';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { HowTo, WithContext } from 'schema-dts';
 import { Badge } from '@/components/ui/badge';
-import { use } from 'react';
+import { handleDownloadAction } from '@/lib/actions';
 
 
 type Props = {
@@ -273,13 +273,15 @@ export default async function DownloadPage({ params }: Props) {
               </div>
           </div>
           <div className="bg-muted/50 p-6 rounded-b-xl">
-              <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="block">
-                  <Button className="w-full animated-button" variant="primary" size="lg">
-                  <Download className="mr-2 h-5 w-5" />
-                  Start Firmware Download
-                  <Badge variant="accent" className="ml-2">Free</Badge>
+              <form action={handleDownloadAction}>
+                  <input type="hidden" name="firmwareId" value={firmware.id} />
+                  <input type="hidden" name="downloadUrl" value={firmware.downloadUrl} />
+                  <Button type="submit" className="w-full animated-button" variant="primary" size="lg">
+                    <Download className="mr-2 h-5 w-5" />
+                    Start Firmware Download
+                    <Badge variant="accent" className="ml-2">Free</Badge>
                   </Button>
-              </Link>
+              </form>
           </div>
         </section>
 
@@ -290,4 +292,3 @@ export default async function DownloadPage({ params }: Props) {
     </>
   );
 }
-

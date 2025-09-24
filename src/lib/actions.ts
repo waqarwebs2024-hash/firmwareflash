@@ -1,12 +1,13 @@
 
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount } from './data';
 import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware, BlogPost, BlogPostOutput, Tool } from './types';
 import { login, logout } from './auth';
 import { generateBlogPost } from '@/ai/flows/blog-post-flow';
 import { generateTrendingTopics } from '@/ai/flows/trending-topics-flow';
+import { redirect } from 'next/navigation';
 
 export async function loginAction(formData: FormData) {
     await login(formData);
@@ -130,4 +131,19 @@ export async function deleteToolAction(toolId: string) {
 
 export async function getAllTools(): Promise<Tool[]> {
     return await getAllToolsFromDB();
+}
+
+export async function handleDownloadAction(formData: FormData) {
+    const firmwareId = formData.get('firmwareId') as string;
+    const downloadUrl = formData.get('downloadUrl') as string;
+
+    if (!firmwareId || !downloadUrl) {
+        throw new Error('Missing firmware ID or download URL.');
+    }
+    
+    // Increment count in the background, don't wait for it to finish.
+    incrementDownloadCount(firmwareId).catch(console.error);
+    
+    // Immediately redirect the user to the download link.
+    redirect(downloadUrl);
 }
