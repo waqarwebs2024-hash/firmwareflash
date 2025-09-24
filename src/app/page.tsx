@@ -42,7 +42,7 @@ export default async function Home() {
     const allBrands: Brand[] = await getBrands();
     const recentPosts = (await getAllBlogPosts()).slice(0, 3);
     
-    const topBrandNames = ['samsung', 'apple', 'xiaomi', 'redmi', 'oppo', 'vivo', 'realme', 'oneplus', 'google pixel', 'huawei', 'motorola', 'nokia'];
+    const topBrandNames = ['samsung', 'apple', 'xiaomi', 'redmi', 'oppo', 'vivo', 'realme', 'oneplus', 'google pixel', 'huawei', 'motorola', 'nokia', 'tecno', 'infinix', 'sparx', 'lg', 'sony'];
     
     const displayBrands = allBrands
         .filter(brand => topBrandNames.includes(brand.name.toLowerCase()))
