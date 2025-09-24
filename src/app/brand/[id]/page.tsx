@@ -50,7 +50,7 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
             {series.map((s) => (
               <Link href={`/brands/${brand.id}/${s.id}`} key={s.id} className="group">
                   <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted transition-colors">
-                      <Folder className="h-10 w-10 text-primary/80 shrink-0" />
+                      <Folder className="h-10 w-10 text-primary shrink-0" fill="hsl(var(--primary))" />
                       <p className="font-medium text-foreground group-hover:text-primary">
                         {s.name}
                       </p>
