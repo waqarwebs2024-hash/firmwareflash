@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Download Free Any File From Firmwareflash.com',
+  title: 'Download Free Firmware, ROMs & Flash Files — Fast & Safe',
   description: 'Find your free stock rom download, firmware, and flash file for Samsung, Huawei, Xiaomi, Oppo, Vivo, Infinix, Tecno and more. Get official firmware and flash files with step-by-step installation guides to update or unbrick your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'oppo firmware', 'vivo firmware', 'infinix firmware', 'tecno firmware', 'download firmware', 'flash tool', 'unbrick phone', 'stock rom download'],
 };
@@ -114,7 +114,7 @@ export default async function Home() {
               <section className="bg-secondary py-16 text-center">
                 <div className="container mx-auto px-4">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Download <span className="text-primary">Free</span> Any File From Firmwareflash.com
+                    Download Free Firmware, ROMs & Flash Files — Fast & Safe
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                     Welcome to firmwareflash.com, your trusted hub for official flash files, firmware, and stock ROMs to update, unbrick, or restore your mobile device.
