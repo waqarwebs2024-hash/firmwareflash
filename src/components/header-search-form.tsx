@@ -5,6 +5,7 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from './ui/button';
 
 export function HeaderSearchForm() {
     const router = useRouter();
@@ -24,10 +25,13 @@ export function HeaderSearchForm() {
                 type="text"
                 name="search"
                 placeholder="Search firmware..."
-                className="h-10 pl-10 pr-4"
+                className="h-10 pl-10 pr-20" // Increased padding-right for the button
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
             />
+            <Button type="submit" size="sm" className="absolute right-1 top-1/2 -translate-y-1/2 h-8">
+                Search
+            </Button>
         </form>
     );
 }
