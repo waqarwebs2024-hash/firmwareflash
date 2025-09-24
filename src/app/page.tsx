@@ -94,46 +94,6 @@ export default async function Home() {
                 </div>
               </section>
 
-               {/* Why use stock firmware section */}
-               <section className="py-20">
-                <div className="container mx-auto px-4">
-                  <div className="text-center max-w-3xl mx-auto mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Why Use Stock Firmware?</h2>
-                    <p className="text-muted-foreground">Flashing the official stock ROM is the most reliable way to solve software problems and restore your phone to its peak performance.</p>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    {whyUseStockFirmware.map((item, index) => (
-                      <div key={index} className="flex flex-col items-center">
-                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary mb-4">
-                           <item.icon className="h-8 w-8" />
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                        <p className="text-muted-foreground">{item.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-               </section>
-
-              {/* Features Section */}
-              <section className="py-20 bg-secondary">
-                <div className="container mx-auto px-4">
-                    <div className="text-center max-w-3xl mx-auto mb-12">
-                        <h2 className="text-3xl font-bold mb-4">Our Features</h2>
-                        <p className="text-muted-foreground">Everything you need to confidently manage your device's software.</p>
-                    </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                        {features.map((feature, index) => (
-                            <div key={index} className="flex flex-col items-center">
-                                <feature.icon className="h-10 w-10 mb-4 text-primary" />
-                                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                                <p className="text-muted-foreground">{feature.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-              </section>
-
               {/* Browse Popular Brands */}
               <section className="py-20">
                 <div className="container mx-auto px-4">
@@ -167,6 +127,46 @@ export default async function Home() {
                             No popular brands have been selected yet.
                         </div>
                     )}
+                </div>
+              </section>
+
+               {/* Why use stock firmware section */}
+               <section className="py-20 bg-secondary">
+                <div className="container mx-auto px-4">
+                  <div className="text-center max-w-3xl mx-auto mb-12">
+                    <h2 className="text-3xl font-bold mb-4">Why Use Stock Firmware?</h2>
+                    <p className="text-muted-foreground">Flashing the official stock ROM is the most reliable way to solve software problems and restore your phone to its peak performance.</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    {whyUseStockFirmware.map((item, index) => (
+                      <div key={index} className="flex flex-col items-center">
+                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary mb-4">
+                           <item.icon className="h-8 w-8" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                        <p className="text-muted-foreground">{item.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+               </section>
+
+              {/* Features Section */}
+              <section className="py-20">
+                <div className="container mx-auto px-4">
+                    <div className="text-center max-w-3xl mx-auto mb-12">
+                        <h2 className="text-3xl font-bold mb-4">Our Features</h2>
+                        <p className="text-muted-foreground">Everything you need to confidently manage your device's software.</p>
+                    </div>
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                        {features.map((feature, index) => (
+                            <div key={index} className="flex flex-col items-center">
+                                <feature.icon className="h-10 w-10 mb-4 text-primary" />
+                                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                                <p className="text-muted-foreground">{feature.description}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
               </section>
 
