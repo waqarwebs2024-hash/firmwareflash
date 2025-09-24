@@ -1,26 +1,11 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from './lib/auth';
-import { logVisitorAction } from './lib/actions';
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const session = await getSession();
-
-  // Visitor Logging: Log non-admin, non-API, non-static file requests
-  if (
-    !pathname.startsWith('/admin') &&
-    !pathname.startsWith('/api') &&
-    !pathname.startsWith('/_next/static') &&
-    !pathname.startsWith('/_next/image') &&
-    !pathname.endsWith('.ico') &&
-    !pathname.endsWith('.png') &&
-    !pathname.endsWith('.jpg')
-  ) {
-    // Fire and forget, don't block the request
-    logVisitorAction(request.ip).catch(console.error);
-  }
 
   // If there's no session and the user is trying to access an admin page, redirect to login
   if (!session && pathname.startsWith('/admin')) {

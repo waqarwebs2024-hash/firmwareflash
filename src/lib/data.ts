@@ -408,14 +408,6 @@ export async function getTotalDownloads(): Promise<number> {
     return snapshot.exists() ? snapshot.val() : 0;
 }
 
-export async function getDailyVisitors(): Promise<number> {
-    const today = format(new Date(), 'yyyy-MM-dd');
-    const dailyVisitorsRef = ref(rtdb, `analytics/dailyVisitors/${today}`);
-    const snapshot = await get(dailyVisitorsRef);
-    return snapshot.exists() ? snapshot.size : 0;
-}
-
-
 export async function saveDonation(data: { name: string; email?: string; amount: number; message?: string; }) {
     const donationsCol = collection(db, 'donations');
     await addDoc(donationsCol, { ...data, createdAt: new Date() });
@@ -472,32 +464,6 @@ export async function incrementDownloadCount(firmwareId: string): Promise<void> 
         return (currentCount || 0) + 1;
     });
 }
-
-// Privacy-conscious visitor logging
-async function getDailySalt(): Promise<string> {
-    const today = format(new Date(), 'yyyy-MM-dd');
-    const saltRef = ref(rtdb, `analytics/salts/${today}`);
-    const snapshot = await get(saltRef);
-    if (snapshot.exists()) {
-        return snapshot.val();
-    } else {
-        const newSalt = createHash('sha256').update(Math.random().toString()).digest('hex');
-        await set(saltRef, newSalt);
-        return newSalt;
-    }
-}
-
-export async function logVisitor(ip: string): Promise<void> {
-    const salt = await getDailySalt();
-    const hashedIp = createHash('sha256').update(ip + salt).digest('hex');
-    
-    const today = format(new Date(), 'yyyy-MM-dd');
-    const visitorRef = ref(rtdb, `analytics/dailyVisitors/${today}/${hashedIp}`);
-    
-    // Use set to ensure we only store one entry per hashed IP per day
-    await set(visitorRef, true);
-}
-
 
 // Blog Functions using RTDB
 export async function saveBlogPost(post: BlogPostOutput): Promise<string> {
