@@ -78,7 +78,7 @@ export function HomeSearchForm() {
         <div className="flex items-center gap-4">
             <div className="hidden sm:block">
                 <Button variant="outline" disabled className="h-16 w-16" size="icon">
-                    <Usb className="h-6 w-6" />
+                    <Usb className="h-6 w-6 text-accent" />
                 </Button>
             </div>
             <div className="relative flex-grow" ref={searchContainerRef}>
