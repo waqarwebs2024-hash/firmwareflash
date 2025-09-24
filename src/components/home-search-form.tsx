@@ -22,7 +22,7 @@ export function HomeSearchForm() {
 
     // Debounce effect
     useEffect(() => {
-        if (query.length < 3) {
+        if (query.length < 2) {
             setSuggestions([]);
             setShowSuggestions(false);
             return;
@@ -77,30 +77,25 @@ export function HomeSearchForm() {
 
     return (
         <div className="relative" ref={searchContainerRef}>
-            <form onSubmit={handleSearch} className="relative flex items-center w-full bg-card border-2 rounded-full h-14 pr-2">
-                 <Search className="absolute left-6 h-5 w-5 text-muted-foreground" />
+            <form 
+                onSubmit={handleSearch} 
+                className={cn(
+                    "relative flex items-center w-full",
+                    "search-form-container",
+                    hasQuery && 'search-active'
+                )}
+            >
+                 <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
                  <Input
                     type="text"
                     name="search"
-                    placeholder="Search anything..."
-                    className="h-full pl-14 pr-24 text-base rounded-full bg-transparent border-none focus-visible:ring-0"
-                    disabled={isPending}
+                    placeholder="Search for firmware, brand, or model..."
+                    className="h-14 pl-12 pr-4 text-base rounded-lg bg-background/80 border-2 border-transparent focus:border-primary/50 focus-visible:ring-0 focus:bg-background transition-all"
+                    disabled={isLoading}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
                 />
-                 <Button
-                    type="submit" 
-                    className="h-10 px-6 rounded-full" 
-                    aria-label="Search"
-                    disabled={isLoading}
-                >
-                    {isLoading ? (
-                        <div className="custom-spinner"></div>
-                    ) : (
-                       'Search'
-                    )}
-                </Button>
             </form>
             
             {showSuggestions && suggestions.length > 0 && (
