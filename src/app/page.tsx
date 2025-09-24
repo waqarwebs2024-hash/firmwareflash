@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 import { format } from 'date-fns';
 
 export const metadata: Metadata = {
-  title: 'firmwareflash.com - Free Official Stock ROM & Firmware Downloads',
+  title: 'firmwareflash.com - Free Official Stock Firmware & ROM Downloads',
   description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files, stock ROMs, and step-by-step installation guides to update or unbrick your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone'],
 };
@@ -119,7 +119,7 @@ export default async function Home() {
                   <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                     Welcome to firmwareflash.com, your trusted source for official flash files to update, unbrick, or restore your mobile device.
                   </p>
-                  <div className="w-full max-w-2xl mx-auto">
+                  <div className="w-full max-w-3xl mx-auto">
                     <HomeSearchForm />
                   </div>
                 </div>
