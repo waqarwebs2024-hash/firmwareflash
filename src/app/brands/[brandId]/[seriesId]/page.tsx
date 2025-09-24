@@ -64,7 +64,9 @@ export default async function SeriesPage({ params }: { params: { brandId: string
               <p>
                 Find and get the latest stock ROM download and flash file for your {brand.name} {series.name}.
               </p>
-               <p>On this page, you can find the official link to download {brand.name} {series.name} Stock Firmware ROM (Flash File) on your computer. Firmware comes in a zip package containing Flash File, Flash Tool, USB Driver, and How-to Flash Manual.</p>
+              <p>
+                On this page, you can find the official link to download {brand.name} {series.name} Stock Firmware ROM (Flash File) on your computer. Firmware comes in a zip package containing Flash File, Flash Tool, USB Driver, and How-to Flash Manual.
+              </p>
             </div>
         </div>
 
@@ -121,4 +123,3 @@ export default async function SeriesPage({ params }: { params: { brandId: string
     </>
   );
 }
-
