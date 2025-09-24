@@ -141,7 +141,7 @@ export default async function Home() {
                                     <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
                                         <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card flex items-center justify-center min-h-[90px]">
                                             <CardContent className="p-4 text-center">
-                                                <p className="text-lg font-semibold">{brand.name}</p>
+                                                <p className="text-xl font-semibold">{brand.name}</p>
                                                 <p className="text-xs text-muted-foreground mt-1">Firmware Download</p>
                                             </CardContent>
                                         </Card>
@@ -230,3 +230,5 @@ export default async function Home() {
         </>
     );
 }
+
+    
