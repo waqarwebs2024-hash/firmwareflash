@@ -75,7 +75,7 @@ export function HomeSearchForm() {
         <div className="relative" ref={searchContainerRef}>
             <form onSubmit={handleSearch} className="relative">
                  <Input
-                    type="search"
+                    type="text"
                     name="search"
                     placeholder="Search millions of firmware files (e.g., 'Galaxy S22')"
                     className="h-14 pl-6 pr-12 text-base rounded-full bg-card border-2"
