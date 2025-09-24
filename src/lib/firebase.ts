@@ -1,7 +1,7 @@
 
 
 // Import the functions you need from the SDKs you need
-import { initializeApp, getApps, getApp } from "firebase/app";
+import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
 
@@ -40,26 +40,22 @@ const firebaseConfig2 = {
 
 // Initialize Firebase
 // To avoid reinitialization errors, check if apps are already initialized.
-let app, app1, app2;
-
-const apps = getApps();
-if (!apps.find(a => a.name === '[DEFAULT]')) {
-  app = initializeApp(firebaseConfig);
-} else {
-  app = getApp('[DEFAULT]');
+function initializeFirebaseApp(config: object, name?: string): FirebaseApp {
+    const apps = getApps();
+    if (name) {
+        const namedApp = apps.find(app => app.name === name);
+        if (namedApp) return namedApp;
+        return initializeApp(config, name);
+    }
+    if (apps.length === 0) {
+        return initializeApp(config);
+    }
+    return getApp();
 }
 
-if (!apps.find(a => a.name === 'db-1')) {
-  app1 = initializeApp(firebaseConfig1, 'db-1');
-} else {
-  app1 = getApp('db-1');
-}
-
-if (!apps.find(a => a.name === 'db-2')) {
-  app2 = initializeApp(firebaseConfig2, 'db-2');
-} else {
-  app2 = getApp('db-2');
-}
+const app = initializeFirebaseApp(firebaseConfig);
+const app1 = initializeFirebaseApp(firebaseConfig1, 'db-1');
+const app2 = initializeFirebaseApp(firebaseConfig2, 'db-2');
 
 
 // --- Firestore Databases ---

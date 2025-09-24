@@ -164,8 +164,8 @@ export default async function DownloadPage({ params }: Props) {
   if (!brand) notFound();
 
   const { fileName, version, androidVersion, size, uploadDate, downloadCount } = firmware;
-  // @ts-ignore
-  const date = uploadDate.toDate ? uploadDate.toDate() : new Date(uploadDate);
+
+  const date = uploadDate?.toDate ? uploadDate.toDate() : new Date();
 
   const inContentAd = adSettings.slots?.inContent;
 
