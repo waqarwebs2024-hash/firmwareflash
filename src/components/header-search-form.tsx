@@ -23,9 +23,9 @@ export function HeaderSearchForm() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
                 type="text"
-                name="search"
+                name="q" // Changed name to 'q' to match search page logic
                 placeholder="Search firmware..."
-                className="h-10 pl-10 pr-20" // Increased padding-right for the button
+                className="h-10 pl-10 pr-20"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
             />
