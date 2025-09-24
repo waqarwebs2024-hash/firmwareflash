@@ -7,6 +7,8 @@ import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documen
 import { ref, get, set, child, push, serverTimestamp, runTransaction } from 'firebase/database';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost, BlogPostOutput, Announcement, AdSlot } from './types';
 import slugify from 'slugify';
+import { createHash } from 'crypto';
+import { format } from 'date-fns';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
@@ -14,18 +16,29 @@ async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id
     if (!id) return null;
     const dbs = [db, db_1, db_2];
     
-    const promises = dbs.map(dbInstance => getDoc(doc(dbInstance, collectionName, id)));
-    
-    // Wait for the first successful result
-    for (const promise of promises) {
-        try {
-            const docSnap = await promise;
-            if (docSnap.exists()) {
-                return { id: docSnap.id, ...docSnap.data() };
-            }
-        } catch (e) {
-            console.warn(`Error querying one of the databases for doc ${id} in ${collectionName}:`, e);
+    // Use Promise.any to get the first resolved promise
+    try {
+        const docSnap = await Promise.any(dbs.map(dbInstance => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const snap = await getDoc(doc(dbInstance, collectionName, id));
+                    if (snap.exists()) {
+                        resolve(snap);
+                    } else {
+                        reject(new Error(`Doc not found in db`));
+                    }
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        }));
+
+        if (docSnap && docSnap.exists()) {
+             return { id: docSnap.id, ...docSnap.data() };
         }
+    } catch(e) {
+        // All promises rejected
+        // console.warn(`Document ${id} in ${collectionName} not found in any database.`);
     }
     
     return null;
@@ -38,17 +51,21 @@ async function getCollectionFromAllDBs<T extends { id: string }>(collectionName:
         const finalQuery = q ? query(collRef, q) : collRef;
         return getDocs(finalQuery);
     });
-    const snapshots = await Promise.all(promises);
+    
+    // Don't wait for all to complete if not needed, but for collections we often need to merge.
+    const snapshots = await Promise.allSettled(promises);
     const results: T[] = [];
     const seenIds = new Set<string>();
 
-    snapshots.forEach(snapshot => {
-        snapshot.docs.forEach(doc => {
-            if (!seenIds.has(doc.id)) {
-                results.push({ id: doc.id, ...doc.data() } as T);
-                seenIds.add(doc.id);
-            }
-        });
+    snapshots.forEach(result => {
+        if (result.status === 'fulfilled') {
+            result.value.docs.forEach(doc => {
+                if (!seenIds.has(doc.id)) {
+                    results.push({ id: doc.id, ...doc.data() } as T);
+                    seenIds.add(doc.id);
+                }
+            });
+        }
     });
 
     return results;
@@ -391,6 +408,13 @@ export async function getTotalDownloads(): Promise<number> {
     return snapshot.exists() ? snapshot.val() : 0;
 }
 
+export async function getDailyVisitors(): Promise<number> {
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const dailyVisitorsRef = ref(rtdb, `analytics/dailyVisitors/${today}`);
+    const snapshot = await get(dailyVisitorsRef);
+    return snapshot.exists() ? snapshot.size : 0;
+}
+
 
 export async function saveDonation(data: { name: string; email?: string; amount: number; message?: string; }) {
     const donationsCol = collection(db, 'donations');
@@ -448,6 +472,32 @@ export async function incrementDownloadCount(firmwareId: string): Promise<void> 
         return (currentCount || 0) + 1;
     });
 }
+
+// Privacy-conscious visitor logging
+async function getDailySalt(): Promise<string> {
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const saltRef = ref(rtdb, `analytics/salts/${today}`);
+    const snapshot = await get(saltRef);
+    if (snapshot.exists()) {
+        return snapshot.val();
+    } else {
+        const newSalt = createHash('sha256').update(Math.random().toString()).digest('hex');
+        await set(saltRef, newSalt);
+        return newSalt;
+    }
+}
+
+export async function logVisitor(ip: string): Promise<void> {
+    const salt = await getDailySalt();
+    const hashedIp = createHash('sha256').update(ip + salt).digest('hex');
+    
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const visitorRef = ref(rtdb, `analytics/dailyVisitors/${today}/${hashedIp}`);
+    
+    // Use set to ensure we only store one entry per hashed IP per day
+    await set(visitorRef, true);
+}
+
 
 // Blog Functions using RTDB
 export async function saveBlogPost(post: BlogPostOutput): Promise<string> {

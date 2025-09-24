@@ -1,7 +1,7 @@
 
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount, logVisitor } from './data';
 import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware, BlogPost, BlogPostOutput, Tool } from './types';
 import { login, logout } from './auth';
@@ -146,4 +146,10 @@ export async function handleDownloadAction(formData: FormData) {
     
     // Immediately redirect the user to the download link.
     redirect(downloadUrl);
+}
+
+export async function logVisitorAction(ip: string | undefined) {
+    if (ip) {
+        await logVisitor(ip);
+    }
 }
