@@ -1,7 +1,7 @@
 import { getRelatedFirmware, getBrandById } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Smartphone, ArrowRight } from 'lucide-react';
+import { Smartphone } from 'lucide-react';
 import Link from 'next/link';
 import { HTMLAttributes } from 'react';
 
@@ -15,40 +15,26 @@ export async function RelatedFirmware({ brandId, seriesId, ...props }: RelatedFi
   const brand = await getBrandById(brandId);
 
   if (related.length === 0 || !brand) {
-    return (
-        <div {...props}>
-             <h2 className="text-lg font-bold mb-4">Related Firmware</h2>
-             <p className="text-sm text-muted-foreground">No related firmware found.</p>
-        </div>
-    );
+    return null;
   }
 
   return (
-    <section className="mt-12 scroll-mt-20" {...props}>
-      <h2 className="text-lg font-bold mb-4">Other {brand.name} Firmwares</h2>
+    <section className="mt-12" {...props}>
+      <h2 className="text-xl font-bold mb-4">Other {brand.name} Firmwares</h2>
       <div className="space-y-4">
         {related.map((series) => (
           <Link href={`/brands/${brand.id}/${series.id}`} key={series.id} className="block">
-             <Card className="h-full hover:shadow-primary/20 hover:shadow-lg transition-shadow">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-md font-medium">
-                        {series.name} Firmware
-                    </CardTitle>
-                    <Smartphone className="h-5 w-5 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <p className="text-xs text-primary hover:underline">View Firmware &rarr;</p>
+             <Card className="hover:shadow-md transition-shadow">
+                <CardContent className="p-4 flex items-center justify-between">
+                    <div>
+                        <p className="font-semibold text-foreground">{series.name} Firmware</p>
+                        <span className="text-sm text-primary hover:underline">View Firmware &rarr;</span>
+                    </div>
+                    <Smartphone className="h-6 w-6 text-muted-foreground" />
                 </CardContent>
             </Card>
           </Link>
         ))}
-      </div>
-      <div className="text-center mt-6">
-        <Link href={`/brand/${brand.id}`}>
-            <Button variant="outline" size="sm">
-                View All {brand.name} Firmwares <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-        </Link>
       </div>
     </section>
   );

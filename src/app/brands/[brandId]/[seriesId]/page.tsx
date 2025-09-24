@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Download, ChevronsRight } from 'lucide-react';
+import { Download } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { Badge } from '@/components/ui/badge';
@@ -54,11 +54,11 @@ export default async function SeriesPage({ params }: { params: { brandId: string
       <div className="container mx-auto py-12 px-4">
         <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-4">
             <Link href="/" className="hover:text-primary">Home</Link>
-            <ChevronsRight className="h-4 w-4" />
+            <span>&raquo;</span>
             <Link href="/brands" className="hover:text-primary">Brands</Link>
-            <ChevronsRight className="h-4 w-4" />
+            <span>&raquo;</span>
             <Link href={`/brand/${brand.id}`} className="hover:text-primary">{brand.name}</Link>
-            <ChevronsRight className="h-4 w-4" />
+            <span>&raquo;</span>
             <span className="font-medium text-foreground">{series.name}</span>
         </div>
 
@@ -88,7 +88,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
                     <TableCell>{firmware.size}</TableCell>
                     <TableCell className="text-right">
                       <Link href={`/download/${firmware.id}/ad`}>
-                        <Button variant="primary" size="sm" className="animated-button">
+                        <Button variant="primary" size="sm">
                           <Download className="mr-2 h-4 w-4" />
                           Download
                           <Badge variant="accent" className="ml-2">Free</Badge>
