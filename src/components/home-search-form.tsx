@@ -73,10 +73,11 @@ export function HomeSearchForm() {
     }
 
     const isLoading = isPending || isSearching;
+    const hasQuery = query.length > 0;
 
     return (
         <div className="relative" ref={searchContainerRef}>
-            <form onSubmit={handleSearch} className={cn("relative", isLoading && "search-loading")}>
+            <form onSubmit={handleSearch} className={cn("relative", hasQuery && "search-loading")}>
                  <Input
                     type="text"
                     name="search"
