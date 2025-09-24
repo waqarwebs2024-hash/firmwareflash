@@ -93,68 +93,82 @@ export async function getSeriesById(id: string): Promise<Series | null> {
     return null;
 }
 
-
-async function searchFirestore(dbInstance: Firestore, collectionName: string, field: string, searchTerm: string, limitVal?: number) {
+// Helper function for Firestore prefix search
+async function searchFirestore(dbInstance: Firestore, collectionName: string, field: string, searchTerm: string, limitVal: number) {
     const collRef = collection(dbInstance, collectionName);
-    const endTerm = searchTerm.slice(0, -1) + String.fromCharCode(searchTerm.charCodeAt(searchTerm.length - 1) + 1);
-    const q = query(collRef, where(field, '>=', searchTerm), where(field, '<', endTerm), limit(limitVal || 25));
-    return await getDocs(q);
+    const endTerm = searchTerm + '\uf8ff';
+    const q = query(collRef, where(field, '>=', searchTerm), where(field, '<=', endTerm), limit(limitVal));
+    return getDocs(q);
 }
 
 export async function searchFirmware(searchTerm: string, queryLimit: number = 50): Promise<Firmware[]> {
     if (!searchTerm || searchTerm.length < 2) return [];
     
+    // Prepare case-insensitive search terms
     const searchTermLower = searchTerm.toLowerCase();
+    const searchTermCapitalized = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
+
     const dbs = [db, db_1, db_2];
-    let results: Firmware[] = [];
-
-    const brandNameQuery = dbs.map(dbInstance => searchFirestore(dbInstance, 'brands', 'name', searchTerm));
-    const seriesNameQuery = dbs.map(dbInstance => searchFirestore(dbInstance, 'series', 'name', searchTerm));
-    const fileNameQuery = dbs.map(dbInstance => searchFirestore(dbInstance, 'firmware', 'fileName', searchTermLower));
-
-    const [
-        ...brandResults
-    ] = await Promise.all(brandNameQuery);
-
-    const [
-        ...seriesResults
-    ] = await Promise.all(seriesNameQuery);
-
-    const [
-        ...firmwareResults
-    ] = await Promise.all(fileNameQuery);
     
-    const brandIds = brandResults.flatMap(res => res.docs.map(d => d.id));
-    const seriesIds = seriesResults.flatMap(res => res.docs.map(d => d.id));
+    // Search for brands and series matching the search term (case-insensitive)
+    const brandPromises = dbs.map(db => searchFirestore(db, 'brands', 'name', searchTermCapitalized, 10));
+    const seriesPromises = dbs.map(db => searchFirestore(db, 'series', 'name', searchTermCapitalized, 10));
+    const fileNamePromises = dbs.map(db => searchFirestore(db, 'firmware', 'fileName', searchTerm, 10));
+    const fileNameLowerPromises = dbs.map(db => searchFirestore(db, 'firmware', 'fileName', searchTermLower, 10));
 
-    let firmwareQueries = [];
+    const [
+        ...brandSnapshots
+    ] = await Promise.all(brandPromises);
+    
+    const [
+        ...seriesSnapshots
+    ] = await Promise.all(seriesPromises);
+    
+    const [
+        ...fileNameSnapshots
+    ] = await Promise.all(fileNamePromises);
 
+    const [
+        ...fileNameLowerSnapshots
+    ] = await Promise.all(fileNameLowerPromises);
+
+
+    const brandIds = brandSnapshots.flatMap(snapshot => snapshot.docs.map(doc => doc.id));
+    const seriesIdsFromBrands = new Set<string>();
+    
     if (brandIds.length > 0) {
-        firmwareQueries.push(...dbs.map(dbInstance => getDocs(query(collection(dbInstance, 'series'), where('brandId', 'in', brandIds), limit(queryLimit)))))
-    }
-    if (seriesIds.length > 0) {
-        firmwareQueries.push(...dbs.map(dbInstance => getDocs(query(collection(dbInstance, 'firmware'), where('seriesId', 'in', seriesIds), limit(queryLimit)))))
+        const seriesFromBrandsPromises = dbs.map(db => getDocs(query(collection(db, 'series'), where('brandId', 'in', brandIds), limit(queryLimit))));
+        const seriesFromBrandsSnapshots = await Promise.all(seriesFromBrandsPromises);
+        seriesFromBrandsSnapshots.forEach(snapshot => snapshot.docs.forEach(doc => seriesIdsFromBrands.add(doc.id)));
     }
 
-    const firmwareByIdsResults = await Promise.all(firmwareQueries);
+    const seriesIdsFromSearch = seriesSnapshots.flatMap(snapshot => snapshot.docs.map(doc => doc.id));
     
-    const allResults = [
-        ...firmwareResults.flatMap(r => r.docs),
-        ...firmwareByIdsResults.flatMap(r => r.docs),
+    const allSeriesIds = [...new Set([...seriesIdsFromBrands, ...seriesIdsFromSearch])];
+
+    const firmwarePromises = [];
+    if (allSeriesIds.length > 0) {
+        firmwarePromises.push(...dbs.map(db => getDocs(query(collection(db, 'firmware'), where('seriesId', 'in', allSeriesIds), limit(queryLimit)))));
+    }
+    
+    const firmwareSnapshots = await Promise.all(firmwarePromises);
+    
+    const allFirmwareDocs = [
+        ...fileNameSnapshots.flatMap(s => s.docs),
+        ...fileNameLowerSnapshots.flatMap(s => s.docs),
+        ...firmwareSnapshots.flatMap(s => s.docs)
     ];
     
-    const uniqueIds = new Set<string>();
-    const uniqueResults: Firmware[] = [];
-
-    for (const doc of allResults) {
-        if (!uniqueIds.has(doc.id) && uniqueResults.length < queryLimit) {
-            uniqueIds.add(doc.id);
-            uniqueResults.push({ id: doc.id, ...doc.data() } as Firmware);
+    const uniqueFirmware = new Map<string, Firmware>();
+    allFirmwareDocs.forEach(doc => {
+        if (!uniqueFirmware.has(doc.id) && uniqueFirmware.size < queryLimit) {
+            uniqueFirmware.set(doc.id, { id: doc.id, ...doc.data() } as Firmware);
         }
-    }
+    });
 
-    return uniqueResults;
+    return Array.from(uniqueFirmware.values());
 }
+
 
 
 async function getAllFromAllDBs<T extends { id: string }>(collectionName: string): Promise<T[]> {
@@ -504,3 +518,4 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     return null;
 }
+
