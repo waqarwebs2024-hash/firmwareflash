@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Disclaimer - firmwareflash.com',
-  description: 'Important legal disclaimer for the use of firmwareflash.com. Understand the risks associated with downloading and installing firmware.',
+  description: 'Important legal disclaimer for the use of firmwareflash.com. Understand the risks associated with downloading and installing firmware and flash files.',
 };
 
 export default function DisclaimerPage() {
@@ -28,7 +28,7 @@ export default function DisclaimerPage() {
 
                 <h2 className="text-2xl font-semibold">Firmware and Software Disclaimer</h2>
                 <p>
-                    All firmware, software, and guides available on this website are provided on an "as is" basis. Flashing firmware or modifying your device's software carries inherent risks. These risks include, but are not limited to:
+                    All firmware, software, flash files, and guides available on this website are provided on an "as is" basis. Flashing firmware or modifying your device's software carries inherent risks. These risks include, but are not limited to:
                 </p>
                 <ul>
                     <li><strong>Bricking your device:</strong> The process may render your device permanently unusable.</li>
@@ -37,7 +37,7 @@ export default function DisclaimerPage() {
                     <li><strong>Security vulnerabilities:</strong> Using modified or incorrect firmware could expose your device to security risks.</li>
                 </ul>
                 <p>
-                    By downloading and using any file or guide from this website, you acknowledge and agree that you are doing so at your own risk. We shall not be held responsible or liable for any damage, data loss, or any other issues that may arise to your device as a result of following the tutorials or using the files provided on this website.
+                    By downloading and using any flash file or guide from this website, you acknowledge and agree that you are doing so at your own risk. We shall not be held responsible or liable for any damage, data loss, or any other issues that may arise to your device as a result of following the tutorials or using the files provided on this website.
                 </p>
 
                 <h2 className="text-2xl font-semibold">Trademarks and Logos Disclaimer</h2>

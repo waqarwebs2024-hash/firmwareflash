@@ -30,7 +30,7 @@ export async function generateMetadata(
   if (!brand) return { title: "Brand Not Found" };
 
   return {
-    title: `All Firmware for ${brand.name} ${series.name} [Download]`,
+    title: `All Firmware for ${brand.name} ${series.name} [Flash File Download]`,
     description: `Download all available official stock firmware (flash files) for the ${brand.name} ${series.name}. Find the latest updates and versions to restore or update your device.`,
   }
 }
@@ -62,9 +62,9 @@ export default async function SeriesPage({ params }: { params: { brandId: string
             <span className="font-medium text-foreground">{series.name}</span>
         </div>
 
-        <h1 className="text-3xl font-bold mb-2">{series.name} Firmware</h1>
+        <h1 className="text-3xl font-bold mb-2">{series.name} Firmware (Flash File)</h1>
         <p className="text-muted-foreground mb-8">
-          Find and download the latest stock ROM for your {brand.name} {series.name}.
+          Find and download the latest stock ROM and flash file for your {brand.name} {series.name}.
         </p>
 
         {firmwareList.length > 0 ? (
@@ -104,7 +104,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
           <div className="text-center py-16 border rounded-lg">
             <p className="text-muted-foreground mb-4">No firmware available for this model yet.</p>
             <a
-              href={`https://www.google.com/search?q=${encodeURIComponent(series.name + ' firmware')}`}
+              href={`https://www.google.com/search?q=${encodeURIComponent(series.name + ' firmware flash file')}`}
               target="_blank"
               rel="noopener noreferrer"
             >

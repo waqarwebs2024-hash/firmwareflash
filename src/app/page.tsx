@@ -11,8 +11,8 @@ import type { Metadata } from 'next';
 import { format } from 'date-fns';
 
 export const metadata: Metadata = {
-  title: 'firmwareflash.com - Free Official Stock Firmware & ROM Downloads',
-  description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files, stock ROMs, and step-by-step installation guides to update or unbrick your mobile device.',
+  title: 'firmwareflash.com - Free Official Stock Firmware & Flash File Downloads',
+  description: 'Download official stock firmware and flash files for Samsung, Huawei, Xiaomi, and more. Find free flash files, stock ROMs, and step-by-step installation guides to update or unbrick your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone'],
 };
 
@@ -53,15 +53,15 @@ export default async function Home() {
     const faqItems = [
       {
         question: "What is stock firmware or a Stock ROM?",
-        answer: "Stock firmware, or a Stock ROM, is the official software developed by the device manufacturer for a specific model. It's the original operating system your device came with. Flashing stock firmware can fix software issues, remove root access, and return your phone to its factory state."
+        answer: "Stock firmware, or a Stock ROM, is the official software developed by the device manufacturer for a specific model. It's the original operating system your device came with. Flashing stock firmware, also known as a flash file, can fix software issues, remove root access, and return your phone to its factory state."
       },
       {
         question: "Is flashing firmware safe for my device?",
-        answer: "Flashing can be safe if you follow instructions carefully and use the correct firmware for your exact device model. However, there are always risks, such as data loss or 'bricking' the device if done incorrectly. We always recommend backing up your data before you begin."
+        answer: "Flashing can be safe if you follow instructions carefully and use the correct flash file for your exact device model. However, there are always risks, such as data loss or 'bricking' the device if done incorrectly. We always recommend backing up your data before you begin."
       },
       {
-        question: "Why would I need to download and flash firmware?",
-        answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version that wasn't released in your region, downgrading to a previous version, or removing custom modifications (like root) to restore your phone to its original state for warranty or resale."
+        question: "Why would I need to download a flash file?",
+        answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version, downgrading to a previous version, or removing custom modifications (like root) to restore your phone to its original state for warranty or resale by flashing the original flash file."
       }
     ];
 
@@ -69,7 +69,7 @@ export default async function Home() {
       {
         icon: ShieldCheck,
         title: "Official Secure Downloads",
-        description: "We provide official, untouched firmware files and stock ROMs sourced directly from manufacturers."
+        description: "We provide official, untouched firmware files (stock ROMs) sourced directly from manufacturers."
       },
       {
         icon: BookCheck,
@@ -79,7 +79,7 @@ export default async function Home() {
       {
         icon: Database,
         title: "Vast Library of Brands",
-        description: "Our extensive database covers a wide range of popular and niche device brands for all your Android update needs."
+        description: "Our extensive database covers a wide range of popular and niche device brands for all your flash file needs."
       },
       {
         icon: Download,
@@ -92,7 +92,7 @@ export default async function Home() {
       {
         icon: Wrench,
         title: "Fix Software Issues",
-        description: "Resolve common problems like bootloops, crashes, and force closes by reinstalling the original stock ROM."
+        description: "Resolve common problems like bootloops, crashes, and force closes by reinstalling the original stock ROM flash file."
       },
       {
         icon: RefreshCw,
@@ -113,7 +113,7 @@ export default async function Home() {
               <section className="bg-secondary py-16 text-center">
                 <div className="container mx-auto px-4">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Download <span className="text-primary">Free</span> Official Stock Firmware (ROM)
+                    Download <span className="text-primary">Free</span> Official Stock Firmware & Flash File
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                     Welcome to firmwareflash.com, your trusted source for official flash files to update, unbrick, or restore your mobile device.

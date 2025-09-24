@@ -32,10 +32,10 @@ export async function generateMetadata(
   if (!series) return { title: "Firmware Not Found" };
   
   const brand = await getBrandById(series.brandId);
-  if (!brand) return { title: "Firmware Not Found" };
+  if (!brand) return { title: "Brand Not Found" };
 
-  const pageTitle = `Download ${brand.name} ${series.name} Stock Firmware (Flash File) [Official Guide]`;
-  const pageDescription = `Download official ${brand.name} ${series.name} firmware (flash file) with step-by-step installation guide. Fix software issues, update ROM, and restore your device.`;
+  const pageTitle = `Download ${brand.name} ${series.name} Stock Firmware (Flash File) - ${firmware.version}`;
+  const pageDescription = `Download official ${brand.name} ${series.name} firmware (flash file), version ${firmware.version}. Fix software issues, update your ROM, and restore your device with our guide.`;
  
   return {
     title: pageTitle,
@@ -64,7 +64,7 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   const howToSchema: WithContext<HowTo> = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": `How to Flash ${seriesName} Firmware`,
+    "name": `How to Flash ${seriesName} Firmware (Flash File)`,
     "description": introduction,
     "step": instructions.map((step, index) => ({
       "@type": "HowToStep",
@@ -97,7 +97,7 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">How to Flash {seriesName} [Step-by-Step]</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">How to Flash {seriesName} Flash File [Step-by-Step]</h2>
         <p className="text-muted-foreground mb-6">{renderWithToolLink(introduction)}</p>
         
         <div className="space-y-6">
@@ -172,14 +172,14 @@ export default async function DownloadPage({ params }: Props) {
   const faqItems = [
     {
         question: `Is this ${series.name} firmware official?`,
-        answer: `Yes, the firmware provided for the ${series.name} is the official Stock ROM released by ${brand.name}. It is not a custom ROM and is intended to restore your device to its original state.`
+        answer: `Yes, the firmware provided for the ${series.name} is the official Stock ROM (flash file) released by ${brand.name}. It is not a custom ROM and is intended to restore your device to its original state.`
     },
     {
-        question: `Can I use this file to unbrick my ${series.name}?`,
-        answer: `Absolutely. A common reason for downloading stock firmware is to fix a soft-bricked device (e.g., stuck in a bootloop). Following the flashing instructions carefully can restore your phone to working condition.`
+        question: `Can I use this flash file to unbrick my ${series.name}?`,
+        answer: `Absolutely. A common reason for downloading a stock flash file is to fix a soft-bricked device (e.g., stuck in a bootloop). Following the flashing instructions carefully can restore your phone to working condition.`
     },
     {
-        question: `Is the ${series.name} firmware free to download?`,
+        question: `Is the ${series.name} flash file free to download?`,
         answer: "Yes, all firmware files and flash tools provided on firmwareflash.com are free to download. We believe in providing open access to help users repair their devices."
     },
     {
@@ -234,7 +234,7 @@ export default async function DownloadPage({ params }: Props) {
 
         <section id="download-info" className="bg-card border shadow-sm rounded-xl mt-12 scroll-mt-20">
           <div className="p-6">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Information</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">{brand.name} {series.name} Firmware Details</h2>
               <div className="space-y-4 text-muted-foreground">
                   <div className="flex items-start">
                       <Package className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
@@ -253,7 +253,7 @@ export default async function DownloadPage({ params }: Props) {
                   <div className="flex items-start">
                       <HardDrive className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                       <div>
-                          <h3 className="font-semibold text-foreground">File Size</h3>
+                          <h3 className="font-semibold text-foreground">Flash File Size</h3>
                           <p>{size}</p>
                       </div>
                   </div>
@@ -284,7 +284,7 @@ export default async function DownloadPage({ params }: Props) {
           </div>
         </section>
 
-        <FaqSection title={`FAQs About ${series.name} Firmware`} items={faqItems} id="faqs" />
+        <FaqSection title={`FAQs About ${series.name} Flash File`} items={faqItems} id="faqs" />
 
         <RelatedFirmware brandId={brand.id} seriesId={series.id} id="related-firmware" />
       </main>

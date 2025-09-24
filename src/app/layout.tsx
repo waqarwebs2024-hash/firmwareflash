@@ -13,10 +13,10 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'firmwareflash.com - Free Official Stock Firmware & ROM Downloads',
+    default: 'firmwareflash.com - Free Official Stock Firmware & Flash File Downloads',
     template: '%s | firmwareflash.com'
   },
-  description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides to update or unbrick your mobile device.',
+  description: 'Download official stock firmware and flash files for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides to update or unbrick your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone'],
 };
 
