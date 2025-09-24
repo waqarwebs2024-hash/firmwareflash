@@ -24,8 +24,8 @@ export async function generateMetadata(
   if (!brand) return { title: "Brand Not Found" };
 
   return {
-    title: `All Firmware for ${brand.name} ${series.name} [Flash File Download]`,
-    description: `Download all available official stock firmware (flash files) for the ${brand.name} ${series.name}. Find the latest updates and versions to restore or update your device.`,
+    title: `All Firmware for ${brand.name} ${series.name} [Stock ROM Download]`,
+    description: `Complete list of official firmware for the ${brand.name} ${series.name}. Get your stock ROM download and find the latest updates to restore or update your device.`,
   }
 }
 
@@ -60,9 +60,9 @@ export default async function SeriesPage({ params }: { params: { brandId: string
         </div>
 
         <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">{series.name} Firmware (Flash File)</h1>
+            <h1 className="text-3xl font-bold mb-2">{series.name} Firmware (Stock ROM Download)</h1>
             <p className="text-muted-foreground">
-            Find and download the latest stock ROM and flash file for your {brand.name} {series.name}.
+            Find and get the latest stock ROM download and flash file for your {brand.name} {series.name}.
             </p>
         </div>
 
@@ -103,9 +103,9 @@ export default async function SeriesPage({ params }: { params: { brandId: string
           </div>
         ) : (
           <div className="text-center py-16 border rounded-lg">
-            <p className="text-muted-foreground mb-4">No firmware available for this model yet.</p>
+            <p className="text-muted-foreground mb-4">No stock ROM download available for this model yet.</p>
             <a
-              href={`https://www.google.com/search?q=${encodeURIComponent(series.name + ' firmware flash file')}`}
+              href={`https://www.google.com/search?q=${encodeURIComponent(series.name + ' stock rom download')}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -119,3 +119,5 @@ export default async function SeriesPage({ params }: { params: { brandId: string
     </>
   );
 }
+
+    

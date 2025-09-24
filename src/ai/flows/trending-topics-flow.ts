@@ -26,7 +26,7 @@ const prompt = ai.definePrompt({
     Your task is to generate a list of 5 to 10 current, trending, and highly searchable blog post topics.
 
     The topics should be relevant to:
-    - Firmware flashing
+    - Firmware flashing and stock ROM download
     - Stock ROMs vs. Custom ROMs
     - Unbricking devices
     - Mobile device repair and software maintenance
@@ -34,7 +34,7 @@ const prompt = ai.definePrompt({
     - How-to guides for tools like Odin or fastboot
     - Android updates and features
 
-    Generate a list of compelling, user-focused topics that someone trying to fix or update their phone would search for.
+    Generate a list of compelling, user-focused topics that someone looking for a "stock rom download" would search for.
     Present the output as a list of topics.
   `,
 });
@@ -52,3 +52,5 @@ const trendingTopicsFlow = ai.defineFlow(
     return output;
   }
 );
+
+    

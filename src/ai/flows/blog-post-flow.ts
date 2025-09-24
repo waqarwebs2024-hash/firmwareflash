@@ -24,14 +24,14 @@ const prompt = ai.definePrompt({
     The blog post MUST be:
     - Well-structured with a clear introduction, body, and conclusion.
     - Formatted in clean Markdown. Use headings (e.g., #, ##), lists (e.g., * or 1.), and bold text (e.g., **text**) to improve readability. Do NOT output a single block of unformatted text.
-    - SEO-friendly, naturally incorporating keywords related to the topic.
+    - SEO-friendly, naturally incorporating keywords related to the topic, including "stock rom download" where relevant.
     - At least 500 words long.
 
     Here is an example of good formatting:
 
     # This is a Title
     
-    This is an introduction.
+    This is an introduction. It might talk about a stock rom download.
 
     ## This is a Subheading
     * This is a list item.
@@ -62,3 +62,5 @@ const blogPostFlow = ai.defineFlow(
     return output;
   }
 );
+
+    

@@ -30,7 +30,7 @@ const FlashingInstructionToolSchema = z.object({
 });
 
 const FlashingInstructionsOutputSchema = z.object({
-    introduction: z.string().describe("A brief introduction to the flashing process for this brand, including any common tools used (e.g., Odin for Samsung, fastboot for Pixel). It should mention the term 'flash file'."),
+    introduction: z.string().describe("A brief introduction to the flashing process for this brand, including any common tools used (e.g., Odin for Samsung, fastboot for Pixel). It should mention 'stock ROM download' and 'flash file'."),
     prerequisites: z.array(z.string()).describe("A list of prerequisites or things the user needs before starting, like specific drivers or software."),
     instructions: z.array(InstructionStepSchema).describe("An array of step-by-step instructions to flash the firmware."),
     warning: z.string().describe("An important warning or disclaimer about the risks of flashing firmware (e.g., data loss, voiding warranty)."),
@@ -48,7 +48,7 @@ const prompt = ai.definePrompt({
   input: { schema: FlashingInstructionsInputSchema },
   output: { schema: FlashingInstructionsOutputSchema },
   prompt: `
-    You are an expert mobile device technician. Your task is to provide clear, step-by-step instructions for flashing stock firmware (also known as a flash file) onto a device of a specific brand.
+    You are an expert mobile device technician. Your task is to provide clear, step-by-step instructions for flashing stock firmware (also known as a stock ROM or flash file) onto a device of a specific brand.
 
     The user will provide a brand name. Based on that brand, generate a set of flashing instructions.
 
@@ -58,8 +58,8 @@ const prompt = ai.definePrompt({
     - The instructions should be generic enough for any device of that brand but specific to the flashing tool and process.
     - For the identified tool, provide its name and a URL-friendly slug. For example, if the tool is "Odin", the name is "Odin" and the slug is "odin". If the tool is "SP Flash Tool", the name is "SP Flash Tool" and the slug is "sp-flash-tool".
     
-    Generate the introduction, prerequisites, step-by-step instructions, a final warning, and the tool object.
-    Assume the user has already downloaded the correct firmware (flash file).
+    Generate the introduction, prerequisites, step-by-step instructions, and a final warning. The introduction must mention the term "stock ROM download".
+    Assume the user has already completed their stock ROM download and has the correct firmware file.
     Focus on the process of flashing, not on finding or downloading the file.
 
     Brand: {{{brandName}}}
@@ -86,3 +86,5 @@ const getFlashingInstructionsFlow = ai.defineFlow(
     return output;
   }
 );
+
+    

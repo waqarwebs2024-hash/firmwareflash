@@ -29,7 +29,7 @@ export async function Footer() {
                 </span>
             </Link>
             <p className="text-sm text-muted-foreground">
-                Your reliable source for official mobile firmware, flash files, and stock ROMs.
+                Your reliable source for official mobile firmware, flash files, and your next stock ROM download.
             </p>
           </div>
 
@@ -88,3 +88,5 @@ export async function Footer() {
     </footer>
   );
 }
+
+    

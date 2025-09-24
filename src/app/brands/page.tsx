@@ -6,8 +6,8 @@ import type { Metadata } from 'next';
 import { Brand } from '@/lib/types';
 
 export const metadata: Metadata = {
-  title: 'All Mobile Brands for Firmware & Flash File Downloads',
-  description: 'Browse a complete A-Z list of all available mobile phone brands like Samsung, Google, Xiaomi, and Huawei to find and download the correct stock ROM and flash file for your device.',
+  title: 'All Mobile Brands for Stock ROM Download',
+  description: 'Browse a complete A-Z list of all available mobile phone brands like Samsung, Google, and Xiaomi to find and get the correct stock ROM download for your device.',
 };
 
 export default async function BrandsPage() {
@@ -30,7 +30,7 @@ export default async function BrandsPage() {
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-2">All Mobile Phone Brands</h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Find your device from our comprehensive A-Z list. We provide official stock ROMs and flash files for hundreds of brands, helping you to update, unbrick, or restore your phone to its factory settings. Select a brand to see all available models and firmware files.
+                Find your device from our comprehensive A-Z list. We provide official stock ROMs and flash files for hundreds of brands. Select a brand to see all available models and begin your stock rom download.
             </p>
         </div>
 
@@ -62,3 +62,5 @@ export default async function BrandsPage() {
     </>
   );
 }
+
+    

@@ -13,11 +13,11 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'firmwareflash.com - Free Official Stock Firmware & Flash File Downloads',
+    default: 'firmwareflash.com - Free Official Stock ROM Download & Flash Files',
     template: '%s | firmwareflash.com'
   },
-  description: 'Download official stock firmware and flash files for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides to update or unbrick your mobile device.',
-  keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone'],
+  description: 'Find your free stock rom download for Samsung, Huawei, Xiaomi, and more. Get official firmware and flash files with step-by-step installation guides to update or unbrick your mobile device.',
+  keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone', 'stock rom download'],
 };
 
 const organizationSchema: WithContext<Organization> = {
@@ -92,3 +92,5 @@ export default async function RootLayout({
     </html>
   );
 }
+
+    

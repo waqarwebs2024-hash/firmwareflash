@@ -17,8 +17,8 @@ export async function generateMetadata(
   if (!brand) return { title: "Brand Not Found" };
 
   return {
-    title: `Firmware for ${brand.name} Devices - All Models | Flash File Download`,
-    description: `Find and download official stock firmware and flash files for all ${brand.name} models. Select your device series to get the latest flash file and installation guide.`,
+    title: `Firmware for ${brand.name} Devices - All Models | Stock ROM Download`,
+    description: `Find and download official stock firmware and get the right stock rom download for all ${brand.name} models. Select your device series to get the latest flash file and installation guide.`,
   }
 }
 
@@ -42,7 +42,7 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
             <span className="font-medium text-foreground">{brand.name}</span>
         </div>
         <h1 className="text-3xl font-bold mb-8 text-center">
-          {brand.name} Firmware & Flash Files
+          {brand.name} Firmware & Stock ROM Download
         </h1>
 
         {series.length > 0 ? (
@@ -67,3 +67,5 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
     </>
   );
 }
+
+    

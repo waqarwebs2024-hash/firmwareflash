@@ -1,3 +1,4 @@
+
 import { getAllTools } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
@@ -5,8 +6,8 @@ import { Wrench } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Mobile Flashing Tools',
-  description: 'Download the latest mobile flashing tools like Odin, SP Flash Tool, and fastboot. Find guides and resources for flashing firmware on your device.',
+  title: 'Mobile Flashing Tools for Stock ROM Download',
+  description: 'Download the latest mobile flashing tools like Odin, SP Flash Tool, and fastboot. Find guides and resources for your stock ROM download and installation.',
 };
 
 export default async function ToolsPage() {
@@ -44,3 +45,5 @@ export default async function ToolsPage() {
     </>
   );
 }
+
+    
