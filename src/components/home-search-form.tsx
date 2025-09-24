@@ -76,6 +76,11 @@ export function HomeSearchForm() {
 
     return (
         <div className="flex items-center gap-4">
+            <div className="hidden sm:block">
+                <Button variant="outline" disabled className="h-16 w-16" size="icon">
+                    <Usb className="h-6 w-6" />
+                </Button>
+            </div>
             <div className="relative flex-grow" ref={searchContainerRef}>
                 <form 
                     onSubmit={handleSearch} 
@@ -91,7 +96,7 @@ export function HomeSearchForm() {
                             type="text"
                             name="search"
                             placeholder="Search for firmware, brand, or model..."
-                            className="search-input h-16 pl-12 pr-28 text-base rounded-full bg-background border-2"
+                            className="h-16 pl-12 pr-28 text-base rounded-full bg-background border-2"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
@@ -130,12 +135,6 @@ export function HomeSearchForm() {
                         </div>
                     </div>
                 )}
-            </div>
-             <div className="hidden sm:block">
-                <Button variant="outline" disabled className="h-16">
-                    <Usb className="mr-2 h-4 w-4" />
-                    Detect Device
-                </Button>
             </div>
         </div>
     )
