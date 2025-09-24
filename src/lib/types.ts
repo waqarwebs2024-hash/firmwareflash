@@ -34,6 +34,7 @@ export interface Announcement {
 export interface AdSlot {
     enabled: boolean;
     adCode: string;
+    rel?: 'sponsored' | 'nofollow';
 }
 
 export interface AdSettings {

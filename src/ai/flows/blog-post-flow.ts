@@ -21,11 +21,26 @@ const prompt = ai.definePrompt({
   prompt: `
     You are an expert tech blogger specializing in mobile devices, firmware, and software modification. Your task is to write a detailed, engaging, and informative blog post on the given topic.
 
-    The blog post should be:
+    The blog post MUST be:
     - Well-structured with a clear introduction, body, and conclusion.
-    - Formatted in clean Markdown. Use headings (#, ##, ###), lists (* or 1.), and bold text (**) to improve readability.
+    - Formatted in clean Markdown. Use headings (e.g., #, ##), lists (e.g., * or 1.), and bold text (e.g., **text**) to improve readability. Do NOT output a single block of unformatted text.
     - SEO-friendly, naturally incorporating keywords related to the topic.
     - At least 500 words long.
+
+    Here is an example of good formatting:
+
+    # This is a Title
+    
+    This is an introduction.
+
+    ## This is a Subheading
+    * This is a list item.
+    * **This** is a bolded list item.
+
+    1. This is a numbered list.
+    2. Another item.
+
+    ---
 
     Generate a catchy title, a short excerpt (1-2 sentences), and the full blog post content in Markdown.
 

@@ -1,10 +1,9 @@
 
-
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB } from './data';
 import { seedFromLegacyFiles } from './seed';
-import type { AdSettings, Firmware, BlogPost, BlogPostOutput } from './types';
+import type { AdSettings, Firmware, BlogPost, BlogPostOutput, Tool } from './types';
 import { login, logout } from './auth';
 import { generateBlogPost } from '@/ai/flows/blog-post-flow';
 import { generateTrendingTopics } from '@/ai/flows/trending-topics-flow';
@@ -119,4 +118,16 @@ export async function generateTrendingTopicsAction(): Promise<string[]> {
 
 export async function toggleBrandPopularityAction(brandId: string, isPopular: boolean) {
     await toggleBrandPopularity(brandId, isPopular);
+}
+
+export async function addToolAction(tool: Omit<Tool, 'id'>) {
+    await addOrUpdateTool(tool);
+}
+
+export async function deleteToolAction(toolId: string) {
+    await deleteToolById(toolId);
+}
+
+export async function getAllTools(): Promise<Tool[]> {
+    return await getAllToolsFromDB();
 }

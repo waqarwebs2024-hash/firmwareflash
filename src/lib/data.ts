@@ -3,7 +3,7 @@
 'use server';
 
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
-import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore, updateDoc, deleteDoc } from 'firebase/firestore';
 import { ref, get, set, child, push, serverTimestamp, query as rtdbQuery, orderByChild, equalTo } from 'firebase/database';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost, BlogPostOutput } from './types';
 import slugify from 'slugify';
@@ -249,16 +249,23 @@ export async function getAdSettings(): Promise<AdSettings> {
   const docSnap = await getDoc(settingsDocRef);
   
   const defaultSlots: Record<string, AdSlot> = {
-    headerBanner: { enabled: false, adCode: '' },
-    inContent: { enabled: false, adCode: '' },
-    footerBanner: { enabled: false, adCode: '' },
-    downloadPage: { enabled: false, adCode: '' },
+    headerBanner: { enabled: false, adCode: '', rel: 'sponsored' },
+    inContent: { enabled: false, adCode: '', rel: 'sponsored' },
+    footerBanner: { enabled: false, adCode: '', rel: 'sponsored' },
+    downloadPage: { enabled: false, adCode: '', rel: 'sponsored' },
   };
 
   if (docSnap.exists()) {
     const data = docSnap.data();
+    // Ensure `rel` field exists with a default
+    const slotsWithDefaults = Object.fromEntries(
+        Object.entries(data.slots || {}).map(([key, value]) => [
+            key,
+            { rel: 'sponsored', ...value }
+        ])
+    );
     return {
-        slots: { ...defaultSlots, ...data.slots },
+        slots: { ...defaultSlots, ...slotsWithDefaults },
     }
   }
 
@@ -304,6 +311,19 @@ export async function getOrCreateTool(toolSlug: string, toolName: string): Promi
         await setDoc(toolDocRef, newTool);
         return { id: toolSlug, ...newTool } as Tool;
     }
+}
+
+export async function addOrUpdateTool(toolData: Partial<Tool>): Promise<void> {
+    const id = toolData.id || createId(toolData.name || '');
+    if (!id) throw new Error('Tool name is required to create a slug/id.');
+    const toolDocRef = doc(db, 'tools', id);
+    await setDoc(toolDocRef, toolData, { merge: true });
+}
+
+export async function deleteToolById(id: string): Promise<void> {
+    if (!id) throw new Error('Tool ID is required.');
+    const toolDocRef = doc(db, 'tools', id);
+    await deleteDoc(toolDocRef);
 }
 
 export async function getAllTools(): Promise<Tool[]> {
@@ -512,5 +532,6 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     return null;
 }
+
 
 

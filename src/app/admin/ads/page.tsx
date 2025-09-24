@@ -11,6 +11,7 @@ import { Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const adSlotsConfig = [
   { id: 'headerBanner', name: 'Header Banner Ad', description: 'A banner ad that appears at the top of the site.' },
@@ -30,10 +31,10 @@ export default function AdsAdminPage({
 
   const [adSlots, setAdSlots] = useState<Record<string, AdSlot>>(
     searchParams.slots || {
-      headerBanner: { enabled: false, adCode: '' },
-      inContent: { enabled: false, adCode: '' },
-      footerBanner: { enabled: false, adCode: '' },
-      downloadPage: { enabled: false, adCode: '' },
+      headerBanner: { enabled: false, adCode: '', rel: 'sponsored' },
+      inContent: { enabled: false, adCode: '', rel: 'sponsored' },
+      footerBanner: { enabled: false, adCode: '', rel: 'sponsored' },
+      downloadPage: { enabled: false, adCode: '', rel: 'sponsored' },
     }
   );
   
@@ -61,7 +62,7 @@ export default function AdsAdminPage({
         <CardHeader>
           <CardTitle>Advertisement Management</CardTitle>
           <CardDescription>
-            Control multiple ad placements across the site. Use the text areas to paste ad code snippets (e.g., Google AdSense code).
+            Control multiple ad placements across the site. Use the text areas to paste ad code snippets (e.g., Google AdSense code). Mark links with `sponsored` or `nofollow` for SEO.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -99,6 +100,26 @@ export default function AdsAdminPage({
                         />
                         <p className="text-sm text-muted-foreground">
                             {slot.description}
+                        </p>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Link Relationship (for SEO)</Label>
+                        <Select
+                          value={adSlots[slot.id]?.rel || 'sponsored'}
+                          onValueChange={(value) => handleSlotChange(slot.id, 'rel', value)}
+                          disabled={!adSlots[slot.id]?.enabled}
+                        >
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select relationship" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="sponsored">sponsored</SelectItem>
+                                <SelectItem value="nofollow">nofollow</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <p className="text-sm text-muted-foreground">
+                            Use `sponsored` for paid ads or `nofollow` to prevent search engines from following the link.
                         </p>
                     </div>
                 </AccordionContent>

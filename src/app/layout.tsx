@@ -77,20 +77,16 @@ export default async function RootLayout({
         )}
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        {isAdminPage ? (
-          <>{children}</>
-        ) : (
-          <div className="flex flex-col min-h-screen bg-background">
-            <Header />
-            {headerAd?.enabled && headerAd.adCode && (
-                <div className="py-2 bg-secondary flex justify-center">
-                    <div dangerouslySetInnerHTML={{ __html: headerAd.adCode }} />
-                </div>
-            )}
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-        )}
+        <div className="flex flex-col min-h-screen bg-background">
+          {!isAdminPage && <Header />}
+          {!isAdminPage && headerAd?.enabled && headerAd.adCode && (
+              <div className="py-2 bg-secondary flex justify-center">
+                  <div dangerouslySetInnerHTML={{ __html: headerAd.adCode }} />
+              </div>
+          )}
+          <main className="flex-grow">{children}</main>
+          {!isAdminPage && <Footer />}
+        </div>
         <Toaster />
       </body>
     </html>
