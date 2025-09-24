@@ -1,5 +1,4 @@
 
-
 import { getFirmwareBySeries, getSeriesById, getBrandById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -24,8 +23,8 @@ export async function generateMetadata(
   if (!brand) return { title: "Brand Not Found" };
 
   return {
-    title: `All Firmware for ${brand.name} ${series.name} [Stock ROM Download]`,
-    description: `Complete list of official firmware for the ${brand.name} ${series.name}. Get your stock ROM download and find the latest updates to restore or update your device.`,
+    title: `All Firmware for ${brand.name} ${series.name} [Stock ROM & Flash File]`,
+    description: `Complete list of official firmware and flash file downloads for the ${brand.name} ${series.name}. Get your stock ROM download and find the latest flash file to restore or update your device.`,
   }
 }
 
@@ -60,7 +59,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
         </div>
 
         <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">{series.name} Firmware (Stock ROM Download)</h1>
+            <h1 className="text-3xl font-bold mb-2">{series.name} Firmware Download (Flash File)</h1>
             <p className="text-muted-foreground">
             Find and get the latest stock ROM download and flash file for your {brand.name} {series.name}.
             </p>
@@ -78,7 +77,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
                     <div className="flex-grow space-y-1">
                         <Link href={`/download/${firmware.id}/ad`} className="text-lg font-semibold hover:text-primary hover:underline">{firmware.fileName}</Link>
                         <div className="flex items-center gap-2">
-                           <Badge variant="accent">Featured</Badge>
+                           <Badge variant="accent">Featured Firmware</Badge>
                            <div className="flex items-center">
                                 {[...Array(5)].map((_, i) => (
                                     <Star key={i} className="h-4 w-4 text-yellow-400" />
@@ -103,7 +102,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
           </div>
         ) : (
           <div className="text-center py-16 border rounded-lg">
-            <p className="text-muted-foreground mb-4">No stock ROM download available for this model yet.</p>
+            <p className="text-muted-foreground mb-4">No stock ROM or flash file download available for this model yet.</p>
             <a
               href={`https://www.google.com/search?q=${encodeURIComponent(series.name + ' stock rom download')}`}
               target="_blank"
@@ -119,5 +118,3 @@ export default async function SeriesPage({ params }: { params: { brandId: string
     </>
   );
 }
-
-    

@@ -78,7 +78,7 @@ export async function Footer() {
                 </Button>
             </div>
              <p className="text-sm text-muted-foreground mt-4">
-                Join our community for updates, guides, and support.
+                Join our community for firmware updates, flash file guides, and support.
             </p>
           </div>
         </div>
@@ -88,5 +88,3 @@ export async function Footer() {
     </footer>
   );
 }
-
-    

@@ -1,5 +1,4 @@
 
-
 import { getToolBySlug } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,8 +19,8 @@ export async function generateMetadata(
   if (!tool) return { title: "Tool Not Found" };
 
   return {
-    title: `Download ${tool.name} - Latest Version`,
-    description: tool.description || `Download the latest version of ${tool.name} and find guides on how to use it for flashing firmware on your mobile device.`,
+    title: `Download ${tool.name} - Latest Version for Firmware Flashing`,
+    description: tool.description || `Download the latest version of ${tool.name} and find guides on how to use it for flashing firmware and flash files on your mobile device.`,
   }
 }
 
@@ -79,7 +78,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
                 <h2 className="text-2xl font-bold mb-4">How to Use {tool.name}</h2>
                 <div className="bg-muted p-6 rounded-lg">
                   <p className="text-muted-foreground">
-                    Instructions on how to use {tool.name} will be added here soon. This section will contain a detailed guide, screenshots, and tips for successful firmware flashing.
+                    Instructions on how to use {tool.name} will be added here soon. This section will contain a detailed guide, screenshots, and tips for successful firmware and flash file flashing.
                   </p>
                 </div>
               </section>

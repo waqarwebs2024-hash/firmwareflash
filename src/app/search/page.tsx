@@ -1,5 +1,4 @@
 
-
 import { searchFirmware } from '@/lib/data';
 import {
   Table,
@@ -31,7 +30,7 @@ async function SearchResultsContent({ query }: { query: string }) {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>File Name</TableHead>
+                                <TableHead>Firmware / Flash File</TableHead>
                                 <TableHead className="hidden md:table-cell">Version</TableHead>
                                 <TableHead className="hidden sm:table-cell">Android Version</TableHead>
                                 <TableHead>Size</TableHead>
@@ -61,7 +60,7 @@ async function SearchResultsContent({ query }: { query: string }) {
                 </div>
             ) : (
                 <div className="text-center py-16 border rounded-lg">
-                    <p className="text-muted-foreground mb-4">No firmware found for your search.</p>
+                    <p className="text-muted-foreground mb-4">No firmware or flash file found for your search.</p>
                 </div>
             )}
         </>
@@ -87,7 +86,7 @@ export default function SearchPage({ searchParams }: { searchParams?: { [key: st
             <div className="container mx-auto py-12 px-4">
                 <h1 className="text-3xl font-bold mb-2">Search Results</h1>
                 <p className="text-muted-foreground mb-8">
-                    Showing results for: <span className="font-semibold">{query}</span>
+                    Showing results for firmware & flash file: <span className="font-semibold">{query}</span>
                 </p>
                 <SearchResults query={query} />
             </div>

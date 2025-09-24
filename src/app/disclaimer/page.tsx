@@ -32,12 +32,12 @@ export default function DisclaimerPage() {
                 </p>
                 <ul>
                     <li><strong>Bricking your device:</strong> The process may render your device permanently unusable.</li>
-                    <li><strong>Voiding your warranty:</strong> Manufacturers may void your device’s warranty if you install unofficial software or modify the existing software.</li>
-                    <li><strong>Data loss:</strong> The flashing process typically erases all user data on the device. You are solely responsible for backing up your personal data before proceeding.</li>
+                    <li><strong>Voiding your warranty:</strong> Manufacturers may void your device’s warranty if you install unofficial software or modify the existing software or firmware.</li>
+                    <li><strong>Data loss:</strong> The flashing process typically erases all user data on the device. You are solely responsible for backing up your personal data before using a flash file.</li>
                     <li><strong>Security vulnerabilities:</strong> Using modified or incorrect firmware could expose your device to security risks.</li>
                 </ul>
                 <p>
-                    By downloading and using any flash file or guide from this website, you acknowledge and agree that you are doing so at your own risk. We shall not be held responsible or liable for any damage, data loss, or any other issues that may arise to your device as a result of following the tutorials or using the files provided on this website.
+                    By downloading and using any flash file or guide from this website, you acknowledge and agree that you are doing so at your own risk. We shall not be held responsible or liable for any damage, data loss, or any other issues that may arise to your device as a result of following the tutorials or using the firmware files provided on this website.
                 </p>
 
                 <h2 className="text-2xl font-semibold">Trademarks and Logos Disclaimer</h2>

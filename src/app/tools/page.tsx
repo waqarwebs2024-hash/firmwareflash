@@ -6,8 +6,8 @@ import { Wrench } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Mobile Flashing Tools for Stock ROM Download',
-  description: 'Download the latest mobile flashing tools like Odin, SP Flash Tool, and fastboot. Find guides and resources for your stock ROM download and installation.',
+  title: 'Mobile Flashing Tools for Firmware & Flash Files',
+  description: 'Download the latest mobile flashing tools like Odin, SP Flash Tool, and fastboot. Find guides and resources for your firmware and flash file installation.',
 };
 
 export default async function ToolsPage() {
@@ -16,7 +16,7 @@ export default async function ToolsPage() {
   return (
     <>
       <div className="container mx-auto py-12 px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">All Flashing Tools</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">All Firmware Flashing Tools</h1>
         {tools.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {tools.map((tool) => (
@@ -45,5 +45,3 @@ export default async function ToolsPage() {
     </>
   );
 }
-
-    

@@ -12,8 +12,8 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'firmwareflash.com - Free Official Stock ROM Download & Flash Files',
-  description: 'Find your free stock rom download for Samsung, Huawei, Xiaomi, and more. Get official firmware and flash files with step-by-step installation guides to update or unbrick your mobile device.',
+  title: 'firmwareflash.com - Free Official Stock ROM, Firmware & Flash File Download',
+  description: 'Find your free stock rom download, firmware, and flash file for Samsung, Huawei, Xiaomi, and more. Get official firmware and flash files with step-by-step installation guides to update or unbrick your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone', 'stock rom download'],
 };
 
@@ -49,38 +49,38 @@ export default async function Home() {
         .filter(brand => topBrandNames.includes(brand.name.toLowerCase()))
         .sort((a,b) => topBrandNames.indexOf(a.name.toLowerCase()) - topBrandNames.indexOf(b.name.toLowerCase()));
 
-    const popularBrandsTitle = "Popular Brands for Stock ROM Download";
+    const popularBrandsTitle = "Popular Brands for Firmware & Flash File Download";
     
     const faqItems = [
       {
-        question: "What is a Stock ROM download?",
-        answer: "A Stock ROM download contains the official software developed by the device manufacturer. It's the original operating system your device came with. Flashing a stock ROM (or flash file) can fix software issues, remove root access, and return your phone to its factory state."
+        question: "What is a Stock ROM or Firmware download?",
+        answer: "A Stock ROM, firmware, or flash file download contains the official software developed by the device manufacturer. It's the original operating system your device came with. Flashing a stock ROM can fix software issues, remove root access, and return your phone to its factory state."
       },
       {
         question: "Is flashing firmware safe for my device?",
-        answer: "Flashing can be safe if you follow instructions carefully and use the correct flash file for your exact device model. However, there are always risks, such as data loss or 'bricking' the device if done incorrectly. We always recommend backing up your data before you begin any stock rom download and flashing process."
+        answer: "Flashing can be safe if you follow instructions carefully and use the correct firmware or flash file for your exact device model. However, there are always risks, such as data loss or 'bricking' the device if done incorrectly. We always recommend backing up your data before you begin any stock rom download and flashing process."
       },
       {
         question: "Why would I need to download a flash file?",
-        answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version, or removing custom modifications. A fresh stock rom download is the perfect solution to restore your phone to its original state for warranty or resale."
+        answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version, or removing custom modifications. A fresh flash file download is the perfect solution to restore your phone to its original state for warranty or resale."
       }
     ];
 
     const features = [
       {
         icon: ShieldCheck,
-        title: "Official & Secure Stock ROM Download",
-        description: "We provide official, untouched firmware files (stock ROMs) sourced directly from manufacturers for a safe stock rom download."
+        title: "Official & Secure Firmware",
+        description: "We provide official, untouched firmware files (stock ROMs) sourced directly from manufacturers for a safe flash file download."
       },
       {
         icon: BookCheck,
         title: "Step-by-Step Guides",
-        description: "Clear, AI-generated flashing instructions to help you every step of the way with tools like Odin or Fastboot."
+        description: "Clear, AI-generated flashing instructions to help you every step of the way with tools like Odin or Fastboot for your firmware."
       },
       {
         icon: Database,
         title: "Vast Library of Brands",
-        description: "Our extensive database covers a wide range of device brands for all your flash file and stock rom download needs."
+        description: "Our extensive database covers a wide range of device brands for all your flash file and firmware download needs."
       },
       {
         icon: Download,
@@ -98,7 +98,7 @@ export default async function Home() {
       {
         icon: RefreshCw,
         title: "Restore to Factory State",
-        description: "Remove root access and custom ROMs to return your device to its original condition with an official stock rom download."
+        description: "Remove root access and custom ROMs to return your device to its original condition with an official firmware download."
       },
       {
         icon: LifeBuoy,
@@ -114,10 +114,10 @@ export default async function Home() {
               <section className="bg-secondary py-16 text-center">
                 <div className="container mx-auto px-4">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Your Source for Free Official <span className="text-primary">Stock ROM Download</span>
+                    Your Source for Free Official <span className="text-primary">Firmware & Flash Files</span>
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                    Welcome to firmwareflash.com, your trusted hub for official flash files and stock ROMs to update, unbrick, or restore your mobile device.
+                    Welcome to firmwareflash.com, your trusted hub for official flash files, firmware, and stock ROMs to update, unbrick, or restore your mobile device.
                   </p>
                   <div className="w-full max-w-3xl mx-auto">
                     <HomeSearchForm />
@@ -131,7 +131,7 @@ export default async function Home() {
                     <h2 className="text-3xl font-bold text-center">{popularBrandsTitle}</h2>
                     <div className="text-center max-w-3xl mx-auto mt-4 mb-12">
                       <p className="text-muted-foreground">
-                        Our library includes firmware for all major manufacturers. Whether you're looking for the latest Samsung stock ROM download, need specific Xiaomi flash files, or want to restore a Huawei phone, we have you covered. Select a brand below to get started.
+                        Our library includes firmware for all major manufacturers. Whether you're looking for the latest Samsung firmware download, need specific Xiaomi flash files, or want to restore a Huawei phone, we have you covered. Select a brand below to get started.
                       </p>
                     </div>
                     {displayBrands.length > 0 ? (
@@ -142,7 +142,7 @@ export default async function Home() {
                                         <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card flex items-center justify-center min-h-[90px]">
                                             <CardContent className="p-4 text-center">
                                                 <p className="text-xl font-semibold">{brand.name}</p>
-                                                <p className="text-xs text-muted-foreground mt-1">Stock ROM Download</p>
+                                                <p className="text-xs text-muted-foreground mt-1">Firmware Download</p>
                                             </CardContent>
                                         </Card>
                                     </Link>
@@ -166,8 +166,8 @@ export default async function Home() {
                <section className="py-20 bg-secondary">
                 <div className="container mx-auto px-4">
                   <div className="text-center max-w-3xl mx-auto mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Why Get a Stock ROM Download?</h2>
-                    <p className="text-muted-foreground">Flashing the official stock ROM is the most reliable way to solve software problems and restore your phone to its peak performance.</p>
+                    <h2 className="text-3xl font-bold mb-4">Why Download a Stock Firmware or Flash File?</h2>
+                    <p className="text-muted-foreground">Flashing the official stock firmware is the most reliable way to solve software problems and restore your phone to its peak performance.</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     {whyUseStockFirmware.map((item, index) => (
@@ -188,7 +188,7 @@ export default async function Home() {
                 <div className="container mx-auto px-4">
                     <div className="text-center max-w-3xl mx-auto mb-12">
                         <h2 className="text-3xl font-bold mb-4">Our Features</h2>
-                        <p className="text-muted-foreground">Everything you need to confidently manage your device's software.</p>
+                        <p className="text-muted-foreground">Everything you need to confidently manage your device's firmware.</p>
                     </div>
                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
                         {features.map((feature, index) => (
@@ -208,7 +208,7 @@ export default async function Home() {
                   <div className="container mx-auto px-4">
                     <div className="text-center max-w-3xl mx-auto mb-12">
                       <h2 className="text-3xl font-bold mb-4">Latest Guides & News</h2>
-                      <p className="text-muted-foreground">Stay updated with our latest articles on firmware flashing, stock ROM download topics, and mobile tech news.</p>
+                      <p className="text-muted-foreground">Stay updated with our latest articles on firmware flashing, flash file topics, and mobile tech news.</p>
                     </div>
                     <LatestPosts posts={recentPosts} />
                     <div className="text-center mt-12">
@@ -223,16 +223,10 @@ export default async function Home() {
               {/* FAQ Section */}
               <section className="py-20 bg-secondary">
                 <div className="container mx-auto px-4 max-w-4xl">
-                  <FaqSection title="Stock ROM Download FAQs" items={faqItems} />
+                  <FaqSection title="Firmware & Flash File FAQs" items={faqItems} />
                 </div>
               </section>
             </main>
         </>
     );
 }
-
-    
-
-    
-
-    

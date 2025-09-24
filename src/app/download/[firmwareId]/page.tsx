@@ -1,5 +1,4 @@
 
-
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, incrementDownloadCount, getAdSettings } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -34,8 +33,8 @@ export async function generateMetadata(
   const brand = await getBrandById(series.brandId);
   if (!brand) return { title: "Brand Not Found" };
 
-  const pageTitle = `Download ${brand.name} ${series.name} Stock Firmware (Stock ROM Download) - ${firmware.version}`;
-  const pageDescription = `Official ${brand.name} ${series.name} stock ROM download, version ${firmware.version}. Fix software issues, update your device, and restore your phone with our comprehensive flash file guide.`;
+  const pageTitle = `Download ${brand.name} ${series.name} Firmware (Flash File) - ${firmware.version}`;
+  const pageDescription = `Official ${brand.name} ${series.name} firmware & flash file download, version ${firmware.version}. Fix software issues, update your device, and restore your phone with our comprehensive flash file guide.`;
  
   return {
     title: pageTitle,
@@ -97,7 +96,7 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">How to Flash {seriesName} Stock ROM [Step-by-Step]</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">How to Flash {seriesName} Stock ROM & Firmware [Step-by-Step]</h2>
         <p className="text-muted-foreground mb-6">{renderWithToolLink(introduction)}</p>
         
         <div className="space-y-6">
@@ -172,19 +171,19 @@ export default async function DownloadPage({ params }: Props) {
   const faqItems = [
     {
         question: `Is this ${series.name} firmware official?`,
-        answer: `Yes, every stock rom download for the ${series.name} on our site is the official software released by ${brand.name}. It is not a custom ROM and is intended to restore your device to its original state.`
+        answer: `Yes, every stock rom download for the ${series.name} on our site is the official software released by ${brand.name}. It is not a custom ROM and is intended to restore your device to its original state. The flash file is original and untouched.`
     },
     {
         question: `Can I use this stock ROM to unbrick my ${series.name}?`,
-        answer: `Absolutely. A common reason for a stock rom download is to fix a soft-bricked device (e.g., stuck in a bootloop). Following the flashing instructions carefully can restore your phone to working condition.`
+        answer: `Absolutely. A common reason for a stock rom download is to fix a soft-bricked device (e.g., stuck in a bootloop). Following the flashing instructions carefully with the correct firmware can restore your phone to working condition.`
     },
     {
-        question: `Is the ${series.name} stock rom download free?`,
+        question: `Is the ${series.name} stock rom and flash file download free?`,
         answer: "Yes, all firmware files and flash tools provided on firmwareflash.com are free to download. We believe in providing open access to help users repair their devices."
     },
     {
         question: `Can I downgrade my ${series.name} firmware?`,
-        answer: "Downgrading firmware can be risky and may not always be possible due to security restrictions. We recommend you only proceed with a stock rom download for downgrading if you are an advanced user and understand the risks."
+        answer: "Downgrading firmware can be risky and may not always be possible due to security restrictions. We recommend you only proceed with a stock rom download for downgrading if you are an advanced user and understand the risks of using an older flash file."
     }
   ]
   
@@ -199,7 +198,7 @@ export default async function DownloadPage({ params }: Props) {
     <>
       <main className="container mx-auto py-12 px-4 max-w-4xl">
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          {brand.name} {series.name} Stock ROM Download (Flash File)
+          {brand.name} {series.name} Firmware Download (Flash File)
         </h1>
         
         <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
@@ -239,7 +238,7 @@ export default async function DownloadPage({ params }: Props) {
                   <div className="flex items-start">
                       <Package className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                       <div>
-                          <h3 className="font-semibold text-foreground">File Name</h3>
+                          <h3 className="font-semibold text-foreground">Flash File Name</h3>
                           <p className="break-all">{fileName}</p>
                       </div>
                   </div>
@@ -253,7 +252,7 @@ export default async function DownloadPage({ params }: Props) {
                   <div className="flex items-start">
                       <HardDrive className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                       <div>
-                          <h3 className="font-semibold text-foreground">Stock ROM Size</h3>
+                          <h3 className="font-semibold text-foreground">Firmware Size</h3>
                           <p>{size}</p>
                       </div>
                   </div>
@@ -276,19 +275,17 @@ export default async function DownloadPage({ params }: Props) {
               <Link href={firmware.downloadUrl} target="_blank" rel="noopener noreferrer" className="block">
                   <Button className="w-full animated-button" variant="primary" size="lg">
                   <Download className="mr-2 h-5 w-5" />
-                  Start Stock ROM Download
+                  Start Firmware Download
                   <Badge variant="accent" className="ml-2">Free</Badge>
                   </Button>
               </Link>
           </div>
         </section>
 
-        <FaqSection title={`FAQs About ${series.name} Stock ROM Download`} items={faqItems} id="faqs" />
+        <FaqSection title={`FAQs About ${series.name} Firmware & Flash File`} items={faqItems} id="faqs" />
 
         <RelatedFirmware brandId={brand.id} seriesId={series.id} id="related-firmware" />
       </main>
     </>
   );
 }
-
-    

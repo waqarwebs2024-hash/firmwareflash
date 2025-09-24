@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'firmwareflash.com - Free Official Stock ROM Download & Flash Files',
+    default: 'firmwareflash.com - Free Official Stock ROM Download, Firmware & Flash Files',
     template: '%s | firmwareflash.com'
   },
   description: 'Find your free stock rom download for Samsung, Huawei, Xiaomi, and more. Get official firmware and flash files with step-by-step installation guides to update or unbrick your mobile device.',
@@ -92,5 +92,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-    
