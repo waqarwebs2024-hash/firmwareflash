@@ -1,4 +1,5 @@
 
+
 import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, incrementDownloadCount, getAdSettings } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -34,7 +35,7 @@ export async function generateMetadata(
   if (!brand) return { title: "Brand Not Found" };
 
   const pageTitle = `Download ${brand.name} ${series.name} Firmware (Flash File) - ${firmware.version}`;
-  const pageDescription = `Official ${brand.name} ${series.name} firmware & flash file download, version ${firmware.version}. Fix software issues, update your device, and restore your phone with our comprehensive flash file guide.`;
+  const pageDescription = `Download ${brand.name} ${series.name} ${firmware.version} firmware (flash file). Official stock ROM with Flash Tool, USB Driver, and step-by-step installation guide.`;
  
   return {
     title: pageTitle,
@@ -289,3 +290,4 @@ export default async function DownloadPage({ params }: Props) {
     </>
   );
 }
+

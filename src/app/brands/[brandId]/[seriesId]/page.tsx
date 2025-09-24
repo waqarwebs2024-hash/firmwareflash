@@ -1,4 +1,5 @@
 
+
 import { getFirmwareBySeries, getSeriesById, getBrandById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -41,8 +42,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
   }
 
   const firmwareList = await getFirmwareBySeries(params.seriesId);
-  // @ts-ignore
-  const uploadDate = firmwareList[0]?.uploadDate.toDate ? firmwareList[0]?.uploadDate.toDate() : new Date();
+  const uploadDate = (firmwareList.length > 0 && firmwareList[0]?.uploadDate?.toDate) ? firmwareList[0].uploadDate.toDate() : new Date();
 
 
   return (
@@ -64,9 +64,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
               <p>
                 Find and get the latest stock ROM download and flash file for your {brand.name} {series.name}.
               </p>
-              <p>
-                On this page, you can find the official link to download {brand.name} {series.name} Stock Firmware ROM (Flash File) on your computer. Firmware comes in a zip package containing Flash File, Flash Tool, USB Driver, and How-to Flash Manual.
-              </p>
+               <p>On this page, you can find the official link to download {brand.name} {series.name} Stock Firmware ROM (Flash File) on your computer. Firmware comes in a zip package containing Flash File, Flash Tool, USB Driver, and How-to Flash Manual.</p>
             </div>
         </div>
 
@@ -77,10 +75,10 @@ export default async function SeriesPage({ params }: { params: { brandId: string
               <Card key={firmware.id} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-4 flex items-center gap-4">
                     <div className="flex-shrink-0">
-                        <FileText className="h-16 w-16 text-muted-foreground/50" />
+                        <FileText aria-label={`${firmware.fileName} icon`} className="h-16 w-16 text-muted-foreground/50" />
                     </div>
                     <div className="flex-grow space-y-1">
-                        <Link href={`/download/${firmware.id}/ad`} className="text-lg font-semibold hover:text-primary hover:underline">{firmware.fileName}</Link>
+                        <Link href={`/download/${firmware.id}`} className="text-lg font-semibold hover:text-primary hover:underline">{firmware.fileName}</Link>
                         <div className="flex items-center gap-2">
                            <Badge variant="accent">Featured Firmware</Badge>
                            <div className="flex items-center">
@@ -94,7 +92,7 @@ export default async function SeriesPage({ params }: { params: { brandId: string
                         </p>
                     </div>
                     <div className="flex-shrink-0">
-                         <Link href={`/download/${firmware.id}/ad`}>
+                         <Link href={`/download/${firmware.id}`}>
                             <Button variant="destructive" size="sm">
                                 <Download className="mr-2 h-4 w-4" />
                                 Download
@@ -123,3 +121,4 @@ export default async function SeriesPage({ params }: { params: { brandId: string
     </>
   );
 }
+
