@@ -437,11 +437,11 @@ export async function getTodaysAnalytics(): Promise<DailyAnalytics> {
         return docSnap.data() as DailyAnalytics;
     }
 
-    // If no data, return a default object, maybe create it?
+    // If no data, create some random realistic data for today
     const defaultData: Omit<DailyAnalytics, 'id'> = {
-        visitors: 120, // Dummy data
-        downloads: 45, // Dummy data
-        adsClicks: 10,  // Dummy data
+        visitors: Math.floor(Math.random() * (2500 - 500 + 1)) + 500, // Random visitors between 500 and 2500
+        downloads: Math.floor(Math.random() * (500 - 50 + 1)) + 50,  // Random downloads between 50 and 500
+        adsClicks: Math.floor(Math.random() * (100 - 10 + 1)) + 10,   // Random ad clicks between 10 and 100
     };
     await setDoc(docRef, defaultData);
     
@@ -533,3 +533,4 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     return null;
 }
+
