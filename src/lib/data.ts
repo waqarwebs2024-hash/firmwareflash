@@ -104,74 +104,38 @@ export async function getSeriesById(id: string): Promise<Series | null> {
     return await getDocFromAnyDB('series', id) as Series | null;
 }
 
-// Helper function for Firestore prefix search
-async function searchFirestore(dbInstance: Firestore, collectionName: string, field: string, searchTerm: string, limitVal: number) {
-    const collRef = collection(dbInstance, collectionName);
-    const endTerm = searchTerm + '\uf8ff';
-    const q = query(collRef, where(field, '>=', searchTerm), where(field, '<=', endTerm), limit(limitVal));
-    return getDocs(q);
-}
-
 export async function searchFirmware(searchTerm: string, queryLimit: number = 50): Promise<Firmware[]> {
     if (!searchTerm || searchTerm.length < 2) return [];
-    
+  
     const searchTermLower = searchTerm.toLowerCase();
-    
+    const endTerm = searchTermLower + '\uf8ff';
+  
     const dbs = [db, db_1, db_2];
     
-    // Create promises for all search queries across all databases
-    const searchPromises = dbs.flatMap(dbInstance => [
-        searchFirestore(dbInstance, 'brands', 'name', searchTerm, 10),
-        searchFirestore(dbInstance, 'brands', 'name', searchTermLower, 10),
-        searchFirestore(dbInstance, 'series', 'name', searchTerm, 10),
-        searchFirestore(dbInstance, 'series', 'name', searchTermLower, 10),
-        searchFirestore(dbInstance, 'firmware', 'fileName', searchTerm, 10),
-        searchFirestore(dbInstance, 'firmware', 'fileName', searchTermLower, 10),
-    ]);
-    
+    const searchPromises = dbs.map(dbInstance => 
+      getDocs(
+        query(
+          collection(dbInstance, 'firmware'),
+          where('fileName', '>=', searchTermLower),
+          where('fileName', '<=', endTerm),
+          limit(queryLimit)
+        )
+      )
+    );
+  
     const snapshots = await Promise.all(searchPromises);
-
-    const brandIds = new Set<string>();
-    const seriesIdsFromSearch = new Set<string>();
-    const firmwareDocsFromFileNameSearch = new Map<string, any>();
-
-    snapshots.slice(0, 2 * dbs.length).forEach(s => s.docs.forEach(d => brandIds.add(d.id))); // Brand results
-    snapshots.slice(2 * dbs.length, 4 * dbs.length).forEach(s => s.docs.forEach(d => seriesIdsFromSearch.add(d.id))); // Series results
-    snapshots.slice(4 * dbs.length).forEach(s => s.docs.forEach(d => firmwareDocsFromFileNameSearch.set(d.id, d))); // Firmware file name results
-    
-    const seriesIdsFromBrands = new Set<string>();
-    if (brandIds.size > 0) {
-        const seriesFromBrandsPromises = dbs.map(db => getDocs(query(collection(db, 'series'), where('brandId', 'in', Array.from(brandIds).slice(0, 30)), limit(queryLimit))));
-        const seriesFromBrandsSnapshots = await Promise.all(seriesFromBrandsPromises);
-        seriesFromBrandsSnapshots.forEach(snapshot => snapshot.docs.forEach(doc => seriesIdsFromBrands.add(doc.id)));
-    }
-    
-    const allSeriesIds = Array.from(new Set([...seriesIdsFromBrands, ...seriesIdsFromSearch]));
-
-    const firmwarePromises = [];
-    // Chunk the series IDs to stay within Firestore's 30-item limit for 'in' queries
-    for (let i = 0; i < allSeriesIds.length; i += 30) {
-        const chunk = allSeriesIds.slice(i, i + 30);
-        if (chunk.length > 0) {
-            firmwarePromises.push(...dbs.map(db => getDocs(query(collection(db, 'firmware'), where('seriesId', 'in', chunk), limit(queryLimit)))));
-        }
-    }
-    
-    const firmwareSnapshots = await Promise.all(firmwarePromises);
-    
-    const allFirmwareDocs = [
-        ...Array.from(firmwareDocsFromFileNameSearch.values()),
-        ...firmwareSnapshots.flatMap(s => s.docs)
-    ];
-    
+  
     const uniqueFirmware = new Map<string, Firmware>();
-    allFirmwareDocs.forEach(doc => {
-        if (!uniqueFirmware.has(doc.id) && uniqueFirmware.size < queryLimit) {
-            uniqueFirmware.set(doc.id, { id: doc.id, ...doc.data() } as Firmware);
+  
+    snapshots.forEach(snapshot => {
+      snapshot.docs.forEach(doc => {
+        if (!uniqueFirmware.has(doc.id)) {
+          uniqueFirmware.set(doc.id, { id: doc.id, ...doc.data() } as Firmware);
         }
+      });
     });
-
-    return Array.from(uniqueFirmware.values());
+  
+    return Array.from(uniqueFirmware.values()).slice(0, queryLimit);
 }
 
 
