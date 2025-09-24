@@ -1,5 +1,4 @@
 
-
 import type {Metadata} from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
@@ -13,11 +12,11 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'firmwareflash.com - Official Stock ROM Downloads',
+    default: 'firmwareflash.com - Official Stock ROM & Firmware Downloads',
     template: '%s | firmwareflash.com'
   },
   description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides for your mobile device.',
-  keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware'],
+  keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone'],
 };
 
 const organizationSchema: WithContext<Organization> = {

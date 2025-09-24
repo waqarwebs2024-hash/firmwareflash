@@ -1,5 +1,4 @@
 
-
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Facebook, Twitter, Send, Youtube, HardDrive } from 'lucide-react';
@@ -30,7 +29,7 @@ export async function Footer() {
                 </span>
             </Link>
             <p className="text-sm text-muted-foreground">
-                Your reliable source for official mobile firmware.
+                Your reliable source for official mobile firmware, flash files, and stock ROMs.
             </p>
           </div>
 
@@ -58,26 +57,29 @@ export async function Footer() {
             <h4 className="font-semibold mb-4">Follow Us</h4>
             <div className="flex space-x-2">
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="https://www.facebook.com/firmwareflash" target="_blank" aria-label="Facebook">
+                    <Link href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
                         <Facebook className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="https://www.twitter.com/firmwareflash" target="_blank" aria-label="Twitter">
+                    <Link href="https://www.twitter.com/" target="_blank" aria-label="Twitter">
                         <Twitter className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
                  <Button variant="ghost" size="icon" asChild>
-                    <Link href="https://t.me/firmwareflash" target="_blank" aria-label="Telegram">
+                    <Link href="https://t.me/" target="_blank" aria-label="Telegram">
                         <Send className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
                  <Button variant="ghost" size="icon" asChild>
-                    <Link href="https://www.youtube.com/@firmwareflash" target="_blank" aria-label="YouTube">
+                    <Link href="https://www.youtube.com/" target="_blank" aria-label="YouTube">
                         <Youtube className="h-5 w-5 text-muted-foreground" />
                     </Link>
                 </Button>
             </div>
+             <p className="text-sm text-muted-foreground mt-4">
+                Join our community for updates, guides, and support.
+            </p>
           </div>
         </div>
         <Separator className="my-8" />
