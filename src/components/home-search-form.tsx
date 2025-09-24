@@ -73,64 +73,66 @@ export function HomeSearchForm() {
     }
 
     const isLoading = isPending || isSearching;
-    const hasQuery = query.length > 0;
 
     return (
-        <div className="relative" ref={searchContainerRef}>
-            <form 
-                onSubmit={handleSearch} 
-                className={cn(
-                    "relative",
-                    "search-form-container"
+        <div className="flex items-center gap-4">
+            <div className="relative flex-grow" ref={searchContainerRef}>
+                <form 
+                    onSubmit={handleSearch} 
+                    className={cn(
+                        "relative",
+                        "search-form-container",
+                        showSuggestions && suggestions.length > 0 && "search-active"
+                    )}
+                >
+                    <div className="relative flex items-center w-full">
+                        <Search className="absolute left-4 h-5 w-5 text-muted-foreground pointer-events-none" />
+                        <Input
+                            type="text"
+                            name="search"
+                            placeholder="Search for firmware, brand, or model..."
+                            className="search-input h-16 pl-12 pr-28 text-base rounded-full bg-background border-2"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
+                        />
+                        <div className="absolute inset-y-0 right-2 flex items-center">
+                            <Button type="submit" className="rounded-full h-12 w-24" disabled={isLoading}>
+                                 {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : 'Search'}
+                            </Button>
+                        </div>
+                    </div>
+                </form>
+                
+                {showSuggestions && suggestions.length > 0 && (
+                    <div className="absolute z-10 top-full mt-2 w-full bg-card shadow-lg rounded-lg border overflow-hidden">
+                        <ul>
+                            {suggestions.map(fw => (
+                                 <li key={fw.id}>
+                                    <Link 
+                                        href={`/download/${fw.id}`} 
+                                        className="block p-4 hover:bg-secondary transition-colors"
+                                        onClick={() => setShowSuggestions(false)}
+                                    >
+                                        <p className="font-medium text-sm text-foreground truncate">{fw.fileName}</p>
+                                        <p className="text-xs text-muted-foreground">{fw.version} - {fw.size}</p>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                         <div className="p-2 border-t bg-secondary">
+                            <button 
+                                onClick={handleSeeAll} 
+                                className="w-full text-center text-sm font-semibold text-primary hover:underline py-2"
+                            >
+                                See all results for &quot;{query}&quot;
+                            </button>
+                        </div>
+                    </div>
                 )}
-            >
-                <div className="relative flex items-center w-full">
-                    <Search className="absolute left-4 h-5 w-5 text-muted-foreground pointer-events-none" />
-                    <Input
-                        type="text"
-                        name="search"
-                        placeholder="Search for firmware, brand, or model..."
-                        className="h-16 pl-12 pr-28 text-base rounded-full bg-background border-2 border-border focus:bg-background"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
-                    />
-                    <div className="absolute inset-y-0 right-2 flex items-center">
-                        <Button type="submit" className="rounded-full h-12 w-24" disabled={isLoading}>
-                             {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : 'Search'}
-                        </Button>
-                    </div>
-                </div>
-            </form>
-            
-            {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute z-10 top-full mt-2 w-full bg-card shadow-lg rounded-lg border overflow-hidden">
-                    <ul>
-                        {suggestions.map(fw => (
-                             <li key={fw.id}>
-                                <Link 
-                                    href={`/download/${fw.id}`} 
-                                    className="block p-4 hover:bg-secondary transition-colors"
-                                    onClick={() => setShowSuggestions(false)}
-                                >
-                                    <p className="font-medium text-sm text-foreground truncate">{fw.fileName}</p>
-                                    <p className="text-xs text-muted-foreground">{fw.version} - {fw.size}</p>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                     <div className="p-2 border-t bg-secondary">
-                        <button 
-                            onClick={handleSeeAll} 
-                            className="w-full text-center text-sm font-semibold text-primary hover:underline py-2"
-                        >
-                            See all results for &quot;{query}&quot;
-                        </button>
-                    </div>
-                </div>
-            )}
-             <div className="mt-4 flex justify-center">
-                <Button variant="outline" disabled>
+            </div>
+             <div className="hidden sm:block">
+                <Button variant="outline" disabled className="h-16">
                     <Usb className="mr-2 h-4 w-4" />
                     Detect Device
                 </Button>
