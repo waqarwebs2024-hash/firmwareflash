@@ -139,13 +139,10 @@ export default async function Home() {
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                                 {displayBrands.map((brand) => (
                                     <Link href={`/brand/${brand.id}`} key={brand.id} className="block group">
-                                        <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card flex items-center justify-center min-h-[80px]">
-                                            <CardContent className="p-4">
-                                                {brand.name.toLowerCase() === 'oppo' ? (
-                                                  <Image src="/oppo.png" alt="Oppo Logo" width={80} height={24} />
-                                                ) : (
-                                                  <p className="text-lg text-center font-semibold">{brand.name}</p>
-                                                )}
+                                        <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card flex items-center justify-center min-h-[90px]">
+                                            <CardContent className="p-4 text-center">
+                                                <p className="text-lg font-semibold">{brand.name}</p>
+                                                <p className="text-xs text-muted-foreground mt-1">Firmware Download</p>
                                             </CardContent>
                                         </Card>
                                     </Link>
