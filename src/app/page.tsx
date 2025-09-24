@@ -1,5 +1,5 @@
 
-import { getPopularBrands, getAdSettings, getAllBlogPosts, getBrands } from '@/lib/data';
+import { getBrands, getAdSettings, getAllBlogPosts } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Brand, BlogPost } from '@/lib/types';
@@ -39,18 +39,17 @@ const LatestPosts = ({ posts }: { posts: BlogPost[] }) => (
 
 
 export default async function Home() {
-    const popularBrands: Brand[] = await getPopularBrands();
     const allBrands: Brand[] = await getBrands();
     const recentPosts = (await getAllBlogPosts()).slice(0, 3);
+    
+    const topBrandNames = ['samsung', 'apple', 'xiaomi', 'redmi', 'oppo', 'vivo', 'realme', 'oneplus', 'google pixel', 'huawei', 'motorola', 'nokia'];
+    
+    const displayBrands = allBrands
+        .filter(brand => topBrandNames.includes(brand.name.toLowerCase()))
+        .sort((a,b) => topBrandNames.indexOf(a.name.toLowerCase()) - topBrandNames.indexOf(b.name.toLowerCase()));
 
-    let displayBrands = popularBrands;
-    let popularBrandsTitle = "Popular Brands";
-
-    if (displayBrands.length === 0 && allBrands.length > 0) {
-        displayBrands = allBrands.slice(0, 12);
-        popularBrandsTitle = "Browse Brands";
-    }
-
+    const popularBrandsTitle = "Popular Brands";
+    
     const faqItems = [
       {
         question: "What is stock firmware or a Stock ROM?",
