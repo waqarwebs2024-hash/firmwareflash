@@ -10,6 +10,26 @@ import slugify from 'slugify';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
+async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id: string, [key: string]: any } | null> {
+    if (!id) return null;
+    const dbs = [db, db_1, db_2];
+    
+    const promises = dbs.map(dbInstance => getDoc(doc(dbInstance, collectionName, id)));
+    
+    const results = await Promise.allSettled(promises);
+
+    for (const result of results) {
+        if (result.status === 'fulfilled') {
+            const docSnap = result.value;
+            if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+            }
+        }
+    }
+    
+    return null;
+}
+
 async function getCollectionFromAllDBs<T extends { id: string }>(collectionName: string, q?: any): Promise<T[]> {
     const dbs = [db, db_1, db_2];
     const promises = dbs.map(dbInstance => {
@@ -55,42 +75,15 @@ export async function getFirmwareBySeries(seriesId: string): Promise<Firmware[]>
 }
 
 export async function getFirmwareById(id: string): Promise<Firmware | null> {
-    if (!id) return null;
-    const dbs = [db, db_1, db_2];
-    for (const dbInstance of dbs) {
-        const docRef = doc(dbInstance, 'firmware', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() } as Firmware;
-        }
-    }
-    return null;
+    return await getDocFromAnyDB('firmware', id) as Firmware | null;
 }
 
 export async function getBrandById(id: string): Promise<Brand | null> {
-    if (!id) return null;
-    const dbs = [db, db_1, db_2];
-    for (const dbInstance of dbs) {
-        const docRef = doc(dbInstance, 'brands', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() } as Brand;
-        }
-    }
-    return null;
+    return await getDocFromAnyDB('brands', id) as Brand | null;
 }
 
 export async function getSeriesById(id: string): Promise<Series | null> {
-    if (!id) return null;
-    const dbs = [db, db_1, db_2];
-    for (const dbInstance of dbs) {
-        const docRef = doc(dbInstance, 'series', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() } as Series;
-        }
-    }
-    return null;
+    return await getDocFromAnyDB('series', id) as Series | null;
 }
 
 // Helper function for Firestore prefix search
@@ -334,13 +327,7 @@ export async function getAllTools(): Promise<Tool[]> {
 }
 
 export async function getToolBySlug(slug: string): Promise<Tool | null> {
-    if (!slug) return null;
-    const toolDocRef = doc(db, 'tools', slug);
-    const toolDoc = await getDoc(toolDocRef);
-    if (toolDoc.exists()) {
-        return { id: toolDoc.id, ...toolDoc.data() } as Tool;
-    }
-    return null;
+    return await getDocFromAnyDB('tools', slug) as Tool | null;
 }
 
 export async function getRelatedFirmware(brandId: string, currentSeriesId: string): Promise<Series[]> {
