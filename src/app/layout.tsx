@@ -91,7 +91,7 @@ export default async function RootLayout({
             )}
              {!isHomePage && (
               <div className="bg-background border-b py-3">
-                  <div className="container mx-auto px-4">
+                  <div className="container mx-auto px-4 flex justify-center">
                       <HeaderSearchForm />
                   </div>
               </div>
