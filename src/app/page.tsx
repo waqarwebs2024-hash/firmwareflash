@@ -142,7 +142,13 @@ export default async function Home() {
                                         <Card className="h-full transition-all group-hover:shadow-lg group-hover:-translate-y-1 bg-card flex items-center justify-center min-h-[80px]">
                                             <CardContent className="p-4">
                                                 {brand.name.toLowerCase() === 'oppo' ? (
-                                                  <Image src="/oppo.png" alt="Oppo Logo" width={80} height={24} className="h-6 w-auto" />
+                                                  <svg role="img" aria-label="Oppo Logo" className="h-6 w-auto" viewBox="0 0 250 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M42.3413 85C65.735 85 85 65.981 85 42.5C85 19.019 65.735 0 42.3413 0C19.265 0 0 19.019 0 42.5C0 65.981 19.265 85 42.3413 85Z" fill="#1D9045"></path>
+                                                    <path d="M42.5002 68.333C29.7437 68.333 19.1667 56.6853 19.1667 42.8876C19.1667 29.0899 29.7437 17.4423 42.5002 17.4423C55.2567 17.4423 65.8337 29.0899 65.8337 42.8876C65.8337 56.6853 55.2567 68.333 42.5002 68.333ZM42.5002 60.5255C50.9168 60.5255 57.9168 52.6105 57.9168 42.8876C57.9168 33.1647 50.9168 25.2498 42.5002 25.2498C34.0836 25.2498 27.0837 33.1647 27.0837 42.8876C27.0837 52.6105 34.0836 60.5255 42.5002 60.5255Z" fill="white"></path>
+                                                    <path d="M149.333 83.1668H132.833L125 61.3335H100L92.1667 83.1668H75.6667L106.083 1.8335H118.917L149.333 83.1668ZM121.5 48.2502H103.5L112.5 24.4168L121.5 48.2502Z" fill="#1D9045"></path>
+                                                    <path d="M182.439 83.1668H165V1.8335H182.439V17.0835H201.713V33.0002H182.439V51.0835H204.25V67.0002H182.439V83.1668Z" fill="#1D9045"></path>
+                                                    <path d="M249.167 83.1668H231.728V17.0835H212.454V1.8335H268.583V17.0835H249.167V83.1668Z" fill="#1D9045"></path>
+                                                  </svg>
                                                 ) : (
                                                   <p className="text-lg text-center font-semibold">{brand.name}</p>
                                                 )}
