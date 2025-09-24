@@ -3,7 +3,7 @@
 
 import { FormEvent, useTransition, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Loader2 } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { liveSearchAction } from '@/lib/actions';
 import { Firmware } from '@/lib/types';
@@ -91,7 +91,7 @@ export function HomeSearchForm() {
                     disabled={isPending || isSearching}
                 >
                     {isPending || isSearching ? (
-                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <div className="custom-spinner"></div>
                     ) : (
                         <Search className="h-5 w-5" />
                     )}

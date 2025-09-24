@@ -96,6 +96,21 @@
     animation-delay: 0.4s;
   }
 
+  .custom-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid hsl(var(--primary-foreground) / 0.2);
+    border-top-color: hsl(var(--primary-foreground));
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
   @keyframes loading-ellipsis {
     0% {
       opacity: 0.2;
