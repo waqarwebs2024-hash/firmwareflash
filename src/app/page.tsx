@@ -13,8 +13,8 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'firmwareflash.com - Free Official Stock ROM, Firmware & Flash File Download',
-  description: 'Find your free stock rom download, firmware, and flash file for Samsung, Huawei, Xiaomi, and more. Get official firmware and flash files with step-by-step installation guides to update or unbrick your mobile device.',
-  keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone', 'stock rom download'],
+  description: 'Find your free stock rom download, firmware, and flash file for Samsung, Huawei, Xiaomi, Oppo, Vivo, Infinix, Tecno and more. Get official firmware and flash files with step-by-step installation guides to update or unbrick your mobile device.',
+  keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'oppo firmware', 'vivo firmware', 'infinix firmware', 'tecno firmware', 'download firmware', 'flash tool', 'unbrick phone', 'stock rom download'],
 };
 
 const LatestPosts = ({ posts }: { posts: BlogPost[] }) => (
@@ -43,7 +43,7 @@ export default async function Home() {
     const allBrands: Brand[] = await getBrands();
     const recentPosts = (await getAllBlogPosts()).slice(0, 3);
     
-    const topBrandNames = ['samsung', 'apple', 'xiaomi', 'redmi', 'oppo', 'vivo', 'realme', 'oneplus', 'google pixel', 'huawei', 'motorola', 'nokia', 'tecno', 'infinix', 'sparx', 'lg', 'sony', 'itel'];
+    const topBrandNames = ['samsung', 'apple', 'xiaomi', 'redmi', 'oppo', 'vivo', 'realme', 'oneplus', 'google pixel', 'huawei', 'motorola', 'nokia', 'tecno', 'infinix', 'lg', 'sony'];
     
     const displayBrands = allBrands
         .filter(brand => topBrandNames.includes(brand.name.toLowerCase()))
