@@ -20,7 +20,6 @@ const navItems = [
 export function Header() {
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const isHomePage = pathname === '/';
 
   return (
     <header className="bg-background/95 backdrop-blur-sm sticky top-0 z-50 border-b">
@@ -31,12 +30,6 @@ export function Header() {
                 <span className="text-foreground">firmware</span><span className="text-primary">flash.com</span>
             </span>
         </Link>
-        
-        {!isHomePage && (
-           <div className="hidden md:flex flex-grow justify-center px-8">
-                <HeaderSearchForm />
-           </div>
-        )}
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 shrink-0">
@@ -88,11 +81,9 @@ export function Header() {
                     </SheetClose>
                   </div>
 
-                  {!isHomePage && (
-                    <div className="mt-6">
-                        <HeaderSearchForm />
-                    </div>
-                  )}
+                  <div className="mt-6">
+                      <HeaderSearchForm />
+                  </div>
 
                   <nav className="mt-8 flex flex-col gap-6">
                     {navItems.map((item) => {
