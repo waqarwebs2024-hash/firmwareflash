@@ -7,6 +7,7 @@ import { headers } from 'next/headers';
 import { getAdSettings, getHeaderScripts } from '@/lib/data';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     default: 'firmwareflash.com - Official Stock ROM & Firmware Downloads',
     template: '%s | firmwareflash.com'
   },
-  description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides for your mobile device.',
+  description: 'Download official stock firmware for Samsung, Huawei, Xiaomi, and more. Find free flash files and step-by-step installation guides to update or unbrick your mobile device.',
   keywords: ['firmware', 'stock rom', 'flash file', 'android', 'samsung firmware', 'xiaomi firmware', 'huawei firmware', 'download firmware', 'flash tool', 'unbrick phone'],
 };
 
@@ -90,6 +91,7 @@ export default async function RootLayout({
             <Footer />
           </div>
         )}
+        <Toaster />
       </body>
     </html>
   );

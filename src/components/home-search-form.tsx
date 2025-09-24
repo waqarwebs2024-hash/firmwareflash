@@ -10,9 +10,11 @@ import { Firmware } from '@/lib/types';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 export function HomeSearchForm() {
     const router = useRouter();
+    const { toast } = useToast();
     const [isPending, startTransition] = useTransition();
     const [isSearching, setIsSearching] = useState(false);
     const [query, setQuery] = useState('');
@@ -52,6 +54,45 @@ export function HomeSearchForm() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [searchContainerRef]);
 
+    const handleDetectDevice = async () => {
+        if (!('usb' in navigator)) {
+            toast({
+                variant: 'destructive',
+                title: 'WebUSB Not Supported',
+                description: 'Your browser does not support WebUSB. Please try a different browser like Chrome or Edge.',
+            });
+            return;
+        }
+
+        toast({
+            title: 'Device Detection',
+            description: 'Please connect your device and select it from the browser pop-up.',
+        });
+
+        try {
+            const device = await navigator.usb.requestDevice({ filters: [] }); // Request any device
+            console.log('Device selected:', device);
+            console.log('Manufacturer:', device.manufacturerName);
+            console.log('Product Name:', device.productName);
+
+            if(device.manufacturerName) {
+                setQuery(device.manufacturerName);
+            }
+            
+            toast({
+                title: 'Device Detected',
+                description: `Detected ${device.manufacturerName} ${device.productName}.`,
+            });
+        } catch (error) {
+            console.error('Error selecting device:', error);
+            toast({
+                variant: 'destructive',
+                title: 'Device Not Detected',
+                description: 'No device was selected or an error occurred.',
+            });
+        }
+    };
+
 
     const handleSearch = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -77,7 +118,7 @@ export function HomeSearchForm() {
     return (
         <div className="flex items-center gap-4">
             <div className="hidden sm:block">
-                <Button variant="outline" disabled className="h-16 w-16" size="icon">
+                <Button variant="outline" className="h-16 w-16" size="icon" onClick={handleDetectDevice} aria-label="Detect Device via USB">
                     <Usb className="h-6 w-6 text-primary" />
                 </Button>
             </div>
