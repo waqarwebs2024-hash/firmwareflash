@@ -4,7 +4,7 @@ import { getToolBySlug } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, ChevronsRight } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { Badge } from '@/components/ui/badge';
@@ -35,6 +35,13 @@ export default async function ToolPage({ params }: { params: { slug: string } })
   return (
     <>
       <div className="container mx-auto py-12 px-4 max-w-4xl">
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-4">
+            <Link href="/" className="hover:text-primary">Home</Link>
+            <ChevronsRight className="h-4 w-4" />
+            <Link href="/tools" className="hover:text-primary">Tools</Link>
+            <ChevronsRight className="h-4 w-4" />
+            <span className="font-medium text-foreground">{tool.name}</span>
+        </div>
         <Card>
           <CardHeader>
             <CardTitle className="text-3xl md:text-4xl">{tool.name} Download</CardTitle>

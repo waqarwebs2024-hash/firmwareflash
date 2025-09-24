@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
 import Image from 'next/image';
+import { ChevronsRight } from 'lucide-react';
 
 type Props = {
   params: { id: string }
@@ -34,6 +35,13 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
   return (
     <>
       <div className="container mx-auto py-12 px-4">
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-4">
+            <Link href="/" className="hover:text-primary">Home</Link>
+            <ChevronsRight className="h-4 w-4" />
+            <Link href="/brands" className="hover:text-primary">Brands</Link>
+            <ChevronsRight className="h-4 w-4" />
+            <span className="font-medium text-foreground">{brand.name}</span>
+        </div>
         <h1 className="text-3xl font-bold mb-8 text-center">
           Firmware for {brand.name} Devices
         </h1>

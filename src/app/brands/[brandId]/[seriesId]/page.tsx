@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Download } from 'lucide-react';
+import { Download, ChevronsRight } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { Badge } from '@/components/ui/badge';
@@ -52,6 +52,16 @@ export default async function SeriesPage({ params }: { params: { brandId: string
   return (
     <>
       <div className="container mx-auto py-12 px-4">
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-4">
+            <Link href="/" className="hover:text-primary">Home</Link>
+            <ChevronsRight className="h-4 w-4" />
+            <Link href="/brands" className="hover:text-primary">Brands</Link>
+            <ChevronsRight className="h-4 w-4" />
+            <Link href={`/brand/${brand.id}`} className="hover:text-primary">{brand.name}</Link>
+            <ChevronsRight className="h-4 w-4" />
+            <span className="font-medium text-foreground">{series.name}</span>
+        </div>
+
         <h1 className="text-3xl font-bold mb-2">{series.name} Firmware</h1>
         <p className="text-muted-foreground mb-8">
           Find and download the latest stock ROM for your {brand.name} {series.name}.
