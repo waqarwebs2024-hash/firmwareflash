@@ -130,17 +130,10 @@
     background-size: 200% 100%;
     animation: scroll-gradient 2.5s ease-in-out infinite;
   }
-  
-  .search-loading::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
-    animation: loading-bar-slide 1.5s linear infinite;
-    border-radius: 2px;
+
+  .search-loading {
+    animation: glowing-border 2s ease-in-out infinite;
+    border-radius: 9999px; /* Ensure glow matches the border radius */
   }
 
   @keyframes scroll-gradient {
@@ -152,12 +145,15 @@
     }
   }
   
-  @keyframes loading-bar-slide {
+  @keyframes glowing-border {
     0% {
-      transform: translateX(-100%);
+        box-shadow: 0 0 3px hsl(var(--primary)), 0 0 5px hsl(var(--primary)), 0 0 7px hsl(var(--primary));
+    }
+    50% {
+        box-shadow: 0 0 7px hsl(var(--primary)), 0 0 15px hsl(var(--primary)), 0 0 20px hsl(var(--primary));
     }
     100% {
-      transform: translateX(100%);
+        box-shadow: 0 0 3px hsl(var(--primary)), 0 0 5px hsl(var(--primary)), 0 0 7px hsl(var(--primary));
     }
   }
 }
