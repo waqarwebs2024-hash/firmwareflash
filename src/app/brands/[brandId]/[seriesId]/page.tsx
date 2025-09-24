@@ -60,9 +60,14 @@ export default async function SeriesPage({ params }: { params: { brandId: string
 
         <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2">{series.name} Firmware Download (Flash File)</h1>
-            <p className="text-muted-foreground">
-            Find and get the latest stock ROM download and flash file for your {brand.name} {series.name}.
-            </p>
+            <div className="text-muted-foreground space-y-2">
+              <p>
+                Find and get the latest stock ROM download and flash file for your {brand.name} {series.name}.
+              </p>
+              <p>
+                On this page, you can find the official link to download {brand.name} {series.name} Stock Firmware ROM (Flash File) on your computer. Firmware comes in a zip package containing Flash File, Flash Tool, USB Driver, and How-to Flash Manual.
+              </p>
+            </div>
         </div>
 
 
