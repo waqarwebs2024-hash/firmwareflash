@@ -111,7 +111,7 @@ export default async function Home() {
         <>
             <main>
               {/* Hero Section */}
-              <section className="bg-secondary py-28 text-center">
+              <section className="bg-secondary py-20 text-center">
                 <div className="container mx-auto px-4">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
                     Download <span className="text-primary">Free</span> Official Stock Firmware (ROM)
