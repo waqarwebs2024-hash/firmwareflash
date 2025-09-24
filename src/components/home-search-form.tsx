@@ -80,22 +80,35 @@ export function HomeSearchForm() {
             <form 
                 onSubmit={handleSearch} 
                 className={cn(
-                    "relative flex items-center w-full",
+                    "relative",
                     "search-form-container",
-                    hasQuery && 'search-active'
+                    (hasQuery || showSuggestions) && 'search-active',
+                    isLoading && 'search-loading'
                 )}
             >
-                 <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
-                 <Input
-                    type="text"
-                    name="search"
-                    placeholder="Search for firmware, brand, or model..."
-                    className="h-14 pl-12 pr-4 text-base rounded-lg bg-background border-2 border-transparent focus:border-primary/50 focus-visible:ring-0 transition-all"
-                    disabled={isLoading}
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
-                />
+                <div className="relative flex items-center w-full">
+                    <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        name="search"
+                        placeholder="Search for firmware, brand, or model..."
+                        className="search-input h-16 pl-12 pr-28 text-base rounded-full bg-background border-2 border-border focus:border-primary/30 focus:bg-background"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onFocus={() => { if(suggestions.length > 0) setShowSuggestions(true); }}
+                    />
+                    <div className="absolute inset-y-0 right-2 flex items-center">
+                        <Button type="submit" className="rounded-full h-12 w-24" disabled={isLoading}>
+                            Search
+                        </Button>
+                    </div>
+                </div>
+                 <div className="loading-bar absolute bottom-0 left-0 w-full h-0.5 bg-primary/20 rounded-b-full overflow-hidden opacity-0 transition-opacity">
+                    <div className="h-full w-full bg-primary" style={{
+                         background: 'linear-gradient(90deg, transparent, hsl(var(--primary)), transparent)',
+                         backgroundSize: '200% 100%'
+                    }} />
+                </div>
             </form>
             
             {showSuggestions && suggestions.length > 0 && (
@@ -119,7 +132,7 @@ export function HomeSearchForm() {
                             onClick={handleSeeAll} 
                             className="w-full text-center text-sm font-semibold text-primary hover:underline py-2"
                         >
-                            See all results
+                            See all results for &quot;{query}&quot;
                         </button>
                     </div>
                 </div>

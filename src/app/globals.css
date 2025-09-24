@@ -97,35 +97,21 @@
     animation-delay: 0.4s;
   }
 
-  .search-form-container {
-    position: relative;
-    border-radius: 0.75rem; /* rounded-xl */
-    box-shadow: 0 4px 12px hsl(var(--primary) / 0.1);
-    transition: box-shadow 0.3s ease;
+  .search-form-container.search-active .search-input {
+      box-shadow: 0 8px 32px hsl(var(--primary) / 0.15);
+      border-color: hsl(var(--primary) / 0.3);
   }
 
-  .search-form-container:focus-within {
-    box-shadow: 0 8px 32px hsl(var(--primary) / 0.25);
+  .search-form-container .search-input {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .search-form-container.search-loading .loading-bar {
+      opacity: 1;
+      animation: glowing-border-anim 3s linear infinite;
   }
 
-  .search-form-container.search-active::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 0.85rem; /* slightly larger than the container */
-    padding: 2px;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
-    background-size: 200% 100%;
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude; 
-    animation: glowing-border 3s linear infinite;
-    z-index: -1;
-  }
-
-  @keyframes glowing-border {
+  @keyframes glowing-border-anim {
     from {
       background-position: 200% 0;
     }
@@ -149,7 +135,7 @@
   .animated-button {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(110deg, hsl(var(--primary)) 40%, hsl(var(--primary) / 0.8) 55%, hsl(var(--primary)) 70%);
+    background: linear-gradient(110deg, hsl(var(--primary)) 40%, hsl(var(--primary) / 0.8) 55%, hsl(var(--primary)));
     background-size: 200% 100%;
     animation: scroll-gradient 2.5s ease-in-out infinite;
   }
