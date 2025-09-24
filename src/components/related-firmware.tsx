@@ -1,3 +1,4 @@
+
 import { getRelatedFirmware, getBrandById } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,11 +27,14 @@ export async function RelatedFirmware({ brandId, seriesId, ...props }: RelatedFi
           <Link href={`/brands/${brand.id}/${series.id}`} key={series.id} className="block">
              <Card className="hover:shadow-md transition-shadow">
                 <CardContent className="p-4 flex items-center justify-between">
-                    <div>
-                        <p className="font-semibold text-foreground">{series.name} Firmware</p>
-                        <span className="text-sm text-primary hover:underline">View Firmware &rarr;</span>
+                    <div className="flex items-center gap-4">
+                        <Smartphone className="h-10 w-10 text-muted-foreground" />
+                        <div>
+                            <p className="font-semibold text-foreground">{series.name} Firmware</p>
+                            <span className="text-sm text-primary hover:underline">View Firmware &rarr;</span>
+                        </div>
                     </div>
-                    <Smartphone className="h-6 w-6 text-muted-foreground" />
+                    <Button variant="outline" size="sm">View</Button>
                 </CardContent>
             </Card>
           </Link>
