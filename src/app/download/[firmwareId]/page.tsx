@@ -1,20 +1,20 @@
 
 
-import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, saveFlashingInstructionsToDB, getOrCreateTool, getAdSettings } from '@/lib/data';
+import { getFirmwareById, getBrandById, getSeriesById, getFlashingInstructionsFromDB, getOrCreateTool, getAdSettings } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronsRight, Package, Info, ListChecks, HelpCircle } from 'lucide-react';
+import { Download, HardDrive, Calendar, Users, AlertTriangle, FileText, ChevronsRight, Package, Info, ListChecks, HelpCircle, Cpu, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
-import { getFlashingInstructions, FlashingInstructionsOutput } from '@/ai/flows/get-flashing-instructions-flow';
+import { FlashingInstructions, Firmware } from '@/lib/types';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import { FaqSection } from '@/components/faq-section';
 import { RelatedFirmware } from '@/components/related-firmware';
 import { HowTo, WithContext } from 'schema-dts';
 import { Badge } from '@/components/ui/badge';
-import { handleDownloadAction } from '@/lib/actions';
+import { handleDownloadAction, getAndSaveCpuTypeAction } from '@/lib/actions';
 
 
 type Props = {
@@ -43,10 +43,7 @@ export async function generateMetadata(
   }
 }
 
-async function FlashingInstructions({ brandId, seriesName, instructionsData }: { brandId: string, seriesName: string, instructionsData: FlashingInstructionsOutput | null }) {
-  const brand = await getBrandById(brandId);
-  if (!brand) return null;
-  
+async function FlashingInstructions({ instructionsData, seriesName }: { instructionsData: FlashingInstructions | null, seriesName: string }) {  
   if (!instructionsData) {
     return (
         <section className="mb-8">
@@ -54,7 +51,7 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
                 <FileText className="mr-3 h-6 w-6" />
                 How to Flash {seriesName} Firmware (Step-by-Step)
             </h2>
-            <p className="text-muted-foreground">Could not load flashing instructions at this time.</p>
+            <p className="text-muted-foreground">Could not load flashing instructions for this device's CPU type.</p>
         </section>
     )
   }
@@ -128,48 +125,28 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
   )
 }
 
-async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brandId: string, brandName: string, seriesName: string }) {
-    
-    // List of brand IDs that predominantly use a specific flashing method.
-    const MEDIATEK_BRAND_IDS = ['tecno', 'infinix', 'itel', 'blu', 'lava', 'micromax', 'gionee', 'qmobile'];
-    const SPD_BRAND_IDS = ['itel', 'symphony', 'karbonn', 'spice'];
-    const QUALCOMM_BRAND_IDS = ['oneplus', 'xiaomi', 'redmi', 'poco', 'iqoo', 'black-shark', 'asus'];
+async function FlashingInstructionsFetcher({ firmware }: { firmware: Firmware }) {
+    let cpuType = firmware.cpuType;
 
-    let effectiveBrandIdForDB = brandId.toLowerCase();
-    
-    if (MEDIATEK_BRAND_IDS.includes(effectiveBrandIdForDB)) {
-        effectiveBrandIdForDB = 'mediatek';
-    } else if (SPD_BRAND_IDS.includes(effectiveBrandIdForDB)) {
-        effectiveBrandIdForDB = 'spd';
-    } else if (QUALCOMM_BRAND_IDS.includes(effectiveBrandIdForDB)) {
-        effectiveBrandIdForDB = 'qualcomm';
-    } else if (effectiveBrandIdForDB === 'sony') {
-        effectiveBrandIdForDB = 'sony-xperia';
-    }
-
-    let instructionsData = await getFlashingInstructionsFromDB(effectiveBrandIdForDB);
-    
-    // If instructions are not found in DB (and it's not a hardcoded case we already checked), generate them.
-    if (!instructionsData) {
+    // If cpuType is not in the document, detect, save, and get it.
+    if (!cpuType) {
         try {
-            const generatedInstructions = await getFlashingInstructions({ brandName: brandName });
-            if (generatedInstructions?.tool) {
-                await getOrCreateTool(generatedInstructions.tool.slug, generatedInstructions.tool.name);
-            }
-            if (generatedInstructions) {
-                await saveFlashingInstructionsToDB(brandId, generatedInstructions);
-            }
-            instructionsData = generatedInstructions;
+            cpuType = await getAndSaveCpuTypeAction(firmware.id, firmware.fileName);
         } catch (error) {
-            console.error("Failed to generate or save flashing instructions:", error);
-            instructionsData = null;
+            console.error("Failed to get or save CPU type:", error);
+            // Render the component with null data to show an error message
+            return <FlashingInstructions instructionsData={null} seriesName={firmware.fileName} />;
         }
-    } else if (instructionsData?.tool) {
-        // If we loaded hardcoded instructions, ensure the tool exists in DB.
+    }
+    
+    let instructionsData = await getFlashingInstructionsFromDB(cpuType as string);
+    
+    // Ensure tool exists if instructions are found
+    if (instructionsData?.tool) {
         await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
     }
     
-    return <FlashingInstructions brandId={effectiveBrandIdForDB} seriesName={seriesName} instructionsData={instructionsData} />
+    return <FlashingInstructions instructionsData={instructionsData} seriesName={firmware.fileName} />
 }
 
 
@@ -185,7 +162,7 @@ export default async function DownloadPage({ params }: Props) {
   const brand = await getBrandById(series.brandId);
   if (!brand) notFound();
 
-  const { fileName, version, androidVersion, size, uploadDate, downloadCount } = firmware;
+  const { fileName, version, androidVersion, size, uploadDate, downloadCount, cpuType } = firmware;
 
   const date = uploadDate?.toDate ? uploadDate.toDate() : new Date();
 
@@ -246,7 +223,7 @@ export default async function DownloadPage({ params }: Props) {
         </Card>
 
 
-        <FlashingInstructionsFetcher brandId={brand.id} brandName={brand.name} seriesName={series.name} />
+        <FlashingInstructionsFetcher firmware={firmware} />
 
         {inContentAd?.enabled && inContentAd.adCode && (
           <div className="my-8 flex justify-center">
@@ -263,6 +240,13 @@ export default async function DownloadPage({ params }: Props) {
                       <div>
                           <h3 className="font-semibold text-foreground">Flash File Name</h3>
                           <p className="break-all">{fileName}</p>
+                      </div>
+                  </div>
+                   <div className="flex items-start">
+                      <Cpu className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                      <div>
+                          <h3 className="font-semibold text-foreground">CPU Type</h3>
+                          <p className="capitalize">{cpuType || 'Not yet detected'}</p>
                       </div>
                   </div>
                   <div className="flex items-start">

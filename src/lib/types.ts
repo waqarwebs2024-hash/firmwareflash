@@ -25,6 +25,7 @@ export interface Firmware {
     downloadUrl: string;
     uploadDate: any;
     downloadCount: number;
+    cpuType?: string;
 }
 
 export interface Announcement {
@@ -119,3 +120,14 @@ export interface BlogPost extends BlogPostOutput {
     slug: string;
     createdAt: any;
 }
+
+export const CpuTypeInputSchema = z.object({
+  fileName: z.string().describe('The full name of the firmware file, e.g., "Samsung Galaxy S22 Ultra 5G SM-S908U1 Firmware"'),
+});
+export type CpuTypeInput = z.infer<typeof CpuTypeInputSchema>;
+
+export const CpuTypeOutputSchema = z.object({
+  cpuType: z.enum(["qualcomm", "mediatek", "exynos", "spd", "kirin", "other"]).describe("The detected CPU type. Use 'other' if it cannot be determined."),
+});
+export type CpuTypeOutput = z.infer<typeof CpuTypeOutputSchema>;
+

@@ -4,3 +4,4 @@ import './flows/get-flashing-instructions-flow';
 import './flows/seo-report-flow';
 import './flows/blog-post-flow';
 import './flows/trending-topics-flow';
+import './flows/get-cpu-type-flow';

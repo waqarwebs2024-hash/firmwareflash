@@ -1,12 +1,14 @@
 
+
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount, saveCpuTypeForFirmware, seedAllInstructionsToDb } from './data';
 import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware, BlogPost, BlogPostOutput, Tool } from './types';
 import { login, logout } from './auth';
 import { generateBlogPost } from '@/ai/flows/blog-post-flow';
 import { generateTrendingTopics } from '@/ai/flows/trending-topics-flow';
+import { getCpuType } from '@/ai/flows/get-cpu-type-flow';
 import { redirect } from 'next/navigation';
 
 export async function loginAction(formData: FormData) {
@@ -41,7 +43,9 @@ export async function addSeriesAction(name: string, brandId: string) {
 export async function seedLegacyDataAction() {
   try {
     const result = await seedFromLegacyFiles();
-    return { success: true, message: `Seeding complete! ${result.brandsAdded} brands, ${result.seriesAdded} series, and ${result.firmwareAdded} firmware files were added.` };
+    // Also seed the instructions to RTDB
+    await seedAllInstructionsToDb();
+    return { success: true, message: `Seeding complete! ${result.brandsAdded} brands, ${result.seriesAdded} series, and ${result.firmwareAdded} firmware files were added. Flashing instructions were also seeded.` };
   } catch (error: any) {
     return { success: false, message: error.message || 'An unknown error occurred.' };
   }
@@ -147,3 +151,11 @@ export async function handleDownloadAction(formData: FormData) {
     // Immediately redirect the user to the download link.
     redirect(downloadUrl);
 }
+
+export async function getAndSaveCpuTypeAction(firmwareId: string, fileName: string): Promise<string> {
+    const result = await getCpuType({ fileName });
+    const cpuType = result.cpuType;
+    await saveCpuTypeForFirmware(firmwareId, cpuType);
+    return cpuType;
+}
+

@@ -12,265 +12,6 @@ import { format } from 'date-fns';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
-// #region Hardcoded Flashing Instructions
-
-const mediatekInstructions: FlashingInstructions = {
-    introduction: "Use the SmartPhone (SP) Flash Tool to flash the stock firmware or flash file on your MediaTek device. This guide will walk you through the process of using the SP Flash Tool. Ensure you have the correct stock ROM download for your device.",
-    prerequisites: [
-        "A Windows PC.",
-        "The correct stock firmware (flash file) for your device model.",
-        "MediaTek USB VCOM drivers installed on your PC.",
-        "The latest version of the SP Flash Tool.",
-        "A USB cable to connect your device to the PC.",
-        "A backup of your important data."
-    ],
-    instructions: [
-        {
-            title: "Install Drivers and Extract Files",
-            description: "Install the MediaTek USB VCOM drivers on your computer. Extract the downloaded SP Flash Tool and the firmware zip file to a convenient location on your PC."
-        },
-        {
-            title: "Launch SP Flash Tool",
-            description: "Navigate to the extracted SP Flash Tool folder and run 'flash_tool.exe' as an administrator."
-        },
-        {
-            title: "Load Scatter File",
-            description: "In the SP Flash Tool, click on the 'Scatter-loading File' button. Navigate to the extracted firmware folder and select the 'MTxxxx_Android_scatter.txt' file (xxxx will be your device's chipset number)."
-        },
-        {
-            title: "Select Download Mode",
-            description: "Ensure the dropdown menu is set to 'Download Only'. This mode is safest and will not erase your device's NVRAM or IMEI data. Do NOT use 'Format All + Download' unless you are an expert and have a backup of your NVRAM."
-        },
-        {
-            title: "Start the Flashing Process",
-            description: "Click the 'Download' button with the green arrow to begin the flashing process. The tool will now be ready to detect your device."
-        },
-        {
-            title: "Connect Your Device",
-            description: "Power off your MediaTek device completely. While holding the Volume Down or Volume Up key (this varies by device), connect it to the computer via the USB cable. The tool should detect your device and start the flashing process automatically."
-        },
-        {
-            title: "Wait for Completion",
-            description: "The flashing process will take a few minutes. You will see a progress bar at the bottom. Once it's complete, a green tick with a 'Download OK' message will appear. You can now safely disconnect your device and power it on."
-        }
-    ],
-    warning: "Flashing firmware can be risky. Proceed with caution. firmwareflash.com is not responsible for any damage to your device. Ensure you are using the correct firmware for your device model to avoid bricking it.",
-    tool: {
-        name: "SP Flash Tool",
-        slug: "sp-flash-tool"
-    }
-};
-
-const spdInstructions: FlashingInstructions = {
-    introduction: "To flash firmware on a Spreadtrum (SPD) chipset device, you need to use the SPD Upgrade Tool. This tool allows you to flash '.pac' or '.p5c' firmware files. Make sure you have the correct stock ROM download for your device.",
-    prerequisites: [
-        "A Windows PC.",
-        "The correct '.pac' stock firmware for your device.",
-        "SPD SCI USB drivers installed on your PC.",
-        "The latest version of the SPD Upgrade Tool or SPD Research Tool.",
-        "A functioning USB cable."
-    ],
-    instructions: [
-        {
-            title: "Install Drivers and Extract Files",
-            description: "First, install the SPD SCI USB drivers on your computer. Then, extract the SPD Upgrade Tool and the firmware '.pac' file onto your PC."
-        },
-        {
-            title: "Launch SPD Upgrade Tool",
-            description: "Open the extracted SPD Upgrade Tool folder and run 'UpgradeDownload.exe' as an administrator."
-        },
-        {
-            title: "Load PAC Firmware File",
-            description: "Click on the first gear icon ('Load Packet') and select the '.pac' firmware file you extracted earlier. It may take a few moments for the tool to load the file."
-        },
-        {
-            title: "Start Download Mode",
-            description: "Click on the third icon, which looks like a play button ('Start Downloading'), to put the tool in flashing mode."
-        },
-        {
-            title: "Connect Your Device",
-            description: "Turn off your device completely. Press and hold the Volume Down key, and while holding it, connect your device to the PC using the USB cable. The tool will automatically detect the device and start flashing."
-        },
-        {
-            title: "Wait for Completion",
-            description: "The flashing process will begin, and you can monitor the progress bar. Once finished, you will see a green 'Passed' message. You can now disconnect your device and turn it on."
-        }
-    ],
-    warning: "Using the wrong firmware can brick your device. Double-check that the firmware file is meant for your exact model. firmwareflash.com is not liable for any damages.",
-    tool: {
-        name: "SPD Upgrade Tool",
-        slug: "spd-upgrade-tool"
-    }
-};
-
-const qualcommInstructions: FlashingInstructions = {
-    introduction: "For Qualcomm chipset devices, the Qualcomm Flash Image Loader (QFIL) tool is used to flash stock firmware. This is essential for unbricking devices or performing a clean software install. You will need the specific stock ROM download for your model.",
-    prerequisites: [
-        "A Windows PC.",
-        "The correct MBN/ELF format stock firmware for your device.",
-        "Qualcomm HS-USB QDLoader 9008 drivers installed.",
-        "The latest version of QPST, which includes the QFIL tool.",
-        "A high-quality USB cable."
-    ],
-    instructions: [
-        {
-            title: "Install Drivers and QPST",
-            description: "Install the Qualcomm HS-USB QDLoader 9008 drivers and the QPST suite on your computer. Extract the firmware files to a folder on your PC."
-        },
-        {
-            title: "Boot Device into EDL Mode",
-            description: "Power off your device. You need to boot it into Emergency Download (EDL) mode. This can be done by holding specific key combinations (e.g., Volume Up + Volume Down) while connecting the USB cable, or by using the ADB command 'adb reboot edl'. Some devices may require test points on the motherboard for EDL mode."
-        },
-        {
-            title: "Launch and Configure QFIL",
-            description: "Open the QFIL tool. It should automatically detect your device as 'Qualcomm HS-USB QDLoader 9008' on a COM port. If not, re-check your drivers and EDL mode."
-        },
-        {
-            title: "Load Firmware Files",
-            description: "In QFIL, select 'Flat Build'. Click 'Browse' and select the 'prog_emmc_firehose_...mbn' file from your firmware folder. Then, click 'Load XML' and select the 'rawprogram_unsparse.xml' and subsequently the 'patch0.xml' file."
-        },
-        {
-            title: "Start Flashing",
-            description: "Once all files are loaded, click the 'Download' button to start the flashing process. Do not disconnect the device during this time."
-        },
-        {
-            title: "Wait for Completion",
-            description: "The process will take several minutes. Once completed, you will see a 'Download Succeed' or 'Finish Download' message. Your device may reboot automatically, or you may need to power it on manually."
-        }
-    ],
-    warning: "EDL mode flashing is an advanced procedure. Incorrect handling or using the wrong firmware can permanently damage your device. Proceed with extreme caution.",
-    tool: {
-        name: "QFIL",
-        slug: "qfil-tool"
-    }
-};
-
-const lgInstructions: FlashingInstructions = {
-    introduction: "To flash stock firmware onto an LG device, you will use the LG Flash Tool or the newer LGUP tool with the UPPERCUT extension. This process uses '.kdz' format firmware files to restore your phone to its original state. A stock ROM download is required.",
-    prerequisites: [
-        "A Windows PC.",
-        "The correct '.kdz' firmware file for your LG model.",
-        "LG USB Drivers installed on your computer.",
-        "The LG Flash Tool (for older devices) or LGUP tool with UPPERCUT (for newer devices).",
-        "A compatible USB cable."
-    ],
-    instructions: [
-        {
-            title: "Install Drivers and Tools",
-            description: "Install the latest LG USB Drivers on your PC. Download and install the LGUP tool and the UPPERCUT tool."
-        },
-        {
-            title: "Boot into Download Mode",
-            description: "Power off your LG device. Hold the Volume Up key and connect the device to your PC via USB cable. The screen should show 'Download Mode'."
-        },
-        {
-            title: "Launch UPPERCUT",
-            description: "Do not open LGUP directly. Instead, run the 'UPPERCUT.exe' file. This will launch the LGUP tool with model detection enabled."
-        },
-        {
-            title: "Load KDZ Firmware",
-            description: "The LGUP tool should recognize your device. In the 'File Path' section, click on the '...' button and select the '.kdz' firmware file you downloaded."
-        },
-        {
-            title: "Select Flashing Process",
-            description: "Ensure the 'UPGRADE' option is selected. This will update your device without erasing your data. If you need a clean install, you can select 'REFURBISH', which will wipe all data."
-        },
-        {
-            title: "Start Flashing",
-            description: "Click the 'Start' button. The flashing process will begin, and you can monitor the progress in the tool. The device will reboot automatically once the process is complete."
-        }
-    ],
-    warning: "Ensure the KDZ file is for your specific model and carrier (if applicable). Flashing incorrect firmware can lead to a bricked device or loss of network connectivity.",
-    tool: {
-        name: "LGUP",
-        slug: "lgup-tool"
-    }
-};
-
-const sonyInstructions: FlashingInstructions = {
-    introduction: "Sony devices are flashed using the Sony Mobile Flasher, commonly known as Flashtool. This tool uses '.ftf' (Flash Tool Firmware) files. You will need to find the correct stock ROM download in FTF format for your Xperia device.",
-    prerequisites: [
-        "A Windows PC with Java Development Kit (JDK) installed.",
-        "The correct '.ftf' firmware file for your Sony Xperia model.",
-        "Flashtool drivers installed (found in the 'drivers' folder of the Flashtool installation).",
-        "The latest version of Sony Mobile Flasher (Flashtool).",
-        "A USB cable."
-    ],
-    instructions: [
-        {
-            title: "Install Flashtool and Drivers",
-            description: "Install Flashtool on your PC. After installation, navigate to the Flashtool installation directory (e.g., C:/Flashtool/drivers) and run 'Flashtool-drivers.exe'. Make sure to select 'Flashmode drivers' and 'Fastboot drivers' from the list."
-        },
-        {
-            title: "Place Firmware File",
-            description: "Move the downloaded '.ftf' firmware file into the 'firmwares' folder inside your Flashtool installation directory (e.g., C:/Flashtool/firmwares)."
-        },
-        {
-            title: "Launch Flashtool",
-            description: "Run Flashtool as an administrator. Wait for it to finish syncing devices from its repository."
-        },
-        {
-            title: "Prepare to Flash",
-            description: "Click on the lightning bolt icon (Thunder). A small window will pop up. Select 'Flashmode' and click 'OK'. The Firmware Selector will open. On the left, you should see your '.ftf' file. Select it."
-        },
-        {
-            title: "Configure Wiping and Start",
-            description: "In the 'Wipe' section on the right, make sure to check 'APPS_LOG' and 'USERDATA' for a clean installation. Click the 'Flash' button. A popup will now instruct you to connect your device."
-        },
-        {
-            title: "Connect Your Device in Flashmode",
-            description: "Power off your Sony device. Press and hold the Volume Down key, and while holding it, connect the device to your PC with the USB cable. The LED on your phone should turn green, and Flashtool will start the flashing process."
-        },
-        {
-            title: "Wait for Completion",
-            description: "The process will take some time. Once it's finished, the log will say 'Flashing finished'. You can now disconnect and reboot your device."
-        }
-    ],
-    warning: "Installing Flashtool drivers can sometimes be tricky. You may need to disable driver signature enforcement in Windows. Always use firmware for your exact model number.",
-    tool: {
-        name: "Sony Flashtool",
-        slug: "sony-flashtool"
-    }
-};
-
-const huaweiInstructions: FlashingInstructions = {
-    introduction: "Huawei devices can be flashed using several methods, but the most common is the 'dload' method using an SD card or USB-OTG. This method uses 'UPDATE.APP' files found within the stock ROM download.",
-    prerequisites: [
-        "A formatted SD card or USB-OTG drive (at least 8GB).",
-        "The correct stock firmware for your Huawei/Honor device, extracted to get the 'UPDATE.APP' file.",
-        "Your device should have at least 30% battery."
-    ],
-    instructions: [
-        {
-            title: "Prepare the SD Card/USB-OTG",
-            description: "On your SD card or USB-OTG drive, create a new folder named 'dload'."
-        },
-        {
-            title: "Copy Firmware File",
-            description: "Extract the downloaded firmware zip file. You will find a large 'UPDATE.APP' file. Copy this 'UPDATE.APP' file into the 'dload' folder on your SD card or USB-OTG."
-        },
-        {
-            title: "Initiate Update (Method 1: Dialer)",
-            description: "Insert the SD card into your phone (or connect the USB-OTG). Open the dialer app and enter the code *#*#2846579#*#*. This will open a hidden project menu. Go to 'Software Upgrade' -> 'SDCard Upgrade' and confirm. The device will reboot and start the installation."
-        },
-        {
-            title: "Initiate Update (Method 2: Force Upgrade)",
-            description: "If the dialer method doesn't work, power off your device. Insert the SD card or connect the USB-OTG. Now, press and hold the Volume Up, Volume Down, and Power buttons all at the same time. The device will vibrate and boot into the software installation mode automatically."
-        },
-        {
-            title: "Wait for Completion",
-            description: "The installation process will start. It will take several minutes. Do not interrupt the process. The device will reboot automatically once the installation is complete."
-        }
-    ],
-    warning: "This method will wipe all your data. Make sure you have a backup. Using the wrong 'UPDATE.APP' file for a different model can cause your device to fail to boot.",
-    tool: {
-        name: "Huawei dload",
-        slug: "huawei-dload"
-    }
-};
-
-// #endregion
-
 async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id: string, [key: string]: any } | null> {
     if (!id) return null;
     const dbs = [db, db_1, db_2];
@@ -291,6 +32,24 @@ async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id
     return null;
 }
 
+async function findDocInAnyDB(collectionName: string, id: string): Promise<{ db: Firestore, ref: any } | null> {
+    if (!id) return null;
+    const dbs = [db, db_1, db_2];
+    
+    for (const dbInstance of dbs) {
+        try {
+            const docRef = doc(dbInstance, collectionName, id);
+            const snap = await getDoc(docRef);
+            if (snap.exists()) {
+                return { db: dbInstance, ref: docRef };
+            }
+        } catch (e) {
+            continue;
+        }
+    }
+    return null;
+}
+
 async function getCollectionFromAllDBs<T extends { id: string }>(collectionName: string, q?: any): Promise<T[]> {
     const dbs = [db, db_1, db_2];
     const promises = dbs.map(dbInstance => {
@@ -299,7 +58,6 @@ async function getCollectionFromAllDBs<T extends { id: string }>(collectionName:
         return getDocs(finalQuery);
     });
     
-    // Don't wait for all to complete if not needed, but for collections we often need to merge.
     const snapshots = await Promise.allSettled(promises);
     const results: T[] = [];
     const seenIds = new Set<string>();
@@ -492,17 +250,10 @@ export async function updateAdSettings(settings: AdSettings): Promise<void> {
   await setDoc(settingsDocRef, settings, { merge: true });
 }
 
-export async function getFlashingInstructionsFromDB(brandId: string): Promise<FlashingInstructions | null> {
-    if (brandId === 'mediatek') return mediatekInstructions;
-    if (brandId === 'spd') return spdInstructions;
-    if (brandId === 'qualcomm') return qualcommInstructions;
-    if (brandId === 'lg') return lgInstructions;
-    if (brandId === 'sony-xperia') return sonyInstructions;
-    if (brandId === 'huawei' || brandId === 'honor') return huaweiInstructions;
-
+export async function getFlashingInstructionsFromDB(cpuType: string): Promise<FlashingInstructions | null> {
     const dbRef = ref(rtdb);
     try {
-        const snapshot = await get(child(dbRef, `flashingInstructions/${brandId}`));
+        const snapshot = await get(child(dbRef, `flashingInstructions/${cpuType}`));
         if (snapshot.exists()) {
             return snapshot.val() as FlashingInstructions;
         }
@@ -513,8 +264,8 @@ export async function getFlashingInstructionsFromDB(brandId: string): Promise<Fl
     }
 }
 
-export async function saveFlashingInstructionsToDB(brandId: string, instructions: FlashingInstructions): Promise<void> {
-    const instructionsRef = ref(rtdb, `flashingInstructions/${brandId}`);
+export async function saveFlashingInstructionsToDB(cpuType: string, instructions: FlashingInstructions): Promise<void> {
+    const instructionsRef = ref(rtdb, `flashingInstructions/${cpuType}`);
     await set(instructionsRef, instructions);
 }
 
@@ -643,24 +394,13 @@ export async function saveContactMessage(data: { name: string; email: string; me
 }
 
 export async function incrementDownloadCount(firmwareId: string): Promise<void> {
-    const dbs = [db, db_1, db_2];
-    let firmwareDocRef: any;
-
-    // Find which DB the firmware is in
-    for (const dbInst of dbs) {
-        const tempRef = doc(dbInst, 'firmware', firmwareId);
-        const tempSnap = await getDoc(tempRef);
-        if (tempSnap.exists()) {
-            firmwareDocRef = tempRef;
-            break;
-        }
-    }
-
-    if (!firmwareDocRef) {
+    const firmwareLocation = await findDocInAnyDB('firmware', firmwareId);
+    if (!firmwareLocation) {
         console.error(`Firmware with id ${firmwareId} not found in any database.`);
         return;
     }
-
+    
+    const { ref: firmwareDocRef } = firmwareLocation;
     const firmwareDoc = await getDoc(firmwareDocRef);
     if (firmwareDoc.exists()) {
         const currentCount = firmwareDoc.data().downloadCount || 0;
@@ -720,6 +460,79 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     return null;
 }
 
+export async function saveCpuTypeForFirmware(firmwareId: string, cpuType: string): Promise<void> {
+    const firmwareLocation = await findDocInAnyDB('firmware', firmwareId);
+    if (firmwareLocation) {
+        await updateDoc(firmwareLocation.ref, { cpuType: cpuType });
+    } else {
+        console.error(`Could not find firmware ${firmwareId} to save CPU type.`);
+    }
+}
 
+export async function seedAllInstructionsToDb() {
+    const instructions: Record<string, FlashingInstructions> = {
+        mediatek: {
+            introduction: "Use the SmartPhone (SP) Flash Tool to flash the stock firmware or flash file on your MediaTek device. This guide will walk you through the process of using the SP Flash Tool. Ensure you have the correct stock ROM download for your device.",
+            prerequisites: ["A Windows PC.", "The correct stock firmware (flash file) for your device model.", "MediaTek USB VCOM drivers installed on your PC.", "The latest version of the SP Flash Tool.", "A USB cable to connect your device to the PC.", "A backup of your important data."],
+            instructions: [
+                { title: "Install Drivers and Extract Files", description: "Install the MediaTek USB VCOM drivers on your computer. Extract the downloaded SP Flash Tool and the firmware zip file to a convenient location on your PC." },
+                { title: "Launch SP Flash Tool", description: "Navigate to the extracted SP Flash Tool folder and run 'flash_tool.exe' as an administrator." },
+                { title: "Load Scatter File", description: "In the SP Flash Tool, click on the 'Scatter-loading File' button. Navigate to the extracted firmware folder and select the 'MTxxxx_Android_scatter.txt' file (xxxx will be your device's chipset number)." },
+                { title: "Select Download Mode", description: "Ensure the dropdown menu is set to 'Download Only'. This mode is safest and will not erase your device's NVRAM or IMEI data. Do NOT use 'Format All + Download' unless you are an expert and have a backup of your NVRAM." },
+                { title: "Start the Flashing Process", description: "Click the 'Download' button with the green arrow to begin the flashing process. The tool will now be ready to detect your device." },
+                { title: "Connect Your Device", description: "Power off your MediaTek device completely. While holding the Volume Down or Volume Up key (this varies by device), connect it to the computer via the USB cable. The tool should detect your device and start the flashing process automatically." },
+                { title: "Wait for Completion", description: "The flashing process will take a few minutes. You will see a progress bar at the bottom. Once it's complete, a green tick with a 'Download OK' message will appear. You can now safely disconnect your device and power it on." }
+            ],
+            warning: "Flashing firmware can be risky. Proceed with caution. firmwareflash.com is not responsible for any damage to your device. Ensure you are using the correct firmware for your device model to avoid bricking it.",
+            tool: { name: "SP Flash Tool", slug: "sp-flash-tool" }
+        },
+        spd: {
+            introduction: "To flash firmware on a Spreadtrum (SPD) chipset device, you need to use the SPD Upgrade Tool. This tool allows you to flash '.pac' or '.p5c' firmware files. Make sure you have the correct stock ROM download for your device.",
+            prerequisites: ["A Windows PC.", "The correct '.pac' stock firmware for your device.", "SPD SCI USB drivers installed on your PC.", "The latest version of the SPD Upgrade Tool or SPD Research Tool.", "A functioning USB cable."],
+            instructions: [
+                { title: "Install Drivers and Extract Files", description: "First, install the SPD SCI USB drivers on your computer. Then, extract the SPD Upgrade Tool and the firmware '.pac' file onto your PC." },
+                { title: "Launch SPD Upgrade Tool", description: "Open the extracted SPD Upgrade Tool folder and run 'UpgradeDownload.exe' as an administrator." },
+                { title: "Load PAC Firmware File", description: "Click on the first gear icon ('Load Packet') and select the '.pac' firmware file you extracted earlier. It may take a few moments for the tool to load the file." },
+                { title: "Start Download Mode", description: "Click on the third icon, which looks like a play button ('Start Downloading'), to put the tool in flashing mode." },
+                { title: "Connect Your Device", description: "Turn off your device completely. Press and hold the Volume Down key, and while holding it, connect your device to the PC using the USB cable. The tool will automatically detect the device and start flashing." },
+                { title: "Wait for Completion", description: "The flashing process will begin, and you can monitor the progress bar. Once finished, you will see a green 'Passed' message. You can now disconnect your device and turn it on." }
+            ],
+            warning: "Using the wrong firmware can brick your device. Double-check that the firmware file is meant for your exact model. firmwareflash.com is not liable for any damages.",
+            tool: { name: "SPD Upgrade Tool", slug: "spd-upgrade-tool" }
+        },
+        qualcomm: {
+            introduction: "For Qualcomm chipset devices, the Qualcomm Flash Image Loader (QFIL) tool is used to flash stock firmware. This is essential for unbricking devices or performing a clean software install. You will need the specific stock ROM download for your model.",
+            prerequisites: ["A Windows PC.", "The correct MBN/ELF format stock firmware for your device.", "Qualcomm HS-USB QDLoader 9008 drivers installed.", "The latest version of QPST, which includes the QFIL tool.", "A high-quality USB cable."],
+            instructions: [
+                { title: "Install Drivers and QPST", description: "Install the Qualcomm HS-USB QDLoader 9008 drivers and the QPST suite on your computer. Extract the firmware files to a folder on your PC." },
+                { title: "Boot Device into EDL Mode", description: "Power off your device. You need to boot it into Emergency Download (EDL) mode. This can be done by holding specific key combinations (e.g., Volume Up + Volume Down) while connecting the USB cable, or by using the ADB command 'adb reboot edl'. Some devices may require test points on the motherboard for EDL mode." },
+                { title: "Launch and Configure QFIL", description: "Open the QFIL tool. It should automatically detect your device as 'Qualcomm HS-USB QDLoader 9008' on a COM port. If not, re-check your drivers and EDL mode." },
+                { title: "Load Firmware Files", description: "In QFIL, select 'Flat Build'. Click 'Browse' and select the 'prog_emmc_firehose_...mbn' file from your firmware folder. Then, click 'Load XML' and select the 'rawprogram_unsparse.xml' and subsequently the 'patch0.xml' file." },
+                { title: "Start Flashing", description: "Once all files are loaded, click the 'Download' button to start the flashing process. Do not disconnect the device during this time." },
+                { title: "Wait for Completion", description: "The process will take several minutes. Once completed, you will see a 'Download Succeed' or 'Finish Download' message. Your device may reboot automatically, or you may need to power it on manually." }
+            ],
+            warning: "EDL mode flashing is an advanced procedure. Incorrect handling or using the wrong firmware can permanently damage your device. Proceed with extreme caution.",
+            tool: { name: "QFIL", slug: "qfil-tool" }
+        },
+        other: { // Corresponds to Samsung/Exynos/Fastboot
+            introduction: "Use Odin for Samsung devices or Fastboot for others like Google Pixel, Xiaomi, and OnePlus to flash the stock firmware or flash file. This guide provides a general overview. Ensure you have the correct stock ROM download for your device.",
+            prerequisites: ["A Windows PC.", "The correct stock firmware (flash file) for your device.", "Samsung USB Drivers (for Odin) or ADB/Fastboot drivers (for Fastboot) installed.", "The latest version of Odin or the platform-tools for Fastboot.", "A good quality USB cable."],
+            instructions: [
+                { title: "Install Drivers and Extract Files", description: "Install the necessary USB drivers for your brand. Extract the downloaded firmware zip file, which will contain files like AP, BL, CP, and CSC for Samsung, or 'image-....zip' for Fastboot." },
+                { title: "Boot into Download/Fastboot Mode", description: "For Samsung, power off and hold Volume Down + Bixby + Power to enter Download Mode. For other devices, power off and hold Volume Down + Power to enter Fastboot/Bootloader Mode." },
+                { title: "Launch Flashing Tool", description: "Run Odin.exe as administrator. For Fastboot, open a command prompt or terminal in your extracted platform-tools folder." },
+                { title: "Load Firmware Files", description: "In Odin, load the AP, BL, CP, and CSC files into their corresponding slots. For Fastboot, you will use commands like 'fastboot update image-....zip' or run the 'flash-all.bat' script." },
+                { title: "Start the Flashing Process", description: "In Odin, click 'Start'. For Fastboot, execute the flashing command. The process will begin." },
+                { title: "Wait for Completion", description: "This will take several minutes. Odin will show a green 'PASS' message. Fastboot will show 'Finished. Total time: ...' in the terminal. Your device will reboot automatically." }
+            ],
+            warning: "Flashing the wrong firmware can brick your device. Ensure you are using the firmware for your exact model number. This process may erase all your data.",
+            tool: { name: "Odin / Fastboot", slug: "odin-fastboot" }
+        }
+    };
+
+    for (const [key, value] of Object.entries(instructions)) {
+        await saveFlashingInstructionsToDB(key, value);
+    }
+}
 
 

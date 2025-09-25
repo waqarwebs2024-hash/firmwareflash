@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { seedLegacyDataAction } from '@/lib/actions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal, Loader2 } from 'lucide-react';
+import { Terminal, Loader2, Database } from 'lucide-react';
 
 export default function SeedPage() {
   const [isPending, startTransition] = useTransition();
@@ -24,23 +24,26 @@ export default function SeedPage() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Seed Database</CardTitle>
+          <CardTitle className="flex items-center gap-2"><Database /> Seed Database</CardTitle>
           <CardDescription>
             Manually trigger data seeding processes. Use with caution as these actions perform bulk database writes.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-4 p-4 border rounded-lg bg-muted/50">
-             <h3 className="font-semibold">Seed From Text Files</h3>
+             <h3 className="font-semibold">Seed From Text Files &amp; Setup Instructions</h3>
             <p>
               This action reads all `.txt` files from the `files_data` directory, parses the firmware information, and uploads it to the database. It will skip any firmware files that already exist.
             </p>
+             <p>
+              Additionally, it will save all standard flashing instructions (for MediaTek, Qualcomm, etc.) to the Realtime Database to prepare the new CPU-based instruction system.
+            </p>
             <p className="text-sm text-destructive">
-              <strong>Warning:</strong> This process can be slow and may time out on serverless environments if there are many files.
+              <strong>Warning:</strong> This process can be slow and may time out on serverless environments if there are many files. Run this only once for initial setup.
             </p>
             <Button onClick={handleSeedData} disabled={isPending} variant="secondary">
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isPending ? 'Seeding Data...' : 'Seed Firmware from Text Files'}
+              {isPending ? 'Seeding Data...' : 'Seed Firmware & Instructions'}
             </Button>
           </div>
           

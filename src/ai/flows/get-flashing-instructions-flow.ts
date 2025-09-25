@@ -1,4 +1,5 @@
 
+
 'use server';
 /**
  * @fileOverview An AI flow to generate flashing instructions for a given mobile device brand.
@@ -50,12 +51,12 @@ const prompt = ai.definePrompt({
   prompt: `
     You are an expert mobile device technician. Your task is to provide clear, step-by-step instructions for flashing stock firmware (also known as a stock ROM or flash file) onto a device of a specific brand.
 
-    The user will provide a brand name. Based on that brand, generate a set of flashing instructions.
+    The user will provide a brand name. Based on that brand, generate a set of generic flashing instructions.
+    The primary methods are Odin (for Samsung) and fastboot (for most other Androids like Google Pixel, Xiaomi, OnePlus, Motorola).
+    Your generated instructions should be for one of these two methods, chosen based on the brand.
 
     - For "Samsung", the instructions should be based on using the Odin tool. You MUST identify "Odin" as the tool.
-    - For "Google Pixel", "Xiaomi", "OnePlus", or "Motorola", the instructions should be based on using fastboot commands. You MUST identify "fastboot" as the tool.
-    - For other generic Android brands, provide general fastboot instructions.
-    - The instructions should be generic enough for any device of that brand but specific to the flashing tool and process.
+    - For most other modern Android brands like "Google Pixel", "Xiaomi", "OnePlus", or "Motorola", the instructions should be based on using fastboot commands. You MUST identify "fastboot" as the tool.
     - For the identified tool, provide its name and a URL-friendly slug. For example, if the tool is "Odin", the name is "Odin" and the slug is "odin".
     
     Generate the introduction, prerequisites, step-by-step instructions, and a final warning. The introduction must mention the term "stock ROM download", "firmware", and "flash file".
@@ -86,6 +87,7 @@ const getFlashingInstructionsFlow = ai.defineFlow(
     return output;
   }
 );
+
 
 
 
