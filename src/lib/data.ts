@@ -24,8 +24,10 @@ async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id
                 return { id: snap.id, ...snap.data() };
             }
         } catch (e) {
-            // console.error(`Error fetching doc ${id} from a DB instance:`, e);
-            continue; // Try next database
+            // Error, likely quota exceeded. Log it and try the next database.
+            // In a production environment, you might want a more robust logging system.
+            console.warn(`Could not fetch doc ${id} from a DB instance. Error: ${e instanceof Error ? e.message : String(e)}`);
+            continue; 
         }
     }
     
@@ -45,6 +47,7 @@ async function findDocInAnyDB(collectionName: string, id: string): Promise<{ db:
                 return { db: dbInstance, ref: docRef };
             }
         } catch (e) {
+            console.warn(`Error finding doc ${id} in a DB instance. Error: ${e instanceof Error ? e.message : String(e)}`);
             continue;
         }
     }
