@@ -11,6 +11,14 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 
+const placeholderHints = [
+    "Search for firmware, brand, or model...",
+    "e.g., Samsung Galaxy S23 Ultra",
+    "e.g., Xiaomi 12 Pro flash file",
+    "e.g., Unbrick Google Pixel 7",
+    "e.g., Redmi Note 12 stock ROM"
+];
+
 export function HomeSearchForm() {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
@@ -19,6 +27,44 @@ export function HomeSearchForm() {
     const [suggestions, setSuggestions] = useState<Firmware[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const searchContainerRef = useRef<HTMLDivElement>(null);
+
+    // --- Start of Typing Animation Logic ---
+    const [placeholder, setPlaceholder] = useState(placeholderHints[0]);
+    const [hintIndex, setHintIndex] = useState(0);
+    const [charIndex, setCharIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    useEffect(() => {
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const delayAfterTyping = 1500;
+
+        const handleTyping = () => {
+            const currentHint = placeholderHints[hintIndex];
+            if (isDeleting) {
+                if (charIndex > 0) {
+                    setPlaceholder(currentHint.substring(0, charIndex - 1));
+                    setCharIndex(charIndex - 1);
+                } else {
+                    setIsDeleting(false);
+                    setHintIndex((prev) => (prev + 1) % placeholderHints.length);
+                }
+            } else {
+                if (charIndex < currentHint.length) {
+                    setPlaceholder(currentHint.substring(0, charIndex + 1));
+                    setCharIndex(charIndex + 1);
+                } else {
+                    setTimeout(() => setIsDeleting(true), delayAfterTyping);
+                }
+            }
+        };
+
+        const typingTimeout = setTimeout(handleTyping, isDeleting ? deleteSpeed : typeSpeed);
+
+        return () => clearTimeout(typingTimeout);
+    }, [charIndex, isDeleting, hintIndex]);
+    // --- End of Typing Animation Logic ---
+
 
     // Debounce effect
     useEffect(() => {
@@ -88,7 +134,7 @@ export function HomeSearchForm() {
                     <Input
                         type="text"
                         name="q"
-                        placeholder="Search for firmware, brand, or model..."
+                        placeholder={placeholder}
                         className="h-16 pl-12 pr-28 text-base rounded-full bg-background border-2"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
