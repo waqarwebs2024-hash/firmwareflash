@@ -129,9 +129,14 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
 }
 
 async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brandId: string, brandName: string, seriesName: string }) {
-    let instructionsData = await getFlashingInstructionsFromDB(brandId);
     
-    if (!instructionsData) {
+    const MEDIATEK_BRANDS = ['mediatek', 'tecno', 'infinix', 'itel', 'blu', 'lava', 'micromax'];
+    const isMediatek = MEDIATEK_BRANDS.includes(brandId.toLowerCase());
+    const effectiveBrandId = isMediatek ? 'mediatek' : brandId;
+
+    let instructionsData = await getFlashingInstructionsFromDB(effectiveBrandId);
+    
+    if (!instructionsData && !isMediatek) {
         try {
             const generatedInstructions = await getFlashingInstructions({ brandName: brandName });
             if (generatedInstructions?.tool) {
@@ -145,9 +150,12 @@ async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: {
             console.error("Failed to generate or save flashing instructions:", error);
             instructionsData = null;
         }
+    } else if (isMediatek && instructionsData?.tool) {
+        // Ensure the SP Flash Tool is in the database
+        await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
     }
     
-    return <FlashingInstructions brandId={brandId} seriesName={seriesName} instructionsData={instructionsData} />
+    return <FlashingInstructions brandId={effectiveBrandId} seriesName={seriesName} instructionsData={instructionsData} />
 }
 
 

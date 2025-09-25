@@ -12,6 +12,55 @@ import { format } from 'date-fns';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
+// Hardcoded instructions for MediaTek devices
+const mediatekInstructions: FlashingInstructions = {
+    introduction: "Use the SmartPhone (SP) Flash Tool to flash the stock firmware or flash file on your MediaTek device. This guide will walk you through the process of using the SP Flash Tool. Ensure you have the correct stock ROM download for your device.",
+    prerequisites: [
+        "A Windows PC.",
+        "The correct stock firmware (flash file) for your device model.",
+        "MediaTek USB VCOM drivers installed on your PC.",
+        "The latest version of the SP Flash Tool.",
+        "A USB cable to connect your device to the PC.",
+        "A backup of your important data."
+    ],
+    instructions: [
+        {
+            title: "Install Drivers and Extract Files",
+            description: "Install the MediaTek USB VCOM drivers on your computer. Extract the downloaded SP Flash Tool and the firmware zip file to a convenient location on your PC."
+        },
+        {
+            title: "Launch SP Flash Tool",
+            description: "Navigate to the extracted SP Flash Tool folder and run 'flash_tool.exe' as an administrator."
+        },
+        {
+            title: "Load Scatter File",
+            description: "In the SP Flash Tool, click on the 'Scatter-loading File' button. Navigate to the extracted firmware folder and select the 'MTxxxx_Android_scatter.txt' file (xxxx will be your device's chipset number)."
+        },
+        {
+            title: "Select Download Mode",
+            description: "Ensure the dropdown menu is set to 'Download Only'. This mode is safest and will not erase your device's NVRAM or IMEI data. Do NOT use 'Format All + Download' unless you are an expert and have a backup of your NVRAM."
+        },
+        {
+            title: "Start the Flashing Process",
+            description: "Click the 'Download' button with the green arrow to begin the flashing process. The tool will now be ready to detect your device."
+        },
+        {
+            title: "Connect Your Device",
+            description: "Power off your MediaTek device completely. While holding the Volume Down or Volume Up key (this varies by device), connect it to the computer via the USB cable. The tool should detect your device and start the flashing process automatically."
+        },
+        {
+            title: "Wait for Completion",
+            description: "The flashing process will take a few minutes. You will see a progress bar at the bottom. Once it's complete, a green tick with a 'Download OK' message will appear. You can now safely disconnect your device and power it on."
+        }
+    ],
+    warning: "Flashing firmware can be risky. Proceed with caution. firmwareflash.com is not responsible for any damage to your device. Ensure you are using the correct firmware for your device model to avoid bricking it.",
+    tool: {
+        name: "SP Flash Tool",
+        slug: "sp-flash-tool"
+    }
+};
+
+
 async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id: string, [key: string]: any } | null> {
     if (!id) return null;
     const dbs = [db, db_1, db_2];
@@ -246,6 +295,11 @@ export async function updateAdSettings(settings: AdSettings): Promise<void> {
 }
 
 export async function getFlashingInstructionsFromDB(brandId: string): Promise<FlashingInstructions | null> {
+    // Special handling for MediaTek based brands
+    if (brandId === 'mediatek') {
+        return mediatekInstructions;
+    }
+
     const dbRef = ref(rtdb);
     try {
         const snapshot = await get(child(dbRef, `flashingInstructions/${brandId}`));
@@ -465,4 +519,5 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     return null;
 }
+
 
