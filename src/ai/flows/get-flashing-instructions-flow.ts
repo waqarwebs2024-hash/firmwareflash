@@ -54,7 +54,7 @@ const prompt = ai.definePrompt({
 
     - For "Samsung", the instructions should be based on using the Odin tool. You MUST identify "Odin" as the tool.
     - For "Google Pixel", "Xiaomi", "OnePlus", or "Motorola", the instructions should be based on using fastboot commands. You MUST identify "fastboot" as the tool.
-    - For other brands like "Huawei", mention their specific tools if known (like HiSuite or dload method), or provide general fastboot instructions if a specific tool isn't common.
+    - For other generic Android brands, provide general fastboot instructions.
     - The instructions should be generic enough for any device of that brand but specific to the flashing tool and process.
     - For the identified tool, provide its name and a URL-friendly slug. For example, if the tool is "Odin", the name is "Odin" and the slug is "odin".
     
@@ -86,5 +86,6 @@ const getFlashingInstructionsFlow = ai.defineFlow(
     return output;
   }
 );
+
 
 

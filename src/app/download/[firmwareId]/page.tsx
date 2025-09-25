@@ -130,18 +130,27 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
 
 async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brandId: string, brandName: string, seriesName: string }) {
     
-    // Brands that predominantly use MediaTek chipsets and SP Flash Tool.
-    // We check against the brand's ID (slug) for consistency.
+    // List of brand IDs that predominantly use a specific flashing method.
     const MEDIATEK_BRAND_IDS = ['tecno', 'infinix', 'itel', 'blu', 'lava', 'micromax', 'gionee', 'qmobile'];
-    const isMediatekBrand = MEDIATEK_BRAND_IDS.includes(brandId.toLowerCase());
+    const SPD_BRAND_IDS = ['itel', 'symphony', 'karbonn', 'spice'];
+    const QUALCOMM_BRAND_IDS = ['oneplus', 'xiaomi', 'redmi', 'poco', 'iqoo', 'black-shark', 'asus'];
+
+    let effectiveBrandIdForDB = brandId.toLowerCase();
     
-    // Use 'mediatek' as the key to fetch hardcoded instructions for these brands.
-    const effectiveBrandIdForDB = isMediatekBrand ? 'mediatek' : brandId;
+    if (MEDIATEK_BRAND_IDS.includes(effectiveBrandIdForDB)) {
+        effectiveBrandIdForDB = 'mediatek';
+    } else if (SPD_BRAND_IDS.includes(effectiveBrandIdForDB)) {
+        effectiveBrandIdForDB = 'spd';
+    } else if (QUALCOMM_BRAND_IDS.includes(effectiveBrandIdForDB)) {
+        effectiveBrandIdForDB = 'qualcomm';
+    } else if (effectiveBrandIdForDB === 'sony') {
+        effectiveBrandIdForDB = 'sony-xperia';
+    }
 
     let instructionsData = await getFlashingInstructionsFromDB(effectiveBrandIdForDB);
     
-    // If instructions are not found in DB AND it's not a Mediatek-specific brand, generate them.
-    if (!instructionsData && !isMediatekBrand) {
+    // If instructions are not found in DB (and it's not a hardcoded case we already checked), generate them.
+    if (!instructionsData) {
         try {
             const generatedInstructions = await getFlashingInstructions({ brandName: brandName });
             if (generatedInstructions?.tool) {
@@ -155,8 +164,8 @@ async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: {
             console.error("Failed to generate or save flashing instructions:", error);
             instructionsData = null;
         }
-    } else if (isMediatekBrand && instructionsData?.tool) {
-        // If it's a mediatek brand and we loaded the hardcoded instructions, ensure the tool exists in DB.
+    } else if (instructionsData?.tool) {
+        // If we loaded hardcoded instructions, ensure the tool exists in DB.
         await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
     }
     
