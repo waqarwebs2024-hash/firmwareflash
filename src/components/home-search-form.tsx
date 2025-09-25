@@ -87,7 +87,7 @@ export function HomeSearchForm() {
                     <Search className="absolute left-4 h-5 w-5 text-muted-foreground pointer-events-none" />
                     <Input
                         type="text"
-                        name="search"
+                        name="q"
                         placeholder="Search for firmware, brand, or model..."
                         className="h-16 pl-12 pr-28 text-base rounded-full bg-background border-2"
                         value={query}
