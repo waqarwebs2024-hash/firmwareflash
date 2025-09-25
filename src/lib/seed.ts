@@ -109,7 +109,7 @@ async function seedDataToDatabase(database: Firestore, files: string[], existing
         const brandSnap = await getDoc(brandDocRef);
 
         if (!brandSnap.exists()) {
-            batch.set(brandDocRef, { name: brandName });
+            batch.set(brandDocRef, { name: brandName, isPopular: false });
             counters.brandsAdded++;
             operationCount++;
             await commitBatchIfNeeded();
@@ -141,15 +141,14 @@ async function seedDataToDatabase(database: Firestore, files: string[], existing
                 await commitBatchIfNeeded();
             }
 
-            const newFirmwareName = `${brandName} ${seriesName} Stock Firmware (Flash File)`;
-            const firmwareId = createId(newFirmwareName);
+            const firmwareId = createId(originalFirmwareFileName.trim());
             
             if (!existingFirmwareIds.has(firmwareId)) {
                 const firmwareDocRef = doc(database, 'firmware', firmwareId);
                 batch.set(firmwareDocRef, {
                     brandId,
                     seriesId,
-                    fileName: newFirmwareName,
+                    fileName: originalFirmwareFileName.trim(),
                     version: "N/A",
                     androidVersion: "N/A",
                     size: size.trim(),
