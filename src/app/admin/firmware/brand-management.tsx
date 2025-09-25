@@ -10,9 +10,10 @@ import { addBrandAction, toggleBrandPopularityAction } from '@/lib/actions';
 import { getBrands } from '@/lib/data';
 import { Brand } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Loader2, Star } from 'lucide-react';
+import { Loader2, Star, Info } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface BrandManagementProps {
   initialBrands: Brand[];
@@ -23,6 +24,13 @@ export function BrandManagement({ initialBrands }: BrandManagementProps) {
   const [newBrandName, setNewBrandName] = useState('');
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+
+  // Special case for MediaTek instructions
+  const mtkInstructionsBrand: Brand = {
+      id: 'mediatek',
+      name: 'MediaTek (SP Flash Tool)',
+      isPopular: false
+  };
 
   const handleAddBrand = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -87,17 +95,38 @@ export function BrandManagement({ initialBrands }: BrandManagementProps) {
         </form>
 
         <div className="space-y-4">
-            <h3 className="text-lg font-medium">Existing Brands</h3>
+            <h3 className="text-lg font-medium">Existing Brands &amp; Instruction Sets</h3>
+            <Alert>
+              <Info className="h-4 w-4" />
+              <AlertTitle>Instruction Sets</AlertTitle>
+              <AlertDescription>
+                Some entries like &quot;MediaTek&quot; represent a set of flashing instructions that apply to multiple brands. They are not editable.
+              </AlertDescription>
+            </Alert>
             <div className="rounded-lg border">
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Brand Name</TableHead>
+                            <TableHead>Brand Name / Instruction Set</TableHead>
                             <TableHead>Popular</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
+                        {/* Display the special MediaTek entry */}
+                         <TableRow key={mtkInstructionsBrand.id} className="bg-muted/50">
+                            <TableCell className="font-medium">{mtkInstructionsBrand.name}</TableCell>
+                            <TableCell>
+                                <Switch
+                                    checked={false}
+                                    disabled={true}
+                                />
+                            </TableCell>
+                            <TableCell className="text-right space-x-2">
+                                <Button variant="outline" size="sm" disabled>Not Editable</Button>
+                            </TableCell>
+                        </TableRow>
+                        {/* Display other brands */}
                         {brands.map((brand) => (
                             <TableRow key={brand.id}>
                                 <TableCell className="font-medium">{brand.name}</TableCell>

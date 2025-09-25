@@ -54,6 +54,7 @@ const prompt = ai.definePrompt({
 
     - For "Samsung", the instructions should be based on using the Odin tool. You MUST identify "Odin" as the tool.
     - For "Google Pixel", "Xiaomi", "OnePlus", or "Motorola", the instructions should be based on using fastboot commands. You MUST identify "fastboot" as the tool.
+    - For "MediaTek", "Tecno", "Infinix", "Itel", "BLU", "Lava", or "Micromax", the instructions must be based on using the "SP Flash Tool" (SmartPhone Flash Tool). You MUST identify "SP Flash Tool" as the tool, and one of the prerequisites must be "MediaTek USB VCOM drivers".
     - For other brands like "Huawei", mention their specific tools if known (like HiSuite or dload method), or provide general fastboot instructions if a specific tool isn't common.
     - The instructions should be generic enough for any device of that brand but specific to the flashing tool and process.
     - For the identified tool, provide its name and a URL-friendly slug. For example, if the tool is "Odin", the name is "Odin" and the slug is "odin". If the tool is "SP Flash Tool", the name is "SP Flash Tool" and the slug is "sp-flash-tool".
@@ -86,3 +87,4 @@ const getFlashingInstructionsFlow = ai.defineFlow(
     return output;
   }
 );
+
