@@ -275,31 +275,19 @@ async function getDocFromAnyDB(collectionName: string, id: string): Promise<{ id
     if (!id) return null;
     const dbs = [db, db_1, db_2];
     
-    // Use Promise.any to get the first resolved promise
-    try {
-        const docSnap = await Promise.any(dbs.map(dbInstance => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    const snap = await getDoc(doc(dbInstance, collectionName, id));
-                    if (snap.exists()) {
-                        resolve(snap);
-                    } else {
-                        reject(new Error(`Doc not found in db`));
-                    }
-                } catch (e) {
-                    reject(e);
-                }
-            });
-        }));
-
-        if (docSnap && docSnap.exists()) {
-             return { id: docSnap.id, ...docSnap.data() };
+    for (const dbInstance of dbs) {
+        try {
+            const snap = await getDoc(doc(dbInstance, collectionName, id));
+            if (snap.exists()) {
+                return { id: snap.id, ...snap.data() };
+            }
+        } catch (e) {
+            // console.error(`Error fetching doc ${id} from a DB instance:`, e);
+            continue; // Try next database
         }
-    } catch(e) {
-        // All promises rejected
-        // console.warn(`Document ${id} in ${collectionName} not found in any database.`);
     }
     
+    // console.warn(`Document ${id} in ${collectionName} not found in any database.`);
     return null;
 }
 
@@ -731,6 +719,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     return null;
 }
+
 
 
 
