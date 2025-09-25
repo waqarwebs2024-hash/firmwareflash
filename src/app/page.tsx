@@ -63,6 +63,18 @@ export default async function Home() {
       {
         question: "Why would I need to download a flash file?",
         answer: "Common reasons include fixing a phone stuck in a bootloop, upgrading to a newer Android version, or removing custom modifications. A fresh flash file download is the perfect solution to restore your phone to its original state for warranty or resale."
+      },
+      {
+        question: "What is the difference between a Stock ROM and a Custom ROM?",
+        answer: "A Stock ROM is the official firmware from the device manufacturer. A Custom ROM is a modified version of Android developed by third-party developers. Stock ROMs offer stability and official support, while Custom ROMs can provide newer Android versions and unique features but may have bugs and require technical knowledge to install."
+      },
+      {
+        question: "Do I need to root my phone to flash firmware?",
+        answer: "No, you do not need to root your phone to flash an official stock ROM. Flashing tools like Odin or Fastboot are designed to work on non-rooted devices. In fact, flashing a stock ROM is often used to un-root a device."
+      },
+      {
+        question: "Are the firmware and flash file downloads on this site official?",
+        answer: "Yes, we strive to provide only official firmware files (stock ROMs) as released by the manufacturers. We do not modify the files. This ensures your device gets the correct, safe, and stable software it was designed to run."
       }
     ];
 
