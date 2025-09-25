@@ -106,35 +106,26 @@ export async function getSeriesById(id: string): Promise<Series | null> {
 
 export async function searchFirmware(searchTerm: string, queryLimit: number = 50): Promise<Firmware[]> {
     if (!searchTerm || searchTerm.length < 2) return [];
-  
+
     const searchTermLower = searchTerm.toLowerCase();
-    const endTerm = searchTermLower + '\uf8ff';
-  
-    const dbs = [db, db_1, db_2];
+
+    const allDbs = [db, db_1, db_2];
+    const searchPromises = allDbs.map(dbInstance => getDocs(collection(dbInstance, 'firmware')));
     
-    const searchPromises = dbs.map(dbInstance => 
-      getDocs(
-        query(
-          collection(dbInstance, 'firmware'),
-          where('fileName', '>=', searchTermLower),
-          where('fileName', '<=', endTerm),
-          limit(queryLimit)
-        )
-      )
-    );
-  
     const snapshots = await Promise.all(searchPromises);
-  
     const uniqueFirmware = new Map<string, Firmware>();
-  
+
     snapshots.forEach(snapshot => {
-      snapshot.docs.forEach(doc => {
-        if (!uniqueFirmware.has(doc.id)) {
-          uniqueFirmware.set(doc.id, { id: doc.id, ...doc.data() } as Firmware);
-        }
-      });
+        snapshot.docs.forEach(doc => {
+            const firmware = { id: doc.id, ...doc.data() } as Firmware;
+            if (firmware.fileName.toLowerCase().includes(searchTermLower)) {
+                if (!uniqueFirmware.has(doc.id)) {
+                    uniqueFirmware.set(doc.id, firmware);
+                }
+            }
+        });
     });
-  
+
     return Array.from(uniqueFirmware.values()).slice(0, queryLimit);
 }
 
@@ -474,3 +465,4 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     return null;
 }
+
