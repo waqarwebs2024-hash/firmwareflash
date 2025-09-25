@@ -172,7 +172,7 @@ export default async function Home() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     {whyUseStockFirmware.map((item, index) => (
                       <div key={index} className="flex flex-col items-center">
-                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary mb-4">
+                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-accent-2/10 text-primary mb-4">
                            <item.icon className="h-8 w-8" />
                         </div>
                         <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
@@ -193,7 +193,7 @@ export default async function Home() {
                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
                         {features.map((feature, index) => (
                             <div key={index} className="flex flex-col items-center">
-                                <feature.icon className="h-10 w-10 mb-4 text-primary" />
+                                <feature.icon className="h-12 w-12 mb-4 text-primary" />
                                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                                 <p className="text-muted-foreground">{feature.description}</p>
                             </div>
