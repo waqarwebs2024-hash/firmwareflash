@@ -249,13 +249,15 @@ export default async function DownloadPage({ params }: Props) {
                           <p className="capitalize">{cpuType || 'Not yet detected'}</p>
                       </div>
                   </div>
-                  <div className="flex items-start">
-                      <Info className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
-                      <div>
-                          <h3 className="font-semibold text-foreground">Version</h3>
-                          <p>{version} / Android {androidVersion}</p>
-                      </div>
-                  </div>
+                  {version && version !== 'N/A' && (
+                    <div className="flex items-start">
+                        <Info className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
+                        <div>
+                            <h3 className="font-semibold text-foreground">Version</h3>
+                            <p>{version} / Android {androidVersion}</p>
+                        </div>
+                    </div>
+                  )}
                   <div className="flex items-start">
                       <HardDrive className="h-5 w-5 mr-3 mt-1 text-primary shrink-0" />
                       <div>
