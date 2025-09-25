@@ -35,8 +35,8 @@ export function HomeSearchForm() {
     const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
-        const typeSpeed = 100;
-        const deleteSpeed = 50;
+        const typeSpeed = 80;
+        const deleteSpeed = 40;
         const delayAfterTyping = 1500;
 
         const handleTyping = () => {
