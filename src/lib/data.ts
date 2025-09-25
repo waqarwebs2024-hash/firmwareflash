@@ -9,6 +9,7 @@ import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, Contac
 import slugify from 'slugify';
 import { createHash } from 'crypto';
 import { format } from 'date-fns';
+import { getCpuType } from '@/ai/flows/get-cpu-type-flow';
 
 const createId = (name: string) => slugify(name, { lower: true, strict: true });
 
@@ -270,16 +271,15 @@ export async function saveFlashingInstructionsToDB(cpuType: string, instructions
 }
 
 export async function getOrCreateTool(toolSlug: string, toolName: string): Promise<Tool> {
-    const toolDocRef = doc(db, 'tools', toolSlug);
-    const docSnap = await getDoc(toolDocRef);
-    if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() } as Tool;
+    const toolDocRef = await getDocFromAnyDB('tools', toolSlug);
+    if (toolDocRef) {
+        return toolDocRef as Tool;
     } else {
         const newTool: Omit<Tool, 'id'> = {
             name: toolName,
             description: `Download the latest version of ${toolName} and find guides on how to use it for flashing firmware on your mobile device.`,
         };
-        await setDoc(toolDocRef, newTool);
+        await setDoc(doc(db, 'tools', toolSlug), newTool);
         return { id: toolSlug, ...newTool } as Tool;
     }
 }
@@ -534,5 +534,6 @@ export async function seedAllInstructionsToDb() {
         await saveFlashingInstructionsToDB(key, value);
     }
 }
+
 
 

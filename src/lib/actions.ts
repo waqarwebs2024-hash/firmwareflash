@@ -2,7 +2,7 @@
 
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount, saveCpuTypeForFirmware, seedAllInstructionsToDb } from './data';
+import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount, saveCpuTypeForFirmware, seedAllInstructionsToDb, addFirmware as addFirmwareToDb } from './data';
 import { seedFromLegacyFiles } from './seed';
 import type { AdSettings, Firmware, BlogPost, BlogPostOutput, Tool } from './types';
 import { login, logout } from './auth';
@@ -39,6 +39,11 @@ export async function addSeriesAction(name: string, brandId: string) {
     }
     await addSeries(name, brandId);
 }
+
+export async function addFirmwareAction(firmware: Omit<Firmware, 'id' | 'uploadDate' | 'downloadCount'>) {
+    await addFirmwareToDb(firmware);
+}
+
 
 export async function seedLegacyDataAction() {
   try {

@@ -29,6 +29,7 @@ import { Loader2 } from 'lucide-react';
 const firmwareSchema = z.object({
   brandId: z.string().min(1, 'Brand is required'),
   seriesId: z.string().min(1, 'Series/Model is required'),
+  cpuType: z.string().min(1, 'CPU Type is required'),
   fileName: z.string().min(1, 'File Name is required'),
   version: z.string().min(1, 'Version is required'),
   size: z.string().min(1, 'File Size is required'),
@@ -43,6 +44,8 @@ interface FirmwareFormProps {
   initialData?: Partial<FirmwareFormValues>;
 }
 
+const cpuTypes = ["qualcomm", "mediatek", "exynos", "spd", "kirin", "other"];
+
 export function FirmwareForm({ brands, allSeries, initialData }: FirmwareFormProps) {
   const [isPending, startTransition] = useTransition();
   const [selectedBrand, setSelectedBrand] = useState<string | null>(initialData?.brandId || null);
@@ -53,6 +56,7 @@ export function FirmwareForm({ brands, allSeries, initialData }: FirmwareFormPro
     defaultValues: initialData || {
         brandId: '',
         seriesId: '',
+        cpuType: '',
         fileName: '',
         version: '',
         size: '',
@@ -77,6 +81,7 @@ export function FirmwareForm({ brands, allSeries, initialData }: FirmwareFormPro
         form.reset({
             brandId: '',
             seriesId: '',
+            cpuType: '',
             fileName: '',
             version: '',
             size: '',
@@ -95,7 +100,7 @@ export function FirmwareForm({ brands, allSeries, initialData }: FirmwareFormPro
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormField
             control={form.control}
             name="brandId"
@@ -144,6 +149,34 @@ export function FirmwareForm({ brands, allSeries, initialData }: FirmwareFormPro
                     {filteredSeries.map((series) => (
                       <SelectItem key={series.id} value={series.id}>
                         {series.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="cpuType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>CPU Type</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select CPU Type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {cpuTypes.map((cpu) => (
+                      <SelectItem key={cpu} value={cpu} className="capitalize">
+                        {cpu}
                       </SelectItem>
                     ))}
                   </SelectContent>
