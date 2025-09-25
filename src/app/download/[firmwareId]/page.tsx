@@ -130,13 +130,18 @@ async function FlashingInstructions({ brandId, seriesName, instructionsData }: {
 
 async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: { brandId: string, brandName: string, seriesName: string }) {
     
-    const MEDIATEK_BRANDS = ['mediatek', 'tecno', 'infinix', 'itel', 'blu', 'lava', 'micromax'];
-    const isMediatek = MEDIATEK_BRANDS.includes(brandId.toLowerCase());
-    const effectiveBrandId = isMediatek ? 'mediatek' : brandId;
-
-    let instructionsData = await getFlashingInstructionsFromDB(effectiveBrandId);
+    // Brands that predominantly use MediaTek chipsets and SP Flash Tool.
+    // We check against the brand's ID (slug) for consistency.
+    const MEDIATEK_BRAND_IDS = ['tecno', 'infinix', 'itel', 'blu', 'lava', 'micromax', 'gionee', 'qmobile'];
+    const isMediatekBrand = MEDIATEK_BRAND_IDS.includes(brandId.toLowerCase());
     
-    if (!instructionsData && !isMediatek) {
+    // Use 'mediatek' as the key to fetch hardcoded instructions for these brands.
+    const effectiveBrandIdForDB = isMediatekBrand ? 'mediatek' : brandId;
+
+    let instructionsData = await getFlashingInstructionsFromDB(effectiveBrandIdForDB);
+    
+    // If instructions are not found in DB AND it's not a Mediatek-specific brand, generate them.
+    if (!instructionsData && !isMediatekBrand) {
         try {
             const generatedInstructions = await getFlashingInstructions({ brandName: brandName });
             if (generatedInstructions?.tool) {
@@ -150,12 +155,12 @@ async function FlashingInstructionsFetcher({ brandId, brandName, seriesName }: {
             console.error("Failed to generate or save flashing instructions:", error);
             instructionsData = null;
         }
-    } else if (isMediatek && instructionsData?.tool) {
-        // Ensure the SP Flash Tool is in the database
+    } else if (isMediatekBrand && instructionsData?.tool) {
+        // If it's a mediatek brand and we loaded the hardcoded instructions, ensure the tool exists in DB.
         await getOrCreateTool(instructionsData.tool.slug, instructionsData.tool.name);
     }
     
-    return <FlashingInstructions brandId={effectiveBrandId} seriesName={seriesName} instructionsData={instructionsData} />
+    return <FlashingInstructions brandId={effectiveBrandIdForDB} seriesName={seriesName} instructionsData={instructionsData} />
 }
 
 
@@ -300,3 +305,6 @@ export default async function DownloadPage({ params }: Props) {
     </>
   );
 }
+
+
+    
