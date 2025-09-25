@@ -4,7 +4,7 @@
 
 import { db, db_1, db_2, rtdb } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, addDoc, setDoc, query, where, documentId, writeBatch, limit, orderBy, getCountFromServer, Firestore, updateDoc, deleteDoc } from 'firebase/firestore';
-import { ref, get, set, child, push, serverTimestamp, runTransaction } from 'firebase/database';
+import { ref, get, set, child, push, serverTimestamp, runTransaction, remove } from 'firebase/database';
 import { Brand, Series, Firmware, AdSettings, FlashingInstructions, Tool, ContactMessage, Donation, DailyAnalytics, HeaderScripts, BlogPost, BlogPostOutput, Announcement, AdSlot } from './types';
 import slugify from 'slugify';
 import { createHash } from 'crypto';
@@ -536,4 +536,22 @@ export async function seedAllInstructionsToDb() {
 }
 
 
+// --- Instructions CRUD ---
+export async function getAllInstructions(): Promise<Record<string, FlashingInstructions>> {
+    const instructionsRef = ref(rtdb, 'flashingInstructions');
+    const snapshot = await get(instructionsRef);
+    if (snapshot.exists()) {
+        return snapshot.val();
+    }
+    return {};
+}
 
+export async function saveInstruction(id: string, data: FlashingInstructions): Promise<void> {
+    const instructionRef = ref(rtdb, `flashingInstructions/${id}`);
+    await set(instructionRef, data);
+}
+
+export async function deleteInstruction(id: string): Promise<void> {
+    const instructionRef = ref(rtdb, `flashingInstructions/${id}`);
+    await remove(instructionRef);
+}

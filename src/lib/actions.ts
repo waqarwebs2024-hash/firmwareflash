@@ -2,9 +2,30 @@
 
 'use server';
 
-import { updateAdSettings, addBrand, addSeries, updateApiKey, saveDonation, saveContactMessage, searchFirmware, setHeaderScripts, saveBlogPost, toggleBrandPopularity, addOrUpdateTool, deleteToolById, getAllTools as getAllToolsFromDB, incrementDownloadCount, saveCpuTypeForFirmware, seedAllInstructionsToDb, addFirmware as addFirmwareToDb } from './data';
+import { 
+    updateAdSettings, 
+    addBrand, 
+    addSeries, 
+    updateApiKey, 
+    saveDonation, 
+    saveContactMessage, 
+    searchFirmware, 
+    setHeaderScripts, 
+    saveBlogPost, 
+    toggleBrandPopularity, 
+    addOrUpdateTool, 
+    deleteToolById, 
+    getAllTools as getAllToolsFromDB, 
+    incrementDownloadCount, 
+    saveCpuTypeForFirmware, 
+    seedAllInstructionsToDb, 
+    addFirmware as addFirmwareToDb,
+    getAllInstructions,
+    saveInstruction,
+    deleteInstruction,
+} from './data';
 import { seedFromLegacyFiles } from './seed';
-import type { AdSettings, Firmware, BlogPost, BlogPostOutput, Tool } from './types';
+import type { AdSettings, Firmware, BlogPost, BlogPostOutput, Tool, FlashingInstructions } from './types';
 import { login, logout } from './auth';
 import { generateBlogPost } from '@/ai/flows/blog-post-flow';
 import { generateTrendingTopics } from '@/ai/flows/trending-topics-flow';
@@ -164,3 +185,17 @@ export async function getAndSaveCpuTypeAction(firmwareId: string, fileName: stri
     return cpuType;
 }
 
+// --- Instructions Actions ---
+export async function getAllInstructionsAction(): Promise<Record<string, FlashingInstructions>> {
+    return await getAllInstructions();
+}
+
+export async function saveInstructionAction(id: string, data: FlashingInstructions): Promise<void> {
+    if (!id) throw new Error('Instruction ID/CPU Type is required.');
+    await saveInstruction(id, data);
+}
+
+export async function deleteInstructionAction(id: string): Promise<void> {
+    if (!id) throw new Error('Instruction ID/CPU Type is required.');
+    await deleteInstruction(id);
+}

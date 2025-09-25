@@ -19,6 +19,7 @@ import {
   LogOut,
   Newspaper,
   Bot,
+  FileText,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -38,6 +39,7 @@ const menuItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/messages', label: 'Messages', icon: Mail },
   { href: '/admin/firmware', label: 'Firmware', icon: Database },
+  { href: '/admin/instructions', label: 'Instructions', icon: FileText },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
   { href: '/admin/tools', label: 'Tools', icon: Wrench },
   { href: '/admin/ads', label: 'Ads', icon: CircleDollarSign },
